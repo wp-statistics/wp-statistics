@@ -43,6 +43,8 @@ class TabsView extends BaseTabView
             'platform'       => Request::get('platform', ''),
             'user_id'        => Request::get('user_id', ''),
             'ip'             => Request::get('ip', ''),
+            // Set by the visitor card's "Filter by IP" link: only this IP, not every IP containing it
+            'exact_ip'       => Request::get('exact_ip', '') === '1',
             'referrer'       => Request::get('referrer', ''),
             'source_channel' => Request::get('source_channel', ''),
         ]);
@@ -145,7 +147,7 @@ class TabsView extends BaseTabView
                     'id'      => 'logged-in-users',
                     'link'    => Menus::admin_url('visitors', ['tab' => 'logged-in-users']),
                     'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
-                    'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors who were logged in.', 'wp-statistics'),
                     'class'   => $this->isTab('logged-in-users') ? 'current' : '',
                     'hidden'  => !$this->isTrackLoggedInUsersEnabled,
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
@@ -156,7 +158,7 @@ class TabsView extends BaseTabView
                     'link'      => Menus::admin_url('visitors', ['tab' => 'search-terms']),
                     'title'     => esc_html__('Search Terms', 'wp-statistics'),
                     'class'     => $this->isTab('search-terms') ? 'current' : '',
-                    'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                    'tooltip'   => esc_html__('This report needs the Data Plus add-on.', 'wp-statistics'),
                     'locked'    => !Helper::isAddOnActive('data-plus'),
                     'export'    => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ]

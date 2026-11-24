@@ -33,5 +33,6 @@ class SystemCleaner
     {
         $request = new RemoteRequest(ApiEndpoints::PRODUCT_LIST, 'GET');
         $request->clearCache();
+        \WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper::clearFetchFailure();
     }
 }

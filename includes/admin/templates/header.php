@@ -22,26 +22,31 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
 $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
 $manageCap               = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 $hasManageCap            = $manageCap && current_user_can($manageCap);
+// Upsells (upgrade button) only for people who can act on them, and never under white label.
+$showUpgrade             = $hasManageCap && !LicenseHelper::areAddonPromptsHidden() && apply_filters('wp_statistics_enable_upgrade_to_bundle', true);
 
 // The desktop menu and the mobile menu show the same links, so they are defined once here.
-$showAddonsLink  = !$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true);
+// White label: no Add-ons link and no PREMIUM badge (a custom logo from the filter below still wins).
+$promptsHidden   = LicenseHelper::areAddonPromptsHidden();
+$showBadge       = $isPremium && !$promptsHidden;
+// The Add-ons link follows the sidebar entry (LicenseHelper::getAddonsMenuState()): same label, number only when something needs fixing.
+$addonsState     = LicenseHelper::getAddonsMenuState();
+$showAddonsLink  = $hasManageCap && $addonsState['visible'] && apply_filters('wp_statistics_enable_header_addons_menu', true);
 $quickAccessMenu = [
     ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages'],
     ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics'],
     ['slug' => 'wps_author-analytics_page', 'link_text' => __('Author Analytics', 'wp-statistics'), 'icon_class' => 'author-analytics'],
 ];
-// A number on the Add-ons link when an installed add-on has no valid license, is expired or is switched off.
-$licenseAttention = ($showAddonsLink || $isPremium) && LicenseHelper::canManageLicenses() ? LicenseHelper::getLicenseSummary()['attention'] : 0;
-$addonsLink       = $showAddonsLink
-    ? Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => $licenseAttention > 0 ? $licenseAttention : null], true)
+$addonsLink      = $showAddonsLink
+    ? Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => $addonsState['label'], 'icon_class' => 'addons', 'badge_count' => $addonsState['count'] > 0 ? $addonsState['count'] : null], true)
     : '';
 
 ?>
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
-                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
+            <img class="wps-adminHeader__logo <?php echo $showBadge ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
+                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($showBadge ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
             <?php
@@ -63,11 +68,11 @@ $addonsLink       = $showAddonsLink
             ?>
         </div>
         <div class="wps-adminHeader__side">
-            <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
+            <?php if ($showUpgrade) : ?>
                 <?php echo LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner); ?>
             <?php endif; ?>
 
-            <?php if (Option::get('privacy_audit')) : ?>
+            <?php if (Option::get('privacy_audit') && $hasManageCap) : ?>
                 <?php
                 $privacyAuditData   = new PrivacyAuditDataProvider();
                 $privacyAuditStatus = $privacyAuditData->getComplianceStatus();
@@ -127,7 +132,7 @@ $addonsLink       = $showAddonsLink
                         </div>
                     <?php }
 
-                    if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
+                    if ($showUpgrade) {
                         echo '<div class="wps-bundle">' . LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner, true) . '</div>';
                     }
                     ?>

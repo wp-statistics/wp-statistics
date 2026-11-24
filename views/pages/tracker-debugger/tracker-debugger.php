@@ -8,6 +8,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
 
 $currentDate = TimeZone::getCurrentDate();
 
@@ -73,7 +74,10 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     /* translators: %s: number of visitors. */
                     $last24hText = sprintf(esc_html(_n('%s visitor in the last 24 hours.', '%s visitors in the last 24 hours.', $recording['visitors_24h'], 'wp-statistics')), esc_html(number_format_i18n($recording['visitors_24h'])));
 
-                    if ($recording['seconds_since'] <= DAY_IN_SECONDS) {
+                    // Same rule as the "visits stopped" alert, see VisitorProvider::getRecordingState().
+                    $recordingState = VisitorProvider::getRecordingState($recording);
+
+                    if ($recordingState === 'working') {
                         $recordingData = [
                             'svg'         => $trackerIcon,
                             'title'       => __('Visit Recording: Working', 'wp-statistics'),
@@ -91,9 +95,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
 
                         // A site that had only a few visitors in the week before can go a day without one,
                         // but a prolonged outage should still be shown as a warning.
-                        $quietSite = $recording['seconds_since'] <= 2 * DAY_IN_SECONDS
-                            && $recording['visitors_week_before'] !== null
-                            && $recording['visitors_week_before'] < 7;
+                        $quietSite = $recordingState === 'quiet';
 
                         if ($quietSite) {
                             /* translators: %s: number of visitors. */
@@ -496,9 +498,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                         <?php if (count($visitors->getVisitor()) < 1) : ?>
                             <tr>
                                 <td colspan="3">
-                                    <div class="o-wrap o-wrap--no-data wps-center">
-                                        <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                                    </div>
+                                    <?php \WP_Statistics\Components\View::load('components/objects/empty-state', ['message' => __('No recent data available.', 'wp-statistics'), 'range' => false, 'icon' => 'activity']); ?>
                                 </td>
                             </tr>
                         <?php endif; ?>

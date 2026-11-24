@@ -282,6 +282,22 @@ class Pages
 
             // Added to DB
             $page_id = self::save_page($pages);
+
+            // Two first views of this page at the same moment: the (date, uri) unique key let only
+            // one row in, so count this view on that row instead of losing it.
+            if (empty($page_id)) {
+                $wpdb->query($wpdb->prepare(
+                    "UPDATE `{$tablePage}` SET `count` = `count` + 1 WHERE `date` = %s AND `uri` = %s",
+                    $pages['date'],
+                    $pages['uri']
+                ));
+
+                $page_id = $wpdb->get_var($wpdb->prepare(
+                    "SELECT `page_id` FROM `{$tablePage}` WHERE `date` = %s AND `uri` = %s LIMIT 1",
+                    $pages['date'],
+                    $pages['uri']
+                ));
+            }
         }
 
         return (isset($page_id) ? $page_id : false);
@@ -532,11 +548,12 @@ class Pages
         // Generate SQL
         $selectSql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql}";
 
-        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID
+        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID.
+        // No parentheses around the parts: SQLite (e.g. WordPress Playground) rejects "(SELECT ...) UNION (SELECT ...)".
         $sql = "
-            ($selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`)
+            $selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`
             UNION
-            ($selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`)
+            $selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`
             ORDER BY `count_sum` DESC
         ";
 
@@ -551,7 +568,7 @@ class Pages
             $reportUrl = '';
             if (isset($page_info['meta']['term_taxonomy_id'])) {
                 $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $item->id]);
-            } else if (isset($page_info['meta']['author_id'])) {
+            } else if (!empty($page_info['meta']['author_id'])) {
                 $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
             } else if (isset($page_info['meta']['post_type'])) {
                 $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]);

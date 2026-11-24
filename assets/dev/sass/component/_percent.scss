@@ -1,0 +1,286 @@
+// ---------------------------------------------------------------------------
+// Percent components (R2): share bar, rate bar, ring.
+// PHP: views/components/objects/percent-bar.php
+// JS:  wps_js.percent_bar() and wps_js.horizontal_bar() in javascript/helper.js
+// Visuals are aria-hidden; the number is always printed as text.
+// Uses logical properties and flex order only, so RTL mirrors by itself.
+// ---------------------------------------------------------------------------
+
+.wps-percent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  &__value {
+    min-width: 3.4em;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    color: $wps-text;
+  }
+
+  &__track {
+    flex: none;
+    display: block;
+    height: $wps-track-height;
+    border-radius: 2px;
+    background: $wps-track;
+    overflow: hidden;
+  }
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: $wps-brand;
+  }
+
+  &--share &__track {
+    width: $wps-bar-share-width;
+  }
+
+  &--rate &__track {
+    width: $wps-bar-rate-width;
+  }
+
+  // Ring: 18px SVG in front of a KPI value
+  &--ring {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  &__ring {
+    width: $wps-ring-size;
+    height: $wps-ring-size;
+    flex: none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &__ring-track,
+  &__ring-fill {
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  &__ring-track {
+    stroke: $wps-track;
+  }
+
+  &__ring-fill {
+    stroke: $wps-brand;
+    stroke-linecap: round;
+  }
+
+  // Narrow screens: share tracks shrink so tables do not scroll sideways for a bar.
+  @media (max-width: 600px) {
+    &--share &__track {
+      width: 64px;
+    }
+  }
+}
+
+// Table header cell for a share/rate column
+.wps-col-share {
+  text-align: end;
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Share list (JS horizontal_bar): name + value on one line, thin track below.
+// Old class names are kept on the elements for add-ons (Data Plus, Marketing).
+// ---------------------------------------------------------------------------
+.wps-horizontal-bar.wps-share-list {
+  display: grid;
+  gap: 12px;
+
+  .wps-horizontal-bar__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 0;
+    position: static;
+  }
+
+  .wps-horizontal-bar__label-image-container {
+    min-width: 0;
+    gap: 8px;
+    z-index: auto;
+
+    .wps-horizontal-bar__image {
+      width: 16px;
+      height: 16px;
+      flex: none;
+      object-fit: contain;
+    }
+
+    .wps-horizontal-bar__label {
+      max-width: none;
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 400 !important;
+      color: $wps-text-strong;
+    }
+  }
+
+  .wps-horizontal-bar__data {
+    z-index: auto;
+    gap: 6px;
+    align-items: baseline;
+
+    span {
+      min-width: 0;
+      font-variant-numeric: tabular-nums;
+
+      &:first-child {
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        color: $wps-text-strong !important;
+      }
+
+      &:last-child {
+        min-width: 3.2em;
+        font-size: 12px;
+        font-weight: 400;
+        color: $wps-text-subtle;
+      }
+    }
+  }
+
+  .wps-horizontal-bar__track {
+    grid-column: 1 / -1;
+    height: $wps-track-height;
+    border-radius: 2px;
+    background: $wps-track;
+    overflow: hidden;
+  }
+
+  .wps-horizontal-bar__background {
+    position: static;
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: $wps-brand;
+  }
+
+  // PHP twin (views/components/objects/share-list.php): linked names and counts,
+  // the neutral site icon and the ↗ new-tab link (Top Referring, WP Dashboard Top Pages).
+  .wps-horizontal-bar__label a,
+  .wps-horizontal-bar__data a {
+    color: inherit !important;
+    font-weight: inherit;
+    text-decoration: none;
+    box-shadow: none;
+
+    &:hover,
+    &:focus-visible {
+      color: $wps-brand !important;
+      text-decoration: underline;
+    }
+  }
+
+  .wps-share-list__icon {
+    color: $wps-text-subtle;
+  }
+
+  .wps-new-tab-link {
+    margin-inline-start: -4px;
+  }
+
+  // Grey text after the name (Source Categories: " · google.com"). The name keeps its
+  // width and the meta text is cut first; full text on hover.
+  .wps-horizontal-bar__label-image-container:has(.wps-share-list__meta) .wps-horizontal-bar__label {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  .wps-share-list__sep {
+    flex: none;
+    margin-inline: -2px -4px;
+    font-size: 13px;
+    line-height: 16px;
+    color: #A9AAAE;
+  }
+
+  .wps-share-list__meta {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 16px;
+    color: $wps-text-subtle;
+  }
+
+  // "Other N categories": no icon, a calmer name
+  .wps-share-list__item--other .wps-horizontal-bar__label {
+    color: $wps-text !important;
+  }
+}
+
+// Top Source Categories inside a page card (Referrals Overview): rows line up with the
+// card title, like the Top Countries card next to it.
+.wps-card .wps-source-categories.o-wrap {
+  padding: 20px 0 0;
+}
+
+// ---------------------------------------------------------------------------
+// Source Categories tables (Overview, WP Dashboard, Referrals, Data Plus widget).
+// referrals.scss and Data Plus admin.css (2.8.4 too) set
+// `.wps-source-category__table tr td span {display:block; height:15px; line-height:15px}`,
+// which hits the bar's spans: the value and the track stacked and the bar sat
+// under the text line. Restore the shared layout: value and bar side by side,
+// centred on the row's text line. Two ids beat both old rules.
+// ---------------------------------------------------------------------------
+#wpbody #wpbody-content .wps-source-category__table tr td {
+  .wps-percent {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    line-height: inherit;
+    vertical-align: middle;
+  }
+
+  .wps-percent__value {
+    display: inline;
+    height: auto;
+    line-height: inherit;
+  }
+
+  .wps-percent__track {
+    display: block;
+    height: $wps-track-height;
+  }
+
+  .wps-percent__fill {
+    display: block;
+    height: 100%;
+  }
+
+  // Narrow cards: shorter track, still next to the value.
+  @media (max-width: 600px) {
+    .wps-percent {
+      gap: 6px;
+    }
+
+    .wps-percent__value {
+      min-width: 0;
+    }
+
+    .wps-percent--rate .wps-percent__track {
+      width: 32px;
+    }
+  }
+}
+
+// Phones: share tracks shrink again so share columns fit 360px screens.
+@media (max-width: 480px) {
+  #wpbody .wps-percent--share .wps-percent__track {
+    width: 32px;
+  }
+}

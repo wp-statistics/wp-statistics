@@ -168,12 +168,10 @@ class AdminBar
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
                         __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
                         __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
-                        __('Learn More', 'wp-statistics')
+                        __("See what's included", 'wp-statistics')
                     ),
+                    // The Mini Chart lock page in the admin, same tab (the Premium popup is not on the front end).
                     'href'   =>  esc_url(admin_url('admin.php?page=wps_plugins_page&type=locked-mini-chart')),
-                    'meta'   => [
-                        'target' => '_blank',
-                    ],
                 ),
                 'wp-statistics-footer-page'           => array(
                     'parent' => 'wp-statistic-menu-global-data',
@@ -190,6 +188,11 @@ class AdminBar
 
                 )
             );
+
+            // White label (or a hidden Add-ons menu): no "Unlock" teaser in the admin bar.
+            if (\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) {
+                unset($admin_bar_list['wp-statistics-menu-page']);
+            }
 
             $data = [
                 'object_id'          => $object_id,

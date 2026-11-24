@@ -102,6 +102,8 @@ for (const file of trackerFiles) {
             [200, '{"status":false,"data":"Invalid hit/online request (referred)."}', 'Invalid hit/online request (referred).'],
             // AJAX and other endpoint failures can use a non-200 status.
             [400, '{"status":false,"data":"Invalid hit/online request (referred)."}', 'Invalid hit/online request (referred).'],
+            // An exclusion (robot, excluded URL ...) answers 200 with the reason.
+            [200, '{"status":false,"data":"robot"}', 'Hit not recorded: robot'],
         ];
 
         for (const [status, body, named] of cases) {
@@ -116,7 +118,13 @@ for (const file of trackerFiles) {
             assert.doesNotThrow(() => request.onreadystatechange(), body);
             assert.equal(tracker.hitRequestSuccessful, false, body);
             assert.ok(!warnings.some(w => /PHP notices/.test(w)), 'no PHP-notice hint for ' + status);
-            assert.ok(warnings.some(w => w.includes('failed with status ' + status)), 'status logged for ' + status);
+            if (status === 200) {
+                // The server answered and chose not to record the hit: not a "failed" request.
+                assert.ok(warnings.some(w => w.startsWith('WP Statistics: Hit not recorded')), 'not-recorded wording for 200');
+                assert.ok(!warnings.some(w => /failed/.test(w)), 'no "failed" wording for 200');
+            } else {
+                assert.ok(warnings.some(w => w.includes('failed with status ' + status)), 'status logged for ' + status);
+            }
             if (named) {
                 assert.ok(warnings.some(w => w.includes(named)), 'endpoint error logged');
             }

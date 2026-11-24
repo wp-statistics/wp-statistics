@@ -13,6 +13,7 @@ use WP_Statistics\Components\View;
                 <?php
                 $args = [
                     'referrers'     => $data['referrers'],
+                    'total'      => $data['referrals'] ?? 0,
                     'pagination'    => $pagination ?? null
                 ];
                 View::load("components/tables/referrers", $args);

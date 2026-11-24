@@ -45,6 +45,67 @@ class EventsModel extends BaseModel
         return $result ?? 0;
     }
 
+    /**
+     * Events (link clicks, downloads...) of several visitor rows, oldest first.
+     * Used by the single visitor journey when Data Plus is active.
+     *
+     * Each visit gets its own newest `per_visit` events, so one busy visit can not hide the events of the others.
+     *
+     * @param array $args {
+     *     @type int[]           $visitor_ids Visitor row IDs.
+     *     @type string|string[] $event_name  Event names. Default click and file_download.
+     *     @type int             $per_visit   Max events per visit (0 = no limit). Default 50.
+     *     @type int             $limit       Max rows over all visits (0 = no limit). Default 0.
+     * }
+     * @return array Rows with ID, visitor_id, date, page_id, event_name, event_data.
+     */
+    public function getVisitorEvents($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'visitor_ids' => [],
+            'event_name'  => ['click', 'file_download'],
+            'per_visit'   => 50,
+            'limit'       => 0,
+        ]);
+
+        $ids = array_values(array_unique(array_filter(array_map('intval', (array)$args['visitor_ids']))));
+
+        if (empty($ids)) {
+            return [];
+        }
+
+        $fields   = ['events.ID', 'events.visitor_id', 'events.date', 'events.page_id', 'events.event_name', 'events.event_data'];
+        $perVisit = intval($args['per_visit']);
+
+        if ($perVisit > 0) {
+            $parts = [];
+            foreach ($ids as $id) {
+                $parts[] = Query::select($fields)
+                    ->from('events')
+                    ->where('events.visitor_id', '=', $id)
+                    ->where('events.event_name', 'IN', $args['event_name'])
+                    ->orderBy(['events.date', 'events.ID'], 'DESC')
+                    ->perPage(1, $perVisit);
+            }
+
+            $query = count($parts) === 1 ? $parts[0] : Query::union($parts)->orderBy(['date', 'ID'], 'DESC');
+        } else {
+            $query = Query::select($fields)
+                ->from('events')
+                ->where('events.visitor_id', 'IN', $ids)
+                ->where('events.event_name', 'IN', $args['event_name'])
+                ->orderBy(['events.date', 'events.ID'], 'DESC');
+        }
+
+        if (intval($args['limit']) > 0) {
+            $query->perPage(1, intval($args['limit']));
+        }
+
+        $result = $query->getAll();
+
+        return $result ? array_reverse($result) : [];
+    }
+
     public function getInitialEventDate($args = [])
     {
         $args = $this->parseArgs($args, [

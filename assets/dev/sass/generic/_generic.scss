@@ -14,7 +14,6 @@
 #wps_countries_postbox,
 #wps_pages_postbox,
 #wp-statistics-about-widget,
-#wp-statistics-post-widget,
 .wps-wrap {
   .postbox .inside {
     padding: 0;
@@ -193,26 +192,6 @@
   }
 }
 
-#wp-statistics-post-widget.postbox {
-
-  &.handle {
-    .postbox-header .handle-actions {
-      .handlediv.wps-refresh {
-        display: inline-block !important;
-      }
-    }
-  }
-
-  .postbox-header .handle-actions {
-    margin-top: 0 !important;
-
-    .handlediv.wps-refresh {
-      width: 1.62rem !important;
-      height: 1.62rem;
-    }
-  }
-}
-
 #wp_statistics_editor_meta_box,
 #wp-statistics-summary-widget,
 #wp-statistics-words-widget,
@@ -336,72 +315,148 @@
   &--container {
     position: relative;
 
+    // Chart tooltip (V1-B), built by chart.js wpsTooltipHtml(): title (+ "so far" / "part of month"
+    // tag), a Now | Before | Change table, one "Compared with …" footer. No italics; 300px at most
+    // (card width minus 16px on narrow cards); mirrors in RTL (logical properties).
     .wps-chart-tooltip {
+      z-index: 5;
+      box-sizing: border-box;
+      min-width: 170px;
+      max-width: min(300px, calc(100% - 16px));
+      width: max-content;
+      padding: 9px 11px;
       background: #fff;
-      padding: 12px;
-      box-shadow: 1px 1px 2px 0px #00000005;
-      border: 0.5px solid #EEEFF1;
-      border-radius: 2px;
-      width: 199px;
+      color: #0C0C0D;
+      border: 1px solid #DADCE0;
+      border-radius: 6px;
+      box-shadow: 0 6px 20px rgba(16, 24, 40, .14);
+      font-size: 12.5px;
+      font-style: normal;
+      line-height: 1.35;
+      font-variant-numeric: tabular-nums;
+      text-align: start;
+      overflow-wrap: anywhere;
+      transition: opacity .1s ease;
 
-
-      & > div {
+      &__title {
         display: flex;
-        gap: 8px;
-        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 2px 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: none;
       }
 
-      .current-data, .previous-data {
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 15.23px;
-        color: #56585A;
-        display: flex;
-        justify-content: space-between;
+      &__tag {
+        display: inline-block;
+        padding: 0 5px;
+        border-radius: 3px;
+        background: #FFF1DE;
+        color: #8A4B00;
+        font-size: 10.5px;
+        font-weight: 600;
+        line-height: 16px;
+        white-space: nowrap;
+      }
+
+      table.wps-chart-tooltip__table {
+        width: 100%;
+        margin: 6px 0 0;
+        border: 0;
+        border-collapse: collapse;
+        background: none;
+
+        th,
+        td {
+          padding: 3px 0;
+          padding-inline-start: 10px;
+          border: 0;
+          background: none;
+          text-align: end;
+          white-space: nowrap;
+          font-style: normal;
+          text-transform: none;
+          vertical-align: middle;
+        }
+
+        thead th {
+          padding-block: 0 3px;
+          color: #7D8083;
+          font-size: 11px;
+          font-weight: 400;
+        }
+
+        th:first-child {
+          padding-inline-start: 0;
+          text-align: start;
+          white-space: normal;
+          font-weight: 400;
+          color: #3C4043;
+        }
+
+        tbody th {
+          font-size: 12.5px;
+        }
+      }
+
+      &__metric {
+        display: inline-flex;
         align-items: center;
+        gap: 7px;
+      }
 
+      &__swatch {
+        display: inline-block;
+        flex: none;
+        width: 12px;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--wps-swatch, #8C8F94);
 
-        &__value {
-          font-weight: 500;
-          color: #0C0C0D;
+        &--bar {
+          width: 9px;
+          height: 9px;
         }
 
-        & > div {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          text-transform: capitalize;
-
-          .previous-data__colors {
-            display: flex;
-            align-items: center;
-            gap: 1px;
-
-            .previous-data__color {
-              width: 5px;
-              height: 3px;
-              display: inline-block;
-              border-radius: 3px;
-            }
-          }
-
-          .current-data__color {
-            width: 12px;
-            height: 3px;
-            display: inline-block;
-            border-radius: 3px;
-          }
+        &--dashed {
+          background: linear-gradient(90deg, #8C8F94 0 40%, transparent 40% 60%, #8C8F94 60%);
         }
       }
 
-      .chart-title {
-        color: #0C0C0D;
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 15.23px;
+      &__now {
+        font-weight: 600;
       }
+
+      &__before {
+        color: #56585A;
+      }
+
+      &__none {
+        color: #7D8083;
+      }
+
+      .wps-change {
+        padding: 2px 5px;
+        font-size: 11px !important;
+      }
+
+      &__footer {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid #EEEFF1;
+        color: #56585A;
+        font-size: 11.5px;
+      }
+    }
+
+    canvas:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 2px;
+      border-radius: 4px;
     }
 
     &.c-chart__wps-skeleton .wps-ph-item{
@@ -709,12 +764,6 @@
   }
 
 
-}
-
-.wps-gutenberg {
-  #wp-statistics-post-widget.postbox .postbox-header .handle-actions .handlediv:not(.wps-refresh) {
-    height: 44px !important;
-  }
 }
 
 .wps-hide {
@@ -1178,4 +1227,109 @@ body .o-table-wrapper table.wps-new-table.wps-recent-views-table tbody tr td
   .wps-wrap .postbox .handlediv {
     margin-top: 0;
   }
+}
+// Chart tooltip table: older RTL rules pad every `.wps-wrap table` cell by 40px and force
+// right alignment with !important; the tooltip keeps its own compact, mirrored layout.
+#wpbody .wps-chart-tooltip table.wps-chart-tooltip__table {
+  > thead > tr > th,
+  > tbody > tr > th,
+  > tbody > tr > td {
+    padding: 3px 0 3px 10px !important;
+    text-align: right !important;
+  }
+
+  > thead > tr > th {
+    padding-top: 0 !important;
+  }
+
+  > thead > tr > th:first-child,
+  > tbody > tr > th:first-child {
+    padding: 3px 0 !important;
+    text-align: left !important;
+  }
+}
+
+#wpbody .wps-chart-tooltip[dir="rtl"] table.wps-chart-tooltip__table {
+  > thead > tr > th,
+  > tbody > tr > th,
+  > tbody > tr > td {
+    padding: 3px 10px 3px 0 !important;
+    text-align: left !important;
+  }
+
+  > thead > tr > th:first-child,
+  > tbody > tr > th:first-child {
+    padding: 3px 0 !important;
+    text-align: right !important;
+  }
+}
+
+// Locked header buttons (views/components/objects/premium-locked-button.php): no tooltip, a click opens the
+// Premium popup. The old tooltip styles drop the outline, so keyboard focus gets its ring back here.
+.wps-premium-locked-btn {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #404BF2 !important;
+    outline-offset: 2px;
+  }
+}
+
+// One post picture everywhere (views/components/objects/post-thumb.php): featured image, or a colour tile
+// with initials. Each place sets only its size and corners.
+.wps-post-thumb {
+  flex: none;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+.wps-post-thumb--tile {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: .02em;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+// Top Pages and other tables: 27px, the same box as the image. The table's title-span rule is very
+// specific, so this one matches it and wins on order.
+body .o-table-wrapper table.wps-new-table tbody tr td .wps-table-ellipsis--name span.wps-post-thumb--tile,
+span.wps-pages-image.wps-post-thumb--tile {
+  width: 27px;
+  min-width: 27px;
+  max-width: 27px;
+  height: 27px;
+  overflow: hidden;
+  border-radius: 4px;
+  color: #fff !important;
+  font-size: 10px;
+  font-weight: 700;
+  text-overflow: clip;
+}
+
+img.wps-pages-image.wps-post-thumb {
+  border-radius: 4px;
+}
+
+// Single content header: 54px circle, like the image.
+.wps-content-analytics-header span.wps-content-analytics-header__thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  font-size: 17px;
+}
+
+// Content tabs item: 39px circle.
+.wps-content-tabs__item--image span.wps-post-thumb--tile {
+  position: static;
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
 }

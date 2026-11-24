@@ -96,6 +96,10 @@
       display: none;
       width: 100%;
 
+      &.is-active {
+        display: block;
+      }
+
       img{
         max-width: 99%;
         height: auto;
@@ -107,7 +111,7 @@
     }
 
     &__dots {
-      text-align: center;
+      justify-content: center;
       margin-top: 24px;
     }
 
@@ -116,12 +120,19 @@
       width: 12px;
       height: 12px;
       margin: 0 4px;
+      padding: 0;
+      border: 0;
       border-radius: 50%;
       background-color: #DADCE0;
       cursor: pointer;
 
       &.active {
         background-color: #7981F6;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $wps-brand;
+        outline-offset: 2px;
       }
     }
   }
@@ -133,3 +144,89 @@
 
 
 
+
+// White label: the lock page is a neutral note, no upsell.
+.wps-lock-page--unavailable {
+  min-height: 0;
+  padding-bottom: 32px;
+}
+
+
+// Split lock page: text left (headline, 3 benefits, buttons, Premium line, guarantee), preview right.
+// Stacks on narrow screens. PHP: views/pages/lock-page.php
+.wps-lock-page--split {
+  width: 1160px;
+
+  h1.wps-lock-page__head {
+    margin: 0 0 18px;
+    padding: 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+  }
+
+  .wps-lock-page__description {
+    margin: 0 0 20px;
+  }
+
+  .wps-lock-page__benefits .wps-upsell-benefits__item {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .wps-lock-page__actions {
+    margin-top: 4px;
+  }
+
+  .wps-lock-page__included {
+    margin: 16px 0 0;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  // Every slide sits in the same cell: the box is as tall as the tallest picture (no jump when the
+  // pictures rotate) and each picture's frame ends where the picture ends.
+  .wps-slider {
+    display: grid;
+    align-items: start;
+    margin-top: 0;
+
+    &__slide {
+      display: block;
+      grid-area: 1 / 1;
+      visibility: hidden;
+
+      &.is-active {
+        visibility: visible;
+      }
+    }
+
+    &__slide img {
+      display: block;
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .wps-slider__dots {
+    margin-top: 14px;
+  }
+}
+
+.wps-lock-page__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+
+  @media (min-width: 1100px) {
+    grid-template-columns: minmax(280px, 5fr) minmax(0, 7fr);
+    gap: 48px;
+  }
+}
+
+.wps-lock-page__text,
+.wps-lock-page__media {
+  min-width: 0;
+}

@@ -6,14 +6,20 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Screen;
 use WP_Statistics\Core\CoreFactory;
+use WP_Statistics\Service\Admin\Posts\EditorPanel;
 use WP_STATISTICS\User;
 
 class MetaboxManager
 {
     public function __construct()
     {
+        // 14.17: the three visitor widgets became one Visitors card; carry each user's order, hidden and collapsed state over (once per user).
+        add_action('admin_init', [VisitorsCardMigration::class, 'maybeMigrateCurrentUser'], 5);
         add_action('admin_init', [$this, 'registerMetaboxes']);
         add_action('admin_init', [$this, 'hideDashboardMetaboxes']);
+
+        // Block editor sidebar panel (replaces the "Statistics Summary" meta box there)
+        new EditorPanel();
     }
 
     /**

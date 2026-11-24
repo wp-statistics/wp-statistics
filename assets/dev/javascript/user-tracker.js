@@ -140,8 +140,10 @@ if (!window.WpStatisticsUserTracker) {
                                 && responseData.status === true;
 
                             if (!this.hitRequestSuccessful) {
+                                // The request worked; the server chose not to record the hit (an exclusion
+                                // such as "robot", or a rejected request). Not a failure.
                                 const responseError = responseData && (typeof responseData.data === 'string' ? responseData.data : responseData.message);
-                                console.warn('WP Statistics: Hit request failed with status ' + xhr.status + (responseError ? ': ' + responseError : ''));
+                                console.warn('WP Statistics: Hit not recorded' + (responseError ? ': ' + responseError : '.'));
                             }
                         } else {
                             this.hitRequestSuccessful = false;

@@ -14,6 +14,8 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Utils\Query;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 class MetaboxDataProvider
 {
@@ -72,28 +74,98 @@ class MetaboxDataProvider
         return $this->visitorsModel->getReferrers($args);
     }
 
-    public function getTopVisitorsData($args = [])
+    public function getTopVisitorsData($args = [], $limit = 10)
     {
         $visitors = $this->visitorsModel->getVisitorsData(array_merge($args, [
             'user_info' => true,
             'order_by'  => 'hits',
             'order'     => 'DESC',
-            'per_page'  => 10,
+            'per_page'  => max(1, intval($limit)),
             'page'      => 1
         ]));
 
         return $visitors;
     }
 
-    public function getLatestVisitorsData($args = [])
+    /**
+     * Most active visitors with a logged-in user counted once (WP Dashboard widget).
+     *
+     * A visitor row covers one visitor on one day, so the same user fills several rows
+     * of the plain list. Here rows of the same user are summed into one: views are the
+     * sum of hits, `visits` the number of rows, and the visitor shown is the user's
+     * newest row (its last view, last page and device). Guests stay one row each, since
+     * hashed IPs change daily and an IP alone is not one person.
+     *
+     * @param array $args  Filters, `date` => ['from', 'to'].
+     * @param int   $limit Groups to return.
+     *
+     * @return VisitorDecorator[] Each with `hits` = total views and `visits` = rows merged.
+     */
+    public function getTopVisitorsGroupedData($args = [], $limit = 5)
     {
-        return $this->visitorsModel->getVisitorsData(array_merge($args, [
+        $limit = max(1, intval($limit));
+        $group = "CASE WHEN visitor.user_id > 0 THEN CONCAT('u', visitor.user_id) ELSE CONCAT('v', visitor.ID) END";
+
+        $groups = Query::select([
+            "{$group} AS visitor_group",
+            'SUM(visitor.hits) AS total_hits',
+            'COUNT(visitor.ID) AS visits',
+            'MAX(visitor.ID) AS latest_id',
+        ])
+            ->from('visitor')
+            ->whereDate('visitor.last_counter', $args['date'] ?? '')
+            ->groupBy('visitor_group')
+            ->orderBy(['total_hits', 'latest_id'])
+            ->perPage(1, $limit)
+            ->getAll();
+
+        if (empty($groups)) {
+            return [];
+        }
+
+        $ids  = array_map('intval', wp_list_pluck($groups, 'latest_id'));
+        $rows = Query::select('*')
+            ->from('visitor')
+            ->where('visitor.ID', 'IN', $ids)
+            ->getAll();
+
+        $rowsById = [];
+        foreach ((array) $rows as $row) {
+            $rowsById[intval($row->ID)] = $row;
+        }
+
+        $visitors = [];
+        foreach ($groups as $group) {
+            $row = $rowsById[intval($group->latest_id)] ?? null;
+
+            if (!$row) {
+                continue;
+            }
+
+            $row->hits   = intval($group->total_hits);
+            $row->visits = intval($group->visits);
+            $visitors[]  = new VisitorDecorator($row);
+        }
+
+        return $visitors;
+    }
+
+    public function getLatestVisitorsData($args = [], $limit = 10)
+    {
+        $args = array_merge($args, [
             'user_info' => true,
-            'order_by'  => 'visitor.ID',
+            'order_by'  => VisitorsModel::LATEST_ORDER_BY,
             'order'     => 'DESC',
             'page'      => 1,
-            'per_page'  => 10
-        ]));
+            'per_page'  => max(1, intval($limit))
+        ]);
+
+        // All-time list (Overview and WP Dashboard widgets): only sort the last days that hold the newest rows
+        if (!empty($args['ignore_date']) && empty($args['date'])) {
+            $args['since'] = $this->visitorsModel->getLatestVisitorsSince($args['per_page']);
+        }
+
+        return $this->visitorsModel->getVisitorsData($args);
     }
 
     public function getTopPages($args = [])
@@ -101,15 +173,93 @@ class MetaboxDataProvider
         return $this->viewsModel->getResourcesViews($args);
     }
 
-    public function getOnlineVisitorsData($args = [])
+    /**
+     * Top pages plus the total views of the range, for share bars (WP Dashboard widget).
+     *
+     * @param array $args  Filters, `date` => ['from', 'to'].
+     * @param int   $limit Rows to fetch.
+     *
+     * @return array{rows: array, total: int}
+     */
+    public function getTopPagesShare($args = [], $limit = 5)
+    {
+        $rows = $this->getTopPages(array_merge($args, ['per_page' => max(1, intval($limit)), 'page' => 1]));
+
+        if (empty($rows)) {
+            return ['rows' => [], 'total' => 0];
+        }
+
+        $total = $this->viewsModel->countViewsFromPagesOnly(['date' => $args['date'] ?? '']);
+
+        return ['rows' => $rows, 'total' => max($total, array_sum(wp_list_pluck($rows, 'views')))];
+    }
+
+    /**
+     * Top referrers plus the referrals of the range, for share bars (WP Dashboard widget).
+     *
+     * @param array $args  Filters, `date` => ['from', 'to'].
+     * @param int   $limit Rows to fetch.
+     *
+     * @return array{rows: array, total: int}
+     */
+    public function getReferrersShare($args = [], $limit = 5)
+    {
+        // Same grouping as the Referrers report: one row per domain and source channel.
+        $rows = $this->visitorsModel->getReferrers(array_merge($args, [
+            'decorate' => true,
+            'group_by' => ['visitor.referred', 'visitor.source_channel'],
+            'per_page' => max(1, intval($limit)),
+            'page'     => 1
+        ]));
+
+        if (empty($rows)) {
+            return ['rows' => [], 'total' => 0];
+        }
+
+        $total = intval($this->visitorsModel->countReferrers(['date' => $args['date'] ?? '', 'sum_visitors' => true]));
+        $shown = 0;
+        foreach ($rows as $row) {
+            $shown += intval($row->getTotalReferrals(true));
+        }
+
+        return ['rows' => $rows, 'total' => max($total, $shown)];
+    }
+
+    /**
+     * Top pages with visitors and bounce rate added to each row (Overview "Top Pages" card).
+     * getTopPages() stays views-only, since the Widgets add-on calls it on the front end.
+     *
+     * @param array $args
+     * @return array
+     */
+    public function getTopPagesWithEngagement($args = [])
+    {
+        $rows = $this->getTopPages($args);
+
+        return $this->visitorsModel->attachPagesEngagement($rows, ['date' => $args['date'] ?? '']);
+    }
+
+    public function getOnlineVisitorsData($args = [], $limit = 10)
     {
         return [
             'visitors' => $this->onlineModel->getOnlineVisitors(array_merge($args, [
                 'order_by' => 'last_view',
-                'per_page' => 10
+                'per_page' => max(1, intval($limit))
             ])),
             'total'    => $this->onlineModel->countOnlines($args)
         ];
+    }
+
+    /**
+     * How many visitors are online now (the badge on the Visitors card's "Online now" switch).
+     *
+     * @param array $args
+     *
+     * @return int
+     */
+    public function getOnlineVisitorsCount($args = [])
+    {
+        return intval($this->onlineModel->countOnlines($args));
     }
 
     public function getPostSummaryData($args = [])

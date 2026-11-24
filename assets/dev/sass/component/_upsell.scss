@@ -1,0 +1,290 @@
+// ---------------------------------------------------------------------------
+// Shared upsell pieces: buttons, guarantee line, benefit list, settings card, Go Premium box.
+// PHP: views/components/upsell/*.php, views/components/lock-sections/setting-unlock-premium.php,
+//      views/metabox/go-premium.php
+// ---------------------------------------------------------------------------
+
+.wps-upsell-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.wps-upsell-btn,
+a.wps-upsell-btn,
+#wpbody a.wps-upsell-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  margin: 0;
+  padding: 7px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+
+  &:focus-visible {
+    outline: 2px solid $wps-brand;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+.wps-upsell-btn--primary,
+a.wps-upsell-btn--primary,
+#wpbody a.wps-upsell-btn--primary {
+  border-color: $wps-brand;
+  background: $wps-brand;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    border-color: #2F39D6;
+    background: #2F39D6;
+    color: #fff;
+  }
+}
+
+.wps-upsell-btn--secondary,
+a.wps-upsell-btn--secondary,
+#wpbody a.wps-upsell-btn--secondary {
+  border-color: $wps-card-border;
+  background: #fff;
+  color: $wps-text;
+
+  &:hover,
+  &:focus {
+    border-color: $wps-brand-soft;
+    background: #fff;
+    color: $wps-brand;
+  }
+}
+
+// Guarantee first, then (optional) "· Included in Premium with all 8 add-ons" in a muted colour.
+.wps-upsell-guarantee {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 10px 0 0;
+  color: $wps-text-muted;
+  font-size: 12px;
+  line-height: 18px;
+
+  &__main {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: $wps-good;
+  }
+
+  &__icon {
+    flex: none;
+  }
+
+  @media (max-width: 480px) {
+    &__sep {
+      display: none;
+    }
+
+    &__extra {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.wps-upsell-benefits {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    color: $wps-text;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__icon {
+    flex: none;
+    margin-top: 2px;
+    color: $wps-brand;
+  }
+}
+
+// Settings card: the lock page text block without a picture, on add-on settings tabs.
+// White card (same look as 14.17 cards), kicker, headline, 3 green checks, buttons, one footer line.
+.wps-upsell-card {
+  margin: 0 0 20px;
+  padding: $wps-card-pad-top $wps-card-pad-x $wps-card-pad-bottom;
+  border: 1px solid $wps-card-border;
+  border-radius: $wps-card-radius;
+  background: $wps-card-bg;
+  box-sizing: border-box;
+  color: $wps-text;
+
+  @media (max-width: 480px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  h3.wps-upsell-card__title {
+    margin: 0 0 12px;
+    padding: 0;
+    color: $wps-text-strong;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: -.01em;
+  }
+
+  .wps-upsell-card__benefits {
+    margin: 0 0 16px;
+
+    .wps-upsell-benefits__icon {
+      color: $wps-good;
+    }
+  }
+
+  .wps-upsell-card__footer {
+    margin: 14px 0 0;
+  }
+
+  @media (max-width: 480px) {
+    .wps-upsell-card__actions .wps-upsell-btn {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+// Go Premium box on the Overview ("Picture first").
+#wp-statistics-go-premium-widget .wps-go-premium {
+  position: relative;
+  padding: 0 !important;
+
+  .wps-go-premium__close {
+    position: absolute;
+    top: 12px;
+    inset-inline-end: 12px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .9);
+    color: $wps-text-muted;
+    text-decoration: none;
+    box-shadow: 0 0 0 1px $wps-card-rule;
+
+    &:hover {
+      color: $wps-text-strong;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+      box-shadow: none;
+    }
+  }
+
+  .wps-go-premium__media {
+    padding: 20px 20px 16px;
+    border-radius: 8px 8px 0 0;
+    background: #f6f7fb;
+    line-height: 0;
+  }
+
+  .wps-go-premium__img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+
+    &--wide {
+      display: none;
+    }
+  }
+
+  .wps-go-premium__body {
+    padding: 18px 24px 0;
+  }
+
+  .wps-go-premium__title {
+    margin: 0;
+    padding: 0;
+    color: $wps-text-strong;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    cursor: default;
+  }
+
+  .wps-go-premium__text {
+    margin: 4px 0 16px;
+    color: $wps-text-muted;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .wps-go-premium__button {
+    width: 100%;
+  }
+
+  .wps-go-premium__guarantee {
+    justify-content: center;
+  }
+}
+
+// Wide slot: picture and text side by side, wide picture.
+@media (min-width: 1115px) {
+  #normal-sortables #wp-statistics-go-premium-widget .wps-go-premium {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+
+    .wps-go-premium__media {
+      order: 2;
+      height: 100%;
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      box-sizing: border-box;
+
+      .rtl & {
+        border-radius: 8px 0 0 8px;
+      }
+    }
+
+    .wps-go-premium__img--side {
+      display: none;
+    }
+
+    .wps-go-premium__img--wide {
+      display: block;
+    }
+
+    .wps-go-premium__button {
+      width: auto;
+    }
+
+    .wps-go-premium__guarantee {
+      justify-content: flex-start;
+    }
+  }
+}

@@ -191,11 +191,11 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
             ?>
         </div>
 
-        <?php if (!$isPremium) {
+        <?php if (!$isPremium && !\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) {
 
             $cta = [
-                'cta_title'   => esc_html__('Upgrade Now', 'wp-statistics'),
-                'cta_link'    => esc_url(WP_STATISTICS_SITE_URL.'/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'),
+                'cta_title'   => esc_html__('Upgrade to Premium', 'wp-statistics'),
+                'cta_link'    => esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::pricing('help-center')),
                 'title'       => esc_html__('Want More Features?', 'wp-statistics'),
                 'description' => esc_html__('Upgrade your plan to access more tools and supercharge your growth.', 'wp-statistics')
             ];

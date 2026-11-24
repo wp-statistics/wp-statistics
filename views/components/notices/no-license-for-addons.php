@@ -2,7 +2,7 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 $licenseUrl = admin_url('admin.php?page=wps_plugins_page&tab=add-license');
-$supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon';
+$supportUrl = \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/contact-us/', 'notice', 'premium', 'support');
 ?>
 <div class="wps-licnotice" role="alert">
     <span class="wps-licnotice__icon" aria-hidden="true">!</span>
@@ -12,7 +12,7 @@ $supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&ut
         <ul class="wps-licnotice__list">
             <?php foreach ($data['unlicensed_installed_add_ons'] as $addOn) : ?>
                 <li>
-                    <a href="<?php echo esc_url($addOn->getProductUrl() . '?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'notice', $addOn->getSlug(), 'learn-more')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

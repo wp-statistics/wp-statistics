@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
         <ul class="wps-licnotice__list">
             <?php foreach ($data['inactive_installed_add_ons'] as $addOn) : ?>
                 <li>
-                    <a href="<?php echo esc_url($addOn->getProductUrl() . '?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . rawurlencode($addOn->getUtmCampaign())); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'notice', $addOn->getSlug(), 'learn-more')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

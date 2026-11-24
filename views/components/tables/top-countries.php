@@ -50,9 +50,7 @@ use WP_STATISTICS\Country;
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-            </div>
+            <?php \WP_Statistics\Components\View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
 
     </div>

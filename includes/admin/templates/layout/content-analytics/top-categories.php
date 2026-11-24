@@ -2,52 +2,59 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter;
 
-$postType = Helper::getPostTypeName(Request::get('tab', 'post'));
+$postType   = !empty($post_type) && is_string($post_type) ? $post_type : Request::get('tab', 'post');
+$authorId   = !empty($author_id) ? (int) $author_id : 0;
+$taxonomies = isset($taxonomies) && is_array($taxonomies) ? $taxonomies : [];
+$idPrefix   = isset($id_prefix) ? sanitize_html_class($id_prefix) : 'content-tax';
+
+// Only the leaderboard shape (taxonomy => ['rows' => ...]) is drawn
+$taxonomies = array_filter($taxonomies, function ($item) {
+    return is_array($item) && !empty($item['rows']);
+});
 ?>
 
-<div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html($title) ?>
-            <?php if ($tooltip): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>
-        </h2>
-    </div>
-    <div class="wps-flex-container">
-        <div class="wps-tabs">
-            <?php 
-                if (!empty($taxonomies)) :
-                    $counter = 1; 
-                    foreach ($taxonomies as $taxonomy => $terms) : ?>
-                        <?php 
-                            $taxName = get_taxonomy($taxonomy)->labels->menu_name;
-                            if (empty($terms)) continue;
-                        ?>
-    
-                        <input type="radio" name="content-category" id="<?php echo esc_attr('tax-' . $counter) ?>" <?php checked($counter, 1) ?>>
-                        <label for="<?php echo esc_attr('tax-' . $counter) ?>"><?php echo esc_html($taxName) ?></label>
-    
-                        <div class="wps-tabs__content">
-                            <?php foreach ($terms as $term) : ?>
-                                <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term['term_id']])) ?>">
-                                    <div class="wps-content-tabs__item--content">
-                                        <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term['term_name']); ?></span></h3>
-                                        <span><span class="wps-content-tabs__item--count"><?php /* translators: %s: string value */ echo esc_html($term['posts_count']); ?></span><?php echo sprintf(esc_html__('published %s', 'wp-statistics'), strtolower($postType)) ?></span>
-                                    </div>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php $counter++; ?>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="o-wrap o-wrap--no-data"><?php esc_html_e('No recent data available.', 'wp-statistics') ?></div>
-                <?php endif;?>
+<div class="wps-card wps-leaderboard-card">
+    <?php View::load('components/objects/card-header', [
+        'title'   => $title,
+        'tooltip' => $tooltip ?? '',
+        'context' => 'card',
+    ]); ?>
 
+    <?php if (!empty($taxonomies)) : ?>
+        <div class="wps-tabs wps-leaderboard-tabs<?php echo count($taxonomies) === 1 ? ' wps-leaderboard-tabs--single' : ''; ?>">
+            <?php
+            $counter = 1;
+            foreach ($taxonomies as $taxonomy => $leaderboard) :
+                $taxObject = get_taxonomy($taxonomy);
+                $taxName   = $taxObject ? $taxObject->labels->menu_name : $taxonomy;
+                $tabId     = $idPrefix . '-' . $counter;
+                ?>
+                <input type="radio" name="<?php echo esc_attr($idPrefix); ?>" id="<?php echo esc_attr($tabId) ?>" <?php checked($counter, 1) ?>>
+                <label for="<?php echo esc_attr($tabId) ?>"><?php echo esc_html($taxName) ?></label>
+
+                <div class="wps-tabs__content">
+                    <?php View::load('components/leaderboard', [
+                        'rows'       => LeaderboardPresenter::termRows($leaderboard['rows']),
+                        'rankings'   => LeaderboardPresenter::termRankings($leaderboard),
+                        'columns'    => $leaderboard['columns'],
+                        'name_label' => $taxObject ? $taxObject->labels->singular_name : $taxName,
+                        'caption'    => $title . ': ' . $taxName,
+                    ]); ?>
+                    <?php View::load("components/objects/view-more", [
+                        'href'  => Menus::admin_url('category-analytics', array_filter(['type' => 'report', 'tx' => $taxonomy, 'pt' => $postType, 'author_id' => $authorId])),
+                        /* translators: %s: plural name in lower case, a post type ("posts") or a taxonomy ("categories"). */
+                        'title' => sprintf(__('See all %s', 'wp-statistics'), function_exists('mb_strtolower') ? mb_strtolower($taxName) : strtolower($taxName)),
+                    ]); ?>
+                </div>
+                <?php $counter++; ?>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php else : ?>
+        <?php View::load('components/objects/empty-state'); ?>
+    <?php endif; ?>
 </div>

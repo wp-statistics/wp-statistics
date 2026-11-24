@@ -1,0 +1,235 @@
+// ---------------------------------------------------------------------------
+// Narrow widgets (WP Dashboard columns, Overview side column, phones): the widget
+// body is a size container, and visitor tables drop their lower-priority columns
+// as it gets narrower, so they fit without a horizontal scrollbar. The full report
+// ("View ..." link) keeps every column. Wide widgets show everything.
+//
+// Priority (first to go):
+//  - Visitor tables: see component/_visitor-table.scss (shared template)
+//  - Top Pages: Visitors (Views and Bounce Rate stay)
+// ---------------------------------------------------------------------------
+
+#dashboard-widgets .postbox[id^="wp-statistics-"] > .inside,
+#overview-widgets .postbox[id^="wp-statistics-"] > .inside {
+  container: wps-widget / inline-size;
+}
+
+// Short one-line date ("Nov 22, 10:15 am") in WP Dashboard widgets; the full date elsewhere.
+.wps-date--short {
+  display: none;
+}
+
+#wpbody #dashboard-widgets table .wps-col-date {
+  white-space: nowrap !important;
+  min-width: 0 !important;
+
+  .wps-date--full {
+    display: none;
+  }
+
+  .wps-date--short {
+    display: inline;
+    white-space: nowrap;
+  }
+}
+
+// Overview widgets in a narrow column or on phones: the same short one-line date, so "am/pm" never wraps alone.
+@container wps-widget (max-width: 760px) {
+  #wpbody #overview-widgets table .wps-col-date {
+    white-space: nowrap !important;
+
+    .wps-date--full {
+      display: none;
+    }
+
+    .wps-date--short {
+      display: inline;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Latest Visitors, Currently Online and Most Active Visitors use the shared visitor table,
+// which drops its own columns by its width (component/_visitor-table.scss).
+@container wps-widget (max-width: 460px) {
+  #wp-statistics-pages-widget table.o-table tr > :nth-child(2) {
+    display: none;
+  }
+}
+
+// WP Dashboard: no horizontal scrollbar in our widgets (columns above make the room).
+#dashboard-widgets .postbox[id^="wp-statistics-"] .o-table-wrapper {
+  overflow-x: hidden;
+}
+
+// Any narrow table (phones, sidebar widgets, half-width cards): 12px between columns,
+// and rate/share cells keep the number but drop the small track, so 3-4 columns fit.
+@container wps-table (max-width: 460px) {
+  #wpbody table.o-table,
+  #wpbody table.wps-new-table {
+    > thead > tr > th.wps-pd-l:not(:first-child),
+    > tbody > tr > td.wps-pd-l:not(:first-child) {
+      // Core pads non-first cells on the left in both LTR and RTL.
+      padding-left: 12px !important;
+    }
+
+    .wps-percent--rate .wps-percent__track,
+    .wps-percent--share .wps-percent__track {
+      display: none !important; // beats the source-category widget's own track rule
+    }
+
+    // Number headers ("Bounce Rate", "Visitors") may take two lines and the number cells size to
+    // their content, so a 4-column card (Page Insights Top Pages) fits without an inner scrollbar.
+    > thead > tr > th.wps-col-num,
+    > thead > tr > th.wps-col-share {
+      white-space: normal !important;
+    }
+
+    > thead > tr > th.wps-col-num,
+    > thead > tr > th.wps-col-share,
+    > tbody > tr > td.wps-col-num,
+    > tbody > tr > td.wps-col-share {
+      min-width: 0 !important;
+    }
+  }
+}
+
+// Top Source Categories widget: the top domain goes first when the widget is narrow.
+@container wps-widget (max-width: 520px) {
+  #wp-statistics-source-categories-widget table.o-table tr > :nth-child(2) {
+    display: none;
+  }
+}
+
+// Traffic Summary (Timeframe / Visitors / Views with change chips), on the Overview, the
+// WP Dashboard and every page that loads the traffic-summary component. Each number keeps
+// its change chip on the same line ("174 ▲67.3%"): in a narrow card the Visitors and Views
+// columns share the free width, the timeframe label may take two lines, and the chip gets
+// a tighter pill. Only under ~300px does the chip text go (the arrow and color stay, the
+// full value moves to the chip's tooltip, see meta-box.js / traffic-summary.php).
+#wpbody table.o-table--wps-summary-stats,
+#wpbody .wps-meta-traffic-summary table.o-table {
+  > tbody > tr > td > div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  > tbody > tr > td:last-child > div {
+    justify-content: flex-end;
+  }
+
+  .quickstats-values {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .diffs__change {
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
+  }
+}
+
+@container wps-table (max-width: 460px) {
+  #wpbody table.o-table--wps-summary-stats,
+  #wpbody .wps-meta-traffic-summary table.o-table {
+    th:first-child,
+    td:first-child {
+      width: auto;
+      white-space: normal !important;
+    }
+
+    > thead > tr > th:not(:first-child),
+    > tbody > tr > td:not(:first-child) {
+      width: 1%; // the number columns size to their content and share the rest
+      white-space: nowrap !important;
+      padding-inline-start: 10px !important;
+    }
+
+    > thead > tr > th:first-child,
+    > tbody > tr > td:first-child {
+      padding-inline-start: 16px !important;
+    }
+
+    > thead > tr > th:last-child,
+    > tbody > tr > td:last-child {
+      padding-inline-end: 16px !important;
+    }
+
+    > tbody > tr > td > div {
+      gap: 4px;
+    }
+
+    .diffs__change .diffs__change__direction {
+      padding: 2px 5px;
+      gap: 2px;
+      font-size: 11px !important;
+      letter-spacing: -.1px;
+    }
+  }
+}
+
+// Last resort (~300px and under): the chip keeps its arrow and color, the percent text
+// goes; the value stays in the chip's title (tooltip) and in the screen-reader text.
+@container wps-table (max-width: 300px) {
+  #wpbody table.o-table--wps-summary-stats,
+  #wpbody .wps-meta-traffic-summary table.o-table {
+    .diffs__change .diffs__change__direction {
+      font-size: 0 !important;
+      padding: 5px;
+      gap: 0;
+      min-height: 14px;
+    }
+  }
+}
+
+
+// Report tables on phones and in half-width cards: the Share column (the value) stays; secondary
+// columns go first. Mark them in the template:
+//  - .wps-col-low: first to go (container under 760px), e.g. Region, Source Name, Publish Date;
+//  - .wps-col-mid: next (under 460px), e.g. the country next to a city;
+//  - a second number column (Views after Visitors) goes under 460px when the table has a Share column.
+// Referrers tables: the source name under the domain, only while the Source Name column is hidden,
+// so two rows with the same domain (Google and Google Ads) never look the same.
+.wps-referrer-source-inline {
+  display: none;
+  color: #56585a;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.wps-referrer-none {
+  color: #56585a;
+  font-style: italic;
+}
+
+@container wps-table (max-width: 760px) {
+  #wpbody table.o-table,
+  #wpbody table.wps-new-table {
+    .wps-col-low {
+      display: none !important;
+    }
+
+    .wps-referrer-source-inline {
+      display: block;
+    }
+  }
+}
+
+@container wps-table (max-width: 460px) {
+  #wpbody table.o-table,
+  #wpbody table.wps-new-table {
+    .wps-col-mid {
+      display: none !important;
+    }
+
+    &:has(> thead .wps-col-share) {
+      > thead > tr > th.wps-col-num ~ th.wps-col-num,
+      > tbody > tr > td.wps-col-num ~ td.wps-col-num {
+        display: none !important;
+      }
+    }
+  }
+}

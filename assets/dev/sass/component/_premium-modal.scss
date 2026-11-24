@@ -8,6 +8,12 @@
   z-index: 100050;
   display: none;
 
+  // The dialog takes focus when it opens (premium-modal.js); it is a container, so no ring on it.
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+
   .wps-modal__content {
     position: absolute;
     top: 50%;
@@ -16,7 +22,7 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 16px 0 #00000026;
-    max-width: 85%;
+    max-width: calc(100% - 32px);
     max-height: 90vh;
     overflow-y: auto;
     box-sizing: border-box;
@@ -102,314 +108,233 @@
     }
   }
 
-  .wps-modal__premium-step {
-    display: none;
-  }
-
+  // ---------------------------------------------------------------------------
+  // Premium popup steps: picture left, headline + benefits + buttons + guarantee right.
+  // PHP: views/components/modals/introduce-premium/{step-details,step-content}.php
+  // JS:  assets/dev/javascript/components/premium-modal.js
+  // ---------------------------------------------------------------------------
   .wps-modal__content--premium-steps {
     display: none;
-    width: 820px;
-    padding: 32px;
-    box-sizing: border-box;
+    width: 880px;
+    padding: 0;
+  }
+}
+
+.wps-premium-popup {
+  position: relative;
+  padding: 24px 28px 28px;
+  color: $wps-text;
+
+  @media (max-width: 600px) {
+    padding: 20px 16px 20px;
   }
 
-  .wps-modal__premium-step--active {
-    display: block; /* Show the active step */
-  }
+  &__close {
+    position: absolute;
+    top: 14px;
+    inset-inline-end: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: $wps-flat-bg;
+    color: $wps-text-muted;
+    cursor: pointer;
 
-  .wps-premium-step {
-    position: relative;
-    &__header {
-      position: relative;
-      margin-bottom: 8px;
-
-      span.wps-premium-step__skip {
-        width: 30px;
-        height: 30px;
-        display: inline-block;
-        position: absolute;
-        cursor: pointer;
-        right: -15px;
-        top: -15px;
-        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMSAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgb3BhY2l0eT0iMC44Ij4KPHBhdGggZD0iTTE0LjY1NTIgMTVMMTAgMTAuMzQ0OEwxMC44NDQ4IDkuNUwxNS41IDE0LjE1NTJMMjAuMTU1MiA5LjVMMjEgMTAuMzQ0OEwxNi4zNDQ4IDE1TDIxIDE5LjY1NTFMMjAuMTU1MiAyMC41TDE1LjUgMTUuODQ0OEwxMC44NDQ4IDIwLjVMMTAgMTkuNjU1MUwxNC42NTUyIDE1WiIgZmlsbD0iIzU2NTg1QSIvPgo8L2c+Cjwvc3ZnPgo=") center center no-repeat;
-
-        .rtl & {
-          right: unset;
-          left: -15px;
-        }
-
-        &:hover {
-          filter: contrast(2.5);
-        }
-      }
-
-      span:nth-child(2) {
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 14.06px;
-        color: #404BF2;
-        text-transform: uppercase;
-      }
-
-      p {
-        padding: 0;
-        font-size: 21px;
-        font-weight: 500;
-        color: #0C0C0D;
-        margin: 8px 0 0;
-      }
+    &:hover {
+      background: $wps-card-rule;
+      color: $wps-text-strong;
     }
 
-    .wps-premium-step__title{
-      font-weight: 500;
-      font-size: 21px;
-      color: #0c0c0d;
-      margin-bottom: 24px;
-      margin-top: 8px;
-      line-height: 100%;
-    }
-
-    &__body {
-      display: flex;
-      gap: 25px;
-      flex-direction: row;
-
-      @media(max-width: 768px){
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .js-wps-premium-step__title{
-        display: none;
-      }
-
-      .wps-premium-step__content {
-        @media(min-width: 769px){
-          width: calc(100% - 266px);
-        }
-
-        p {
-          font-size: 14px;
-          font-weight: 400;
-          color: #292D32;
-          padding: 0;
-          margin: 0;
-          min-height: 63px;
-        }
-
-        a {
-          font-weight: 400;
-          text-decoration: underline;
-        }
-      }
-
-      .wps-premium-step__image {
-        max-width: 100%;
-        margin-top: 25px;
-        height: auto;
-      }
-    }
-
-    &__sidebar {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-width: 202px;
-
-      p {
-        margin: 0 0 16px;
-        font-size: 13px;
-        font-weight: 500;
-        color: #0C0C0D;
-      }
-
-      .wps-premium-step__features-list {
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 0;
-        align-items: self-start;
-
-        li {
-          margin-bottom: 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: #56585A;
-          list-style: disc;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 8px;
-
-
-          &:before{
-            content: '';
-            display: inline-block;
-            width: 19px;
-            height: 19px;
-            min-width: 19px;
-            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMiIgZmlsbD0iI0RBRENFMCIvPgo8L3N2Zz4K") center center no-repeat;
-          }
-
-          &.active {
-            font-weight: 600;
-            color: #404BF2;
-            &:before {
-              background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMiIgZmlsbD0iIzQwNEJGMiIvPgo8L3N2Zz4K") center center no-repeat;
-            }
-          }
-
-          &.activated:before{
-            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNC44MzQyIDQuNzVMOC4xNTY1MiAxMS40Mjc3TDQuNzAwMTQgNy45NzEyOUwzLjU2MjUgOS4xMDg5M0w4LjE1NjUyIDEzLjcwMzdMMTUuOTcyNiA1Ljg4ODQ0TDE0LjgzNDIgNC43NVoiIGZpbGw9IiMxOTYxNDAiLz4KPC9zdmc+Cg==") center center no-repeat;
-          }
-
-          &.no-license:before{
-            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjE4NDkgMi4zNzY0NEwxNy43MjY2IDE1LjQzOUMxNy45NDUyIDE1LjgxNzYgMTcuODE1NSAxNi4zMDE4IDE3LjQzNjggMTYuNTIwNEMxNy4zMTY1IDE2LjU4OTkgMTcuMTc5OSAxNi42MjY1IDE3LjA0MSAxNi42MjY1SDEuOTU3NjhDMS41MjA0NiAxNi42MjY1IDEuMTY2MDIgMTYuMjcyIDEuMTY2MDIgMTUuODM0OEMxLjE2NjAyIDE1LjY5NTggMS4yMDI2IDE1LjU1OTMgMS4yNzIwOCAxNS40MzlMOC44MTM3MyAyLjM3NjQ0QzkuMDMyMzEgMS45OTc3OCA5LjUxNjQ5IDEuODY4MDUgOS44OTUxNSAyLjA4NjY2QzEwLjAxNTUgMi4xNTYxNSAxMC4xMTU1IDIuMjU2MDkgMTAuMTg0OSAyLjM3NjQ0Wk0zLjMyODg5IDE1LjA0MzFIMTUuNjY5N0w5LjQ5OTMxIDQuMzU1NkwzLjMyODg5IDE1LjA0MzFaTTguNzA3NjUgMTIuNjY4MUgxMC4yOTFWMTQuMjUxNUg4LjcwNzY1VjEyLjY2ODFaTTguNzA3NjUgNy4xMjY0NEgxMC4yOTFWMTEuMDg0OEg4LjcwNzY1VjcuMTI2NDRaIiBmaWxsPSIjRkZBNTAwIi8+Cjwvc3ZnPgo=") center center no-repeat;
-          }
-
-          &.not-active:before{
-            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNC44MzQyIDQuNzVMOC4xNTY1MiAxMS40Mjc3TDQuNzAwMTQgNy45NzEyOUwzLjU2MjUgOS4xMDg5M0w4LjE1NjUyIDEzLjcwMzdMMTUuOTcyNiA1Ljg4ODQ0TDE0LjgzNDIgNC43NVoiIGZpbGw9IiNBOUFBQUUiLz4KPC9zdmc+Cg==") center center no-repeat;
-          }
-
-          .wps-premium-step__feature-badge{
-            color: #56585A;
-            background: #EEEFF1;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 400;
-            cursor: default;
-          }
-
-        }
-      }
-
-      .wps-premium-step__actions {
-        width: 100%;
-        text-align: center;
-        margin-top: 30px;
-
-
-        .js-wps-premium-steps__side-buttons{
-          .wps-premium-step__action-container{
-            display: none;
-            &.active{
-              display: block;
-            }
-          }
-          .wps-premium-step__action-btn--upgrade--active{
-            display: flex;
-          }
-        }
-
-        .wps-premium-step__action-btn {
-          padding: 8px 28px;
-          border-radius: 4px;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          text-align: center;
-          display: block;
-          box-sizing: border-box;
-          width: 100%;
-          white-space: nowrap;
-
-
-          &--upgrade , &--addons{
-            background: #404BF2;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-
-            &.activated{
-              border: 1px solid #196140;
-              background: #FFFFFF;
-              color: #196140;
-              pointer-events:none;
-              white-space: nowrap;
-
-              &:after{
-                display: none!important;
-              }
-            }
-
-            &:after {
-              content: '';
-              width: 16px;
-              height: 16px;
-              background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMTcgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjI4MTMgOC4wMDA0N0w1Ljk4MTQ1IDQuNzAwNjJMNi45MjQyNiAzLjc1NzgxTDExLjE2NjkgOC4wMDA0N0w2LjkyNDI2IDEyLjI0MzFMNS45ODE0NSAxMS4zMDAzTDkuMjgxMyA4LjAwMDQ3WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
-              display: inline-block;
-
-              .rtl &{
-                transform: rotate(180deg);
-              }
-            }
-
-            &:hover {
-              background: #1f269c;
-            }
-
-          }
-
-          &--later {
-            color: #565759;
-            margin: 8px auto 0;
-            border: 1px solid #EEEFF1;
-
-            &:hover {
-              color: #1b1c1c;
-              background: #eeeff199;
-            }
-          }
-        }
-      }
-    }
-
-    &__notice{
-      padding: 8px 12px;
-      gap: 7px;
-      border-radius: 8px;
-      display: flex;
-      margin-top: 24px;
-      color: #196140;
-      background: #F6FAF6;
-      font-size: 14px;
-      font-weight: 400;
-
-      &:before{
-        content: '';;
-        width: 11.7px;
-        min-width: 11.7px;
-        display: inline-block;
-        height: 16.7px;
-        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTciIHZpZXdCb3g9IjAgMCAxMiAxNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE4Nzg4XzExMTg3NikiPgo8cGF0aCBkPSJNNS44NSAxNi43QzIuNjE5MTMgMTYuNyAwIDE0LjA4MDggMCAxMC44NUMwIDcuNjE5MTMgMi42MTkxMyA1IDUuODUgNUM5LjA4MDg0IDUgMTEuNyA3LjYxOTEzIDExLjcgMTAuODVDMTEuNyAxNC4wODA4IDkuMDgwODQgMTYuNyA1Ljg1IDE2LjdaTTUuMjY2NTIgMTMuMTlMOS40MDMxMSA5LjA1MzQyTDguNTc1ODEgOC4yMjYxMUw1LjI2NjUyIDExLjUzNTRMMy42MTE5MSA5Ljg4MDcxTDIuNzg0NTkgMTAuNzA4MUw1LjI2NjUyIDEzLjE5WiIgZmlsbD0iIzQ4OUU0RSIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzE4Nzg4XzExMTg3NiI+CjxyZWN0IHdpZHRoPSIxMS43IiBoZWlnaHQ9IjE2LjciIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==") center bottom no-repeat;
-      }
-
-      &--warning{
-        background: #FEF9F5;
-        color: #E68C3F;
-
-        &:before{
-          width: 13.31px;
-          min-width: 13.31px;
-          background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTciIHZpZXdCb3g9IjAgMCAxNCAxNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE4NTAzXzIyOTY5MikiPgo8cGF0aCBkPSJNNy4yMDQ3NiA1LjMxNjMyTDEzLjIyOTQgMTUuNzUxNEMxMy40MDQxIDE2LjA1MzkgMTMuMzAwNSAxNi40NDA2IDEyLjk5OCAxNi42MTUzQzEyLjkwMTggMTYuNjcwOCAxMi43OTI3IDE2LjcgMTIuNjgxOCAxNi43SDAuNjMyNDI2QzAuMjgzMTUgMTYuNyAwIDE2LjQxNjkgMCAxNi4wNjc2QzAgMTUuOTU2NSAwLjAyOTIyNDQgMTUuODQ3NSAwLjA4NDczMjQgMTUuNzUxNEw2LjEwOTQgNS4zMTYzMkM2LjI4NDAxIDUuMDEzODMgNi42NzA4MSA0LjkxMDIgNi45NzMyOSA1LjA4NDgzQzcuMDY5NDIgNS4xNDAzNCA3LjE0OTMgNS4yMjAxOCA3LjIwNDc2IDUuMzE2MzJaTTYuMDI0NjYgMTMuNTM3OVYxNC44MDI3SDcuMjg5NTFWMTMuNTM3OUg2LjAyNDY2Wk02LjAyNDY2IDkuMTEwODdWMTIuMjczSDcuMjg5NTFWOS4xMTA4N0g2LjAyNDY2WiIgZmlsbD0iI0U2OEMzRiIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzE4NTAzXzIyOTY5MiI+CjxyZWN0IHdpZHRoPSIxMy4zMTQzIiBoZWlnaHQ9IjE2LjciIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==") center bottom no-repeat ;
-        }
-      }
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
     }
   }
 
+  &__eyebrow {
+    margin: 0 0 12px;
+    padding-inline-end: 40px;
+    color: $wps-text-muted;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: .02em;
+  }
 
-  @keyframes wpsFadeIn {
-    from {
+  &__step {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+    margin-top: 20px;
+
+    &[hidden] {
       display: none;
     }
-    to {
-      display: flex;
+
+    @media (max-width: 720px) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
     }
   }
 
+  &__media {
+    min-width: 0;
+    border: 1px solid $wps-card-border;
+    border-radius: 8px;
+    background: #F7F8FB;
+    overflow: hidden;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1588 / 909;
+    object-fit: contain;
+  }
+
+  &__body {
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 14px;
+    padding: 0;
+    color: $wps-text-strong;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+
+  &__notice {
+    margin: 0 0 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: $wps-good-bg;
+    color: $wps-good;
+    font-size: 13px;
+    line-height: 20px;
+
+    &--warning {
+      background: #FEF6EE;
+      color: #8A4B12;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 0;
+    color: $wps-good;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Switcher (views/components/modals/introduce-premium/switcher.php).
+// Tile grid: 4 equal tiles per row, line icon + full name, 2 per row when the popup is narrow.
+// ---------------------------------------------------------------------------
+.wps-premium-popup {
+  container: wps-premium-popup / inline-size;
+}
+
+.wps-premium-switcher {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid #E4E5EE;
+    border-radius: 8px;
+    background: #fff;
+    color: #50546B;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: start;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #C9CCDC;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+    }
+
+    &.is-active,
+    &[aria-selected="true"] {
+      border-color: $wps-brand;
+      background: #EEF0FF;
+      color: $wps-brand;
+      font-weight: 600;
+    }
+  }
+
+  &__icon {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: #80849A;
+  }
+
+  &__item.is-active &__icon,
+  &__item[aria-selected="true"] &__icon {
+    color: $wps-brand;
+  }
+
+  // Names wrap, never cut off.
+  &__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    overflow-wrap: anywhere;
+  }
+
+  &__badge {
+    color: $wps-text-muted;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 15px;
+  }
+
+  &__item--active &__badge {
+    color: $wps-good;
+  }
+}
+
+@container wps-premium-popup (max-width: 620px) {
+  .wps-premium-switcher {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wps-premium-switcher__item {
+    gap: 6px;
+    padding: 7px 8px;
+    font-size: 12.5px;
+  }
 }

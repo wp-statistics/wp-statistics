@@ -45,15 +45,27 @@ class Activator extends AbstractCore
             $blogIds = $this->wpdb->get_col("SELECT `blog_id` FROM {$this->wpdb->blogs}");
             foreach ($blogIds as $blogId) {
                 switch_to_blog($blogId);
-                $this->checkIsFresh();
-                TableHandler::createAllTables();
+                $this->setupCurrentSite();
                 restore_current_blog();
             }
         } else {
-            $this->checkIsFresh();
-            TableHandler::createAllTables();
+            $this->setupCurrentSite();
         }
+    }
 
+    /**
+     * Runs every install step for the current site: fresh-install check, tables,
+     * background-process flags, default options, stored version and schema repair.
+     *
+     * On a network activation this runs once per site (inside switch_to_blog()), so
+     * every sub-site gets its own options and version and shows no migration notice.
+     *
+     * @return void
+     */
+    private function setupCurrentSite()
+    {
+        $this->checkIsFresh();
+        TableHandler::createAllTables();
         BackgroundProcessFactory::markBackgroundProcessesAsInitiated();
         $this->createOptions();
         $this->initializeVersion();

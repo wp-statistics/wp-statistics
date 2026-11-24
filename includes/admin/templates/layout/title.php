@@ -6,10 +6,15 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\PageHeader\PageHeader;
 
 View::load('components/objects/share-anonymous-notice');
 
-if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
+// Single reports (anything with a back link, plus the known single screens) get the shared header:
+// breadcrumb, short title, facts line. Pages without one keep the old title markup below.
+$wpsPageHeader = PageHeader::resolve(isset($args) && is_array($args) ? $args : []);
+
+if (!$wpsPageHeader && isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
     if (empty($forceBackUrl)) { // if back url is not forced, get it from server
         $backUrl = esc_url_raw($_SERVER['HTTP_REFERER']);
     }
@@ -17,7 +22,10 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
     $backTitle = esc_html__('Back to Previous Page', 'wp-statistics');
 }
 ?>
-<div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?>">
+<div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?><?php echo $wpsPageHeader ? ' wps-wrap__top--single' : ''; ?>">
+    <?php if ($wpsPageHeader): ?>
+        <?php View::load('components/objects/page-header', ['header' => $wpsPageHeader]); ?>
+    <?php else: ?>
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>"  aria-label="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
@@ -56,6 +64,7 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
         View::load("components/headers/tracker");
     }
     ?>
+    <?php endif; // $wpsPageHeader ?>
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
 
@@ -68,23 +77,19 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
             <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
-        <?php else: ?>
-            <button class="wps-realtime-btn disabled wps-tooltip-premium">
-                <?php esc_html_e('Realtime', 'wp-statistics'); ?>
-                <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
-                    <span id="tooltip_realtime">
-                        <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                        <span>
-                            <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                        </span>
-                    </span>
-                </span>
-            </button>
+        <?php elseif (!\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()): // white label: no upsell button ?>
+            <?php
+            View::load('components/objects/premium-locked-button', [
+                'label' => __('Realtime', 'wp-statistics'),
+                'addon' => 'wp-statistics-realtime-stats',
+                'class' => 'wps-realtime-btn',
+            ]);
+            ?>
         <?php endif ?>
     <?php endif; ?>
 
     <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter) || isset($export)): ?>
-        <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
+        <div class="<?php echo $wpsPageHeader ? 'wps-head-filters wps-head-filters--single' : ((Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters') ?>">
 
             <?php
                 if (!empty($export) && is_array($export)) {

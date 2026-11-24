@@ -123,7 +123,7 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr class="wps-settings-box_head">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Pick the method your server uses to pass on the visitor\'s real IP.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></h3></th>
         </tr>
 
         <tr data-id="detection_method_tr">

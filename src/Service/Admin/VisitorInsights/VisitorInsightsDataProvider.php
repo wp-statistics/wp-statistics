@@ -10,10 +10,17 @@ use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Models\EventsModel;
+use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class VisitorInsightsDataProvider
 {
+    /**
+     * Most other visits (same IP or user) read for the single visitor page.
+     */
+    const OTHER_VISITS_LIMIT = 50;
+
     protected $args;
     protected $visitorsModel;
     protected $onlineModel;
@@ -141,7 +148,7 @@ class VisitorInsightsDataProvider
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
                 'user_info' => true,
-                'order_by'  => 'visitor.ID',
+                'order_by'  => VisitorsModel::LATEST_ORDER_BY,
                 'order'     => 'DESC',
                 'page'      => Admin_Template::getCurrentPaged(),
                 'per_page'  => Admin_Template::$item_per_page,
@@ -188,7 +195,19 @@ class VisitorInsightsDataProvider
 
     public function getVisitorData()
     {
-        $visitor  = $this->visitorsModel->getVisitorData($this->args);
+        $visitor = $this->visitorsModel->getVisitorData($this->args);
+
+        // The visitor may have been purged or never existed
+        if (empty($visitor)) {
+            return [
+                'visitor'  => null,
+                'journey'  => [],
+                'sessions' => [],
+                'visits'   => [],
+                'summary'  => VisitorJourney::summarize([])
+            ];
+        }
+
         $journey  = $this->visitorsModel->getVisitorJourney($this->args);
         $sessions = [];
 
@@ -196,24 +215,94 @@ class VisitorInsightsDataProvider
             $args = [
                 'ignore_date' => true,
                 'exclude_ids' => [$visitor->getId()],
+                // Newest visits first (day, then last view), so the 50-row limit keeps the latest ones.
+                'order_by'    => VisitorsModel::LATEST_ORDER_BY,
+                'order'       => 'DESC',
                 'page'        => 1,
-                'per_page'    => 50
+                'per_page'    => self::OTHER_VISITS_LIMIT
             ];
 
-            if (!empty($visitor->getUser())) {
+            // Link visits by user only while user tracking is on, like the profile card shows it.
+            if (!empty($visitor->getVisibleUser())) {
                 $args['user_id'] = $visitor->getUserId();
             } else {
-                $args['ip'] = $visitor->getIP();
+                $args['ip']       = $visitor->getIP();
+                $args['exact_ip'] = true;
             }
 
             $sessions = $this->visitorsModel->getVisitorsData($args);
         }
 
+        $visitors = array_merge([$visitor], is_array($sessions) ? $sessions : []);
+
         return [
-            'visitor'  => $visitor,
-            'journey'  => $journey,
-            'sessions' => $sessions
+            'visitor'        => $visitor,
+            'journey'        => $journey,
+            'sessions'       => $sessions,
+            // Every visit (this one + other visits from the same IP or user), newest first, with pages and events.
+            'visits'         => $this->getVisitorVisits($visitors, $visitor->getId()),
+            'summary'        => VisitorJourney::summarize($visitors),
+            'sessions_limit' => self::OTHER_VISITS_LIMIT,
         ];
+    }
+
+    /**
+     * Visits with their steps for the single visitor journey.
+     *
+     * @param \WP_Statistics\Decorators\VisitorDecorator[] $visitors
+     * @param int $currentId
+     * @return array
+     */
+    public function getVisitorVisits($visitors, $currentId)
+    {
+        $ids = array_map(function ($visitor) {
+            return (int)$visitor->getId();
+        }, $visitors);
+
+        $views  = $this->visitorsModel->getVisitorsJourneys(['visitor_ids' => $ids]);
+        $events = $this->getVisitorEvents($ids);
+        $pages  = [];
+
+        $resolver = function ($pageId) use (&$pages) {
+            if (!isset($pages[$pageId])) {
+                $pages[$pageId] = Visitor::get_page_by_id($pageId);
+            }
+
+            return $pages[$pageId];
+        };
+
+        return VisitorJourney::buildVisits($visitors, $views, $events, $currentId, $resolver);
+    }
+
+    /**
+     * Link clicks and downloads of the given visits. Events are tracked by Data Plus, so they are only read while
+     * it is active. Data Plus (or anything else) can supply them through `wp_statistics_visitor_journey_events`.
+     *
+     * @param int[] $visitorIds
+     * @return array Normalized events ({@see VisitorJourney::normalizeEvent()}).
+     */
+    public function getVisitorEvents($visitorIds)
+    {
+        /**
+         * Events shown in the single visitor journey.
+         *
+         * Return an array of rows (visitor_id, date, event_name, event_data) or of already normalized steps
+         * (visitor_id, date, event_name, label, target) to replace the default query; null keeps it.
+         *
+         * @param array|null $events
+         * @param int[] $visitorIds
+         */
+        $events = apply_filters('wp_statistics_visitor_journey_events', null, $visitorIds);
+
+        if ($events === null) {
+            $events = [];
+
+            if (!empty($visitorIds) && Helper::isAddOnActive('data-plus')) {
+                $events = (new EventsModel())->getVisitorEvents(['visitor_ids' => $visitorIds]);
+            }
+        }
+
+        return array_values(array_filter(array_map([VisitorJourney::class, 'normalizeEvent'], (array)$events)));
     }
 
     public function getLoggedInUsersData()
@@ -221,7 +310,7 @@ class VisitorInsightsDataProvider
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
                 'logged_in' => true,
-                'order_by'  => 'visitor.ID',
+                'order_by'  => VisitorsModel::LATEST_ORDER_BY,
                 'order'     => 'DESC',
                 'page'      => Admin_Template::getCurrentPaged(),
                 'per_page'  => Admin_Template::$item_per_page,

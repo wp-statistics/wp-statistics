@@ -9,6 +9,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
 
 class AuthorsView extends BaseView
@@ -30,6 +31,16 @@ class AuthorsView extends BaseView
             'page'      => Admin_Template::getCurrentPaged()
         ];
 
+        // Only allow the sortable columns of the report
+        $sortable = ['name', 'total_views', 'total_posts', 'total_comments', 'average_comments', 'average_views'];
+        if (WordCountService::isActive()) {
+            $sortable = array_merge($sortable, ['total_words', 'average_words']);
+        }
+
+        if (!in_array($orderBy, $sortable, true)) {
+            $orderBy = '';
+        }
+
         if ($orderBy) {
             $args['order_by'] = $orderBy;
             $args['order']    = $order;
@@ -42,14 +53,16 @@ class AuthorsView extends BaseView
     public function renderLocked()
     {
         $args = [
-            'page_title'        => esc_html__('Uncover Author Performance at a Glance', 'wp-statistics'),
+            'page_title' => __('See how each author performs', 'wp-statistics'),
+            'benefits'   => [
+                __('Views and posts for every author', 'wp-statistics'),
+                __('Each author\'s top posts', 'wp-statistics'),
+                __('Engagement trends over time', 'wp-statistics'),
+            ],
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
             'campaign'          => 'data-plus',
-            'more_title'        => esc_html__('Learn More', 'wp-statistics'),
-            'premium_btn_title' => esc_html__('Discover Author Insights with Premium', 'wp-statistics'),
             'images'            => ['data-plus-single-author.png'],
-            'description'       => esc_html__('Track your authors\' impact, top posts, and engagement trends in one place. With Author Analytics, you get the insights needed to boost your content strategy.', 'wp-statistics'),
         ];
         Admin_Template::get_template(['layout/header']);
         View::load("pages/lock-page", $args);

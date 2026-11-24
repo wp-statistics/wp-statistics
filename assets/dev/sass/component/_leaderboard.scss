@@ -1,0 +1,542 @@
+// ---------------------------------------------------------------------------
+// S4-B Leaderboard table (Top Authors, Top Categories) and the compact
+// "Rank by" content list (Top Contents).
+// PHP: views/components/leaderboard.php, views/components/content-rank-list.php
+// JS:  assets/dev/javascript/components/leaderboard.js (sorting, Rank by menu)
+// Logical properties only (start/end), so RTL mirrors without extra rules.
+// ---------------------------------------------------------------------------
+
+$wps-lb-min-width: 520px;
+
+#wpbody .wps-leaderboard {
+  margin-top: $wps-card-gap;
+
+  // The table fits its card (the name column shrinks with an ellipsis); only a wide table in a phone-sized
+  // card scrolls inside it. Screen-reader-only texts (1px, absolute) are pinned to the start corner, so they
+  // never stick out 1px past the end edge and add a scrollbar at normal widths.
+  &__scroll {
+    position: relative; // keeps the screen-reader-only caption inside (no phantom RTL scroll)
+    overflow-x: auto;
+
+    .screen-reader-text {
+      top: 0 !important;
+      inset-inline-start: 0 !important;
+    }
+
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+
+  &__table {
+    width: 100%;
+    min-width: $wps-lb-min-width;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text;
+
+    caption {
+      text-align: start;
+    }
+
+    thead th {
+      padding: 0 10px 8px;
+      border: 0;
+      border-bottom: 1px solid $wps-card-rule;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      color: $wps-text-muted;
+      text-align: start;
+      vertical-align: bottom;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      background: transparent;
+    }
+
+    tbody th,
+    tbody td {
+      padding: 9px 10px;
+      border: 0;
+      border-bottom: 1px solid $wps-card-rule;
+      background: transparent;
+      box-shadow: none;
+      color: $wps-text;
+      font-size: 13px;
+      line-height: 18px;
+      vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    tbody tr:last-child th,
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-inline-start: 0;
+    }
+
+    th:last-child,
+    td:last-child {
+      padding-inline-end: 0;
+    }
+  }
+
+  &__rank {
+    width: 22px;
+    color: $wps-text-subtle;
+    text-align: start;
+  }
+
+  // The name cell takes the free width and cuts with an ellipsis.
+  tbody th.wps-leaderboard__name {
+    color: $wps-text-strong;
+    width: 100%;
+    max-width: 0;
+    min-width: 140px;
+    font-weight: 400;
+    text-align: start;
+  }
+
+  &__num {
+    text-align: end !important;
+  }
+
+  // Five-column tables (no Published/Comments) fit narrower cards before scrolling.
+  &__table--compact {
+    min-width: 360px;
+  }
+
+  &__who {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__link,
+  &__text {
+    min-width: 0;
+    overflow: hidden;
+    color: $wps-text-strong !important;
+    font-weight: 500;
+    text-decoration: none;
+
+    .wps-ellipsis-text {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__link {
+    &:hover,
+    &:focus-visible {
+      color: $wps-brand !important;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 1px;
+      border-radius: 2px;
+    }
+  }
+
+  // Initial on a colour circle; the avatar image (when it loads) covers it.
+  &__avatar {
+    position: relative;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__tag {
+    flex: none;
+    max-width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: #EEEFF1;
+    color: $wps-text-muted;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 14px;
+
+    &--slug {
+      font-weight: 400;
+      font-family: Menlo, Consolas, monospace;
+    }
+  }
+
+  &__parent {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $wps-text-subtle;
+  }
+
+  // Sort buttons look like the header text; the sorted one is darker with an arrow.
+  &__sort {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 2px;
+    max-width: 100%;
+    cursor: pointer;
+    text-align: end;
+    color: inherit;
+    font: inherit;
+    border-radius: 3px;
+
+    &:hover {
+      color: $wps-text-strong;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+    }
+  }
+
+  // Header labels stay on one line ("Posts", "Per post"; the full meaning is in the tooltip).
+  thead th,
+  &__sort,
+  &__label {
+    white-space: nowrap !important;
+  }
+
+  abbr.wps-leaderboard__label {
+    text-decoration: none;
+    border: 0;
+    cursor: inherit;
+  }
+
+  thead th.wps-leaderboard__num,
+  tbody td.wps-leaderboard__num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__arrow {
+    flex: none;
+    width: 10px;
+    height: 14px;
+  }
+
+  th[aria-sort] .wps-leaderboard__sort {
+    color: $wps-text-strong;
+    font-weight: 500;
+  }
+
+  th[aria-sort="descending"] .wps-leaderboard__arrow::before {
+    content: "↓";
+  }
+
+  th[aria-sort="ascending"] .wps-leaderboard__arrow::before {
+    content: "↑";
+  }
+
+  &__note {
+    margin: 8px 0 0 !important;
+    font-size: 12px;
+    line-height: 16px;
+    color: $wps-text-muted;
+  }
+
+  > .wps-empty-state {
+    min-height: 120px;
+  }
+
+  container: wps-leaderboard / inline-size;
+}
+
+@container wps-leaderboard (max-width: 700px) {
+  // Numbers take only their own width, the name column gets the rest.
+  #wpbody .wps-leaderboard thead th.wps-leaderboard__num {
+    white-space: nowrap;
+    width: 1%;
+  }
+
+  #wpbody .wps-leaderboard__table {
+    thead th,
+    tbody th,
+    tbody td {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+
+  #wpbody .wps-leaderboard__label {
+    display: block;
+  }
+}
+
+// Sidebar cards (~360px): the five-column table fits without scrolling; the wider
+// six/seven-column tables keep their 520px minimum and scroll inside the card.
+@container wps-leaderboard (max-width: 440px) {
+  #wpbody .wps-leaderboard__table--compact {
+    min-width: 0;
+
+    thead th,
+    tbody th,
+    tbody td {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+
+    thead th.wps-leaderboard__num {
+      min-width: 0;
+    }
+
+    tbody th.wps-leaderboard__name {
+      min-width: 96px;
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-inline-start: 0;
+    }
+
+    th:last-child,
+    td:last-child {
+      padding-inline-end: 0;
+    }
+  }
+}
+
+// Empty state + note without the table wrapper
+.wps-leaderboard-card > .wps-leaderboard__note {
+  margin: 8px 0 0 !important;
+  font-size: 12px;
+  color: $wps-text-muted;
+}
+
+.wps-leaderboard-card > .wps-empty-state {
+  margin-top: $wps-card-gap;
+}
+
+// Content Analytics: one leaderboard per taxonomy, tabs on top. The tabs come from the
+// old two-column layout; here they sit flush with the card edge.
+.wps-leaderboard-tabs.wps-tabs {
+  margin-top: 8px;
+
+  > label {
+    padding-inline: 0 !important;
+    margin-inline-end: 16px;
+  }
+
+  .wps-tabs__content {
+    padding-top: 0;
+
+    > .wps-card__footer {
+      margin-top: $wps-card-gap;
+    }
+  }
+
+  // A single taxonomy needs no tab.
+  &.wps-leaderboard-tabs--single > label {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Rank by menu + compact list
+// ---------------------------------------------------------------------------
+.wps-card-header__tools > .wps-rank-by {
+  width: auto;
+  height: auto;
+}
+
+.wps-rank-by {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: $wps-text-muted !important;
+  white-space: nowrap;
+
+  // .wps-wrap select sets 12px padding with !important; match its specificity.
+  .wps-wrap & &__select,
+  &__select {
+    height: 28px !important;
+    min-height: 28px !important;
+    padding: 0 24px 0 8px !important;
+    font-size: 12px !important;
+    line-height: 26px !important;
+    border-color: #8C8F94 !important;
+    border-radius: 4px;
+    color: $wps-text-strong !important;
+  }
+
+  .rtl .wps-wrap & &__select {
+    padding: 0 8px 0 24px !important;
+  }
+}
+
+.wps-rank-card .wps-card-header {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.wps-rank-list {
+  margin-top: $wps-card-gap;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid $wps-card-rule;
+    font-size: 13px;
+    line-height: 18px;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &__rank {
+    flex: none;
+    width: 16px;
+    color: $wps-text-subtle;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Featured image (WordPress's own 150px "thumbnail" size, shown at 40px) or the
+  // colour tile with initials when the post has none. Same size and corners for both.
+  &__thumb {
+    flex: none;
+    box-sizing: border-box;
+    width: 40px !important;
+    height: 40px !important;
+    max-width: none;
+    margin: 0;
+    border-radius: 6px;
+    object-fit: cover;
+    background: #F1F2F3;
+
+    &--tile {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      line-height: 1;
+    }
+  }
+
+  // Title cuts with an ellipsis; the ↗ icon stays right after the visible text.
+  &__title.wps-title-cell {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+
+    > a:not(.wps-new-tab-link) {
+      min-width: 0;
+      overflow: hidden;
+      color: $wps-text-strong;
+      font-weight: 500;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: $wps-brand;
+        text-decoration: underline;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      .wps-ellipsis-text {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  &__metric {
+    flex: none;
+    margin-inline-start: auto;
+    color: $wps-text-muted;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  > .wps-empty-state {
+    min-height: 120px;
+  }
+}
+
+// Phones: the date in the Newest list drops under nothing else; keep the number readable.
+@media (max-width: 480px) {
+  .wps-rank-list__metric {
+    max-width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

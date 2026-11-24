@@ -18,7 +18,7 @@ class DeviceUsageBreakdown extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('Distribution of visitors based on the devices they use to access your site.', 'wp-statistics');
+        return esc_html__('Visitors by device type.', 'wp-statistics');
     }
 
     public function getOptions()

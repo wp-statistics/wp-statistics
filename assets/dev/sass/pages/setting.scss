@@ -722,6 +722,16 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 
+    // Long translations wrap inside the button instead of pushing the page sideways.
+    > a {
+      white-space: normal;
+      max-width: 100%;
+      min-width: 0;
+      height: auto;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
     a.button-primary {
       background-image: none;
       padding: 8px 16px;
@@ -1066,7 +1076,7 @@
       font-size: 12px;
       line-height: 18px;
       color: #4C4B5F;
-      width: 510px;
+      width: 100%; max-width: 510px; // up to 510px, never wider than the card
       max-width: 100%;
     }
     &__title{
@@ -2095,13 +2105,20 @@
 
         textarea {
           height: 121px;
-          width: 510px;
+          width: 100%; max-width: 510px; // up to 510px, never wider than the card
           max-width: 100% !important;
         }
 
         .select2-container {
           max-width: 100%;
           width: 100%;
+
+          // Multi-select: one brand ring on the whole box while focused or open.
+          &.select2-container--focus .select2-selection--multiple,
+          &.select2-container--open .select2-selection--multiple {
+            border-color: $wps-brand !important;
+            box-shadow: 0 0 0 1px $wps-brand;
+          }
 
           &.select2-container--disabled {
             .select2-selection {
@@ -2129,16 +2146,85 @@
 
             &--multiple {
               height: unset;
+              min-height: 40px;
               display: flex;
               align-items: center;
               flex-wrap: wrap;
+              gap: 4px;
+              padding: 5px 8px !important;
+              cursor: text;
 
+              .rtl & {
+                padding: 5px 8px !important;
+              }
+
+              .select2-selection__rendered {
+                display: contents;
+              }
+
+              // Chips: soft brand tint, the remove "x" sits inside on the start side.
               .select2-selection__choice {
-                background-color: #E9E9FF;
-                border-color: #BCC2CD;
+                background-color: $wps-brand-tint;
+                border: 1px solid $wps-brand-soft;
+                border-radius: 4px;
                 color: #0C0C0D;
-                display: flex;
+                display: inline-flex;
                 align-items: center;
+                gap: 2px;
+                height: 24px !important;
+                line-height: 22px !important;
+                margin: 0 !important;
+                padding: 0 8px 0 0 !important;
+                box-sizing: border-box;
+                font-size: 12px;
+
+                .rtl & {
+                  padding: 0 0 0 8px !important;
+                }
+              }
+
+              .select2-selection__choice__display {
+                padding: 0 !important;
+              }
+
+              .select2-selection__choice__remove {
+                position: static !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                height: 22px !important;
+                color: #56585A;
+                font-size: 14px;
+                border: none !important;
+                border-radius: 3px 0 0 3px;
+
+                .rtl & {
+                  border-radius: 0 3px 3px 0;
+                }
+
+                &:hover, &:focus {
+                  color: $wps-brand;
+                }
+              }
+
+              .select2-search--inline {
+                margin: 0 !important;
+                height: 24px !important;
+                line-height: 24px !important;
+                flex: 1 1 24px;
+                display: inline-flex !important;
+                align-items: center;
+              }
+
+              textarea.select2-search__field {
+                height: 22px !important;
+                line-height: 22px !important;
+                margin: 0 !important;
+                min-height: 0 !important;
+                width: 100% !important;
+                resize: none;
+                background: transparent;
               }
             }
 
@@ -2601,11 +2687,6 @@
       line-height: 24px;
       margin-bottom: 0;
 
-      &.select2-results__option[aria-selected=true] {
-        background-color: #ddd;
-        color: #0c0c0d;
-      }
-
       &.select2-results__option[aria-selected=false] {
         color: #56585A
       }
@@ -2614,6 +2695,18 @@
       &.select2-results__option--highlighted {
         background: #eeeff1;
         color: #0c0c0d;
+      }
+
+      // Chosen rows: soft brand tint (was flat grey), a touch darker while hovered.
+      &.select2-results__option[aria-selected=true],
+      &.select2-results__option--selected {
+        background-color: $wps-brand-tint;
+        color: $wps-brand;
+        font-weight: 500;
+
+        &.select2-results__option--highlighted {
+          background-color: #E2E5FD;
+        }
       }
     }
   }
@@ -2697,5 +2790,186 @@
   }
   to {
     background-color: white;
+  }
+}
+// Long words in setting descriptions (German compounds, URLs) wrap instead of widening the page.
+.wps-wrap .form-table p.description,
+.wp-statistics-settings .form-table p.description {
+  overflow-wrap: anywhere;
+}
+
+// Phones (360-600px): settings fields never run past the card. Textareas, inputs, selects and
+// the "restore defaults" rows take the cell width; long links and descriptions wrap.
+@media (max-width: 600px) {
+  .wps-wrap,
+  .wp-statistics-settings {
+    .form-table {
+      td,
+      th {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      textarea,
+      input[type=text]:not(.wps-input-group__field),
+      input[type=url]:not(.wps-input-group__field),
+      input[type=email]:not(.wps-input-group__field),
+      input[type=number]:not(.wps-input-group__field),
+      input[type=password]:not(.wps-input-group__field),
+      select:not(.select2-hidden-accessible):not(.wps-input-group__field),
+      .select2-container,
+      .wps-settings-box_restore,
+      .wps-input-group {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+      }
+
+      // Field + unit ("12 hours"): the field shrinks, the unit stays.
+      .wps-input-group {
+        display: flex;
+      }
+
+      .wps-input-group__field {
+        flex: 1 1 auto;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+
+      input[type=file] {
+        max-width: 100%;
+      }
+
+      a,
+      p.description {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}
+
+// All widths: a field + button group ("Copy" next to the redirect URL) and fixed-width descriptions
+// stay inside the settings card (the card was 3-9px too narrow at 1024).
+.wps-wrap,
+.wp-statistics-settings {
+  .form-table {
+    .wps-input-group {
+      max-width: 100%;
+    }
+
+    .wps-input-group__field {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    p.description,
+    textarea {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+// Email Reports: the report box lines its controls up with the boxes above it (same label padding).
+.wps-wrap #wps_stats_report_option .form-table th,
+.wp-statistics-settings #wps_stats_report_option .form-table th {
+  padding-inline-start: 24px !important;
+  padding-inline-end: 0 !important;
+}
+
+// Image upload field (Customization header logo, Advanced Reporting report logo).
+// Preview in a small bordered box with a round remove button on its top corner,
+// then the URL input and the "Upload File" button as one group. Empty: just the group.
+#wp-statistics-settings-form .form-table td .wps-media-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 100%;
+
+  .wps-media-upload__preview {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 64px;
+    min-height: 64px;
+    padding: 8px 12px;
+    border: 1px solid #DADCE0;
+    border-radius: 4px;
+    background: #FAFAFB;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .wps-media-upload__image {
+    display: block;
+    max-width: min(240px, 100%);
+    max-height: 64px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .wps-media-upload__remove {
+    position: absolute;
+    top: -8px;
+    inset-inline-end: -8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #DADCE0;
+    border-radius: 50%;
+    background: #fff;
+    color: #56585A;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      color: #D54037;
+      border-color: #D54037;
+    }
+  }
+
+  .wps-input-group.wps-media-upload__field {
+    width: 420px;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    &:focus-within {
+      border-color: $wps-brand;
+      box-shadow: 0 0 0 1px $wps-brand;
+    }
+
+    .wps-input-group__field {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+    }
+
+    .wps-input-group__label {
+      flex: 0 0 auto;
+      height: 40px;
+      min-height: 40px;
+      margin: 0;
+      padding: 0 14px;
+      white-space: nowrap;
+      line-height: 38px;
+    }
   }
 }

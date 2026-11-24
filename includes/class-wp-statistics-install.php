@@ -183,13 +183,15 @@ class Install
     /**
      * Remove Table On Delete Blog WordPress
      *
+     * @deprecated 14.17.0 Kept for code that still calls it. The `wpmu_drop_tables` filter is handled by
+     *             \WP_Statistics\Core\Operations\Loader::removeTableOnDeleteBlog().
+     *
      * @param $tables
      * @return array
      */
     public function remove_table_on_delete_blog($tables)
     {
-        $tables[] = array_merge($tables, DB::table('all'));
-        return $tables;
+        return \WP_Statistics\Core\Operations\Loader::addSiteTables($tables);
     }
 
     /**

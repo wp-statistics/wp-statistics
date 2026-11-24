@@ -165,7 +165,7 @@ class PostsManager
     }
 
     /**
-     * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
+     * Returns the data needed for "Statistics Summary" widget/panel in edit posts.
      *
      * @param   \WP_Post    $post
      *
@@ -250,6 +250,7 @@ class PostsManager
         $chartSettings = [
             'color'  => $miniChartHelper->getChartColor(),
             'label'  => $miniChartHelper->getLabel(),
+            'metric' => $miniChartHelper->getChartMetric(),
         ];
 
         // Reset date range because text summary displays info for the past week

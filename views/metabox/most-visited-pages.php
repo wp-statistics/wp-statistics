@@ -2,19 +2,8 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Menus;
 use WP_STATISTICS\Pages;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
-
-$page = Request::get('current_page', [], 'array');
-$page = $page['file'] ?? '';
-
-if (strpos($page, 'overview') !== false) {
-    $viewTitle = esc_html__('View Content', 'wp-statistics');
-} else {
-    $viewTitle = esc_html__('View', 'wp-statistics');
-}
 ?>
 <?php if (!empty($data)) : ?>
     <div class="o-table-wrapper">
@@ -22,10 +11,9 @@ if (strpos($page, 'overview') !== false) {
             <thead>
             <tr>
                 <th scope="col" class="wps-pd-l"><?php esc_html_e('Page', 'wp-statistics'); ?></th>
-                <th scope="col" class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span></th>
-                <th class="wps-pd-l" scope="col">
-                    <span class="screen-reader-text"><?php esc_html_e('View content', 'wp-statistics'); ?></span>
-                </th>
+                <th scope="col" class="wps-pd-l wps-col-num"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
+                <th scope="col" class="wps-pd-l wps-col-num"><span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span></th>
+                <th scope="col" class="wps-pd-l wps-col-share"><?php esc_html_e('Bounce Rate', 'wp-statistics'); ?></th>
             </tr>
             </thead>
 
@@ -37,15 +25,22 @@ if (strpos($page, 'overview') !== false) {
                 ?>
                 <tr>
                     <td class="wps-pd-l">
-                        <a title="<?php echo esc_attr($page['title']) ?>" class="wps-table-ellipsis--name" href="<?php echo esc_url($reportUrl) ?>"><span><?php echo esc_html($page['title']) ?></span></a>
+                        <span class="wps-title-cell">
+                            <a title="<?php echo esc_attr($page['title']) ?>" class="wps-table-ellipsis--name" href="<?php echo esc_url($reportUrl) ?>"><span><?php echo esc_html($page['title']) ?></span></a>
+                            <?php View::load('components/objects/new-tab-link', ['url' => $page['link']]); ?>
+                        </span>
                     </td>
 
-                    <td class="wps-pd-l">
-                        <a href="<?php echo esc_url($reportUrl) ?>" target="_blank"><?php echo esc_html(number_format_i18n($item->views)) ?></a>
-                    </td>
+                    <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($item->visitors ?? 0)) ?></td>
 
-                    <td class="wps-pd-l wps-middle-vertical">
-                        <a target="_blank" class="wps-view-content" href="<?php echo esc_url($page['link']) ?>"><?php echo esc_html($viewTitle); ?></a>
+                    <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($item->views)) ?></td>
+
+                    <td class="wps-pd-l wps-col-share">
+                        <?php if (isset($item->bounce_rate) && $item->bounce_rate !== null) : ?>
+                            <?php View::load('components/objects/percent-bar', ['value' => $item->bounce_rate, 'variant' => 'rate']); ?>
+                        <?php else : ?>
+                            <span class="wps-col-empty" title="<?php esc_attr_e('No visitor landed on this page first', 'wp-statistics'); ?>">-</span>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -53,14 +48,5 @@ if (strpos($page, 'overview') !== false) {
         </table>
     </div>
 <?php else : ?>
-    <?php
-    $title = __('No data found for this date range.', 'wp-statistics');
-    if ($isTodayOrFutureDate) {
-        $title = __('Data coming soon!', 'wp-statistics');
-    }
-    View::load("components/objects/no-data", [
-        'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg',
-        'title' => $title
-    ]);
-    ?>
+    <?php View::load('components/objects/empty-state', ['date' => $args['date'] ?? []]); ?>
 <?php endif; ?>

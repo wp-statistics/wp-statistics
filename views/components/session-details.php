@@ -23,7 +23,7 @@ use WP_Statistics\Components\View;
         <?php endif; ?>
 
         <div>
-            <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
+            <span title="<?php echo esc_attr($visitor->getDisplayLabel()); ?>"><?php echo esc_html(($visitor->isIpVisible() || $visitor->isHashedIP()) ? $visitor->getIP() : __('IP hidden', 'wp-statistics')); ?></span>
         </div>
     </div>
 
@@ -32,7 +32,10 @@ use WP_Statistics\Components\View;
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php if (!empty($visitor->getReferral()->getReferrer())) :
                 View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
-            else : ?>
+            elseif (!empty($visitor->getReferral()->getSourceName())) : ?>
+                <?php // No referrer, but the source is known from the landing URL (for example Microsoft Ads). ?>
+                <span title="<?php echo esc_attr($visitor->getReferral()->getSourceName()) ?>"><?php echo esc_html($visitor->getReferral()->getSourceName()) ?></span>
+            <?php else : ?>
                 <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>
@@ -139,7 +142,7 @@ use WP_Statistics\Components\View;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Total Views', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Total views for a single day. Privacy rules assign users a new ID daily, so visits on different days are counted separately.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></span>
+        <span><?php esc_html_e('Total Views', 'wp-statistics'); ?> <span class="wps-tooltip" title="<?php esc_html_e('Views in one day. Visitors get a new ID each day, so each day counts on its own.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></span></span>
         <div>
             <span><?php echo esc_html($visitor->getHits()) ?></span>
         </div>

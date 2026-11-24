@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Geolocation;
 
-use WP_Statistics\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Migrations\BackgroundProcess\BackgroundProcessFactory;
 
@@ -277,26 +276,6 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     {
         if (Option::get('auto_pop')) {
             BackgroundProcessFactory::getBackgroundProcess('update_unknown_visitor_geoip')->process();
-        }
-    }
-
-    /**
-     * Send email notification about the GeoIP update.
-     *
-     * @param string $notice
-     */
-    protected function sendGeoIpUpdateEmail(string $notice)
-    {
-        if (Option::get('geoip_report')) {
-            Helper::send_mail(
-                Option::getEmailNotification(),
-                __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
-                $notice,
-                true,
-                [
-                    "email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'
-                ]
-            );
         }
     }
 }

@@ -9,6 +9,7 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardDataProvider;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
@@ -52,10 +53,8 @@ class AuthorAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
-        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
-        $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
-        $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
+        // Top Authors widget: one leaderboard (views, posts published, views per post), ranked on the server per metric
+        $leaderboard = LeaderboardDataProvider::authors($this->args);
 
         $result = [
             'glance'  => [
@@ -84,19 +83,13 @@ class AuthorAnalyticsDataProvider
                     'change' => Helper::calculatePercentageChange($prevAvgComments, $avgComments)
                 ]
             ],
-            'top_publishing'    => $topPublishingAuthors,
-            'top_viewing'       => $topViewingAuthors,
-            'top_by_comments'   => $topAuthorsByComment,
-            'top_by_views'      => $topAuthorsByViews
+            'leaderboard' => $leaderboard
         ];
 
         if (WordCountService::isActive()) {
             $words    = $this->postsModel->countWords($this->args);
             $avgWords = Helper::divideNumbers($words, $posts);
 
-            $topAuthorsByWords = $this->authorModel->getAuthorsByWordsPerPost($this->args);
-
-            $result['top_by_words']        = $topAuthorsByWords;
             $result['glance']['words']     = ['value' => $words];
             $result['glance']['words_avg'] = ['value' => $avgWords];
         }
@@ -111,7 +104,9 @@ class AuthorAnalyticsDataProvider
         ]);
 
         $authors = $this->authorModel->getAuthorsReportData($args);
-        $total   = $this->authorModel->countAuthors($args);
+
+        // The report lists every author who has published this post type (not only in the date range), so count the same set
+        $total = $this->authorModel->countAuthors(array_merge($args, ['date' => '', 'ignore_date' => true]));
 
         return [
             'authors'   => $authors,
@@ -204,6 +199,9 @@ class AuthorAnalyticsDataProvider
             ],
             'visitors_country' => $visitorsCountry,
             'taxonomies'       => $taxonomies,
+
+            // Top Categories leaderboard on the Data Plus author page (one tab per taxonomy)
+            'taxonomies_leaderboard' => LeaderboardDataProvider::termsByTaxonomy($this->args),
 
             // Keep for backward-compatibility with older versions of DataPlus
             'visit_summary'   => []

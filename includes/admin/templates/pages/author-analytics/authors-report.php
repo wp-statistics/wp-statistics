@@ -77,7 +77,7 @@ $postTypeNameSingular = Helper::getPostTypeName($postType, true);
                                         <td class="wps-pd-l">
                                             <div class="wps-author-name">
                                                 <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>"/>
-                                                <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
+                                                <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id, 'pt' => $postType])) ?>">
                                                     <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
                                                 </a>
                                             </div>
@@ -99,15 +99,15 @@ $postTypeNameSingular = Helper::getPostTypeName($postType, true);
                                             <?php echo esc_html(number_format_i18n(intval($author->total_comments))) ?>
                                         </td>
                                         <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format_i18n(intval($author->average_comments))) ?>
+                                            <?php echo esc_html(number_format_i18n(floatval($author->average_comments), 1)) ?>
                                         </td>
                                         <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format_i18n(intval($author->average_views))) ?>
+                                            <?php echo esc_html(number_format_i18n(floatval($author->average_views), 1)) ?>
                                         </td>
 
                                         <?php if (WordCountService::isActive()) : ?>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format_i18n(intval($author->average_words))) ?>
+                                                <?php echo esc_html(number_format_i18n(floatval($author->average_words))) ?>
                                             </td>
                                         <?php endif; ?>
                                     </tr>
@@ -116,9 +116,7 @@ $postTypeNameSingular = Helper::getPostTypeName($postType, true);
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                        </div>
+                        <?php \WP_Statistics\Components\View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
 

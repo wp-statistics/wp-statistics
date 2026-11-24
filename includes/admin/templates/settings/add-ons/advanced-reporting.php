@@ -16,18 +16,11 @@ global $wp_version;
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=advanced-reporting'),
-     'addon_title'        => __('Advanced Reporting Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-advanced-reporting',
-     'addon_description'  => __('The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Receive graphical statistics charts via email.', 'wp-statistics'),
-         __('Schedule reports to be sent to any inbox of your choice.', 'wp-statistics'),
-         __('Monitor your website\'s traffic and activity with no hassle.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('Keep a close eye on your website\'s performance with the Advanced Reporting add-on.', 'wp-statistics'),
-    ], true);
+if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Advanced Reporting Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-advanced-reporting',
+    'addon_campaign'     => 'advanced-reporting',
+], true);
 
 
 if ($isAdvancedReportingActive && !$isLicenseValid) {
@@ -221,27 +214,20 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 </th>
 
                 <?php
-                $custom_header_logo = WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting');
-                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
-                $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
-                $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
+                $custom_header_logo = (string) WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting');
 
                 wp_enqueue_media();
                 ?>
-                <script>
-                    var wps_ar_vars = {
-                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
-                    }
-                </script>
                 <td>
-                    <div class='wps-img-preview-wrapper'>
-                        <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?>;margin:0 5px" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
-                    </div>
-
-                    <div class="wps-input-group wps-input-group__action">
-                        <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0;"/>
+                    <div class="wps-media-upload">
+                        <div class="wps-media-upload__preview"<?php echo empty($custom_header_logo) ? ' hidden' : ''; ?>>
+                            <img class="wps-media-upload__image" src="<?php echo esc_url($custom_header_logo); ?>" alt="<?php esc_attr_e('Report logo preview', 'wp-statistics'); ?>">
+                            <button type="button" class="wps-media-upload__remove wps_img_settings_clear_upload_button" aria-label="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>" title="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="wps-input-group wps-input-group__action wps-media-upload__field">
+                            <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text wps-input-group__field" value="<?php echo esc_attr($custom_header_logo); ?>"/>
+                            <button type="button" class="wps_img_settings_upload_button button wps-input-group__label"><?php esc_html_e('Upload File', 'wp-statistics'); ?></button>
+                        </div>
                     </div>
                     <p class="description"><?php esc_html_e('Upload your own logo to replace the default in report headers, establishing your brand\'s presence in all reports.', 'wp-statistics'); ?></p>
                 </td>

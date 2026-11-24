@@ -2,76 +2,101 @@
 
 if (!defined('ABSPATH')) exit;
 
+use WP_Statistics\Components\View;
+
+// No summary (e.g. the post has not been saved yet). Do not `exit` here: this
+// template is rendered into an AJAX response, and exiting would cut it off.
 if (empty($summary)) {
-    exit;
+    printf('<div class="o-wrap o-wrap--no-data">%s</div>', esc_html__('No data found for this post yet.', 'wp-statistics'));
+    return;
 }
 
-// Remove 'www.' from referrers
-$topReferrer           = trim(str_replace('www.', '', $summary['topReferrer']));
-$thisPeriodTopReferrer = trim(str_replace('www.', '', $summary['thisPeriodTopReferrer']));
+// The 7-day row only makes sense once the post is at least a week old.
+$showThisPeriod = (time() - strtotime($summary['publishDateString'])) >= WEEK_IN_SECONDS;
 
-// Keep the host only
-$topReferrerLabel           = !empty($topReferrer) ? wp_parse_url($topReferrer) : '';
-$topReferrerLabel           = !empty($topReferrerLabel) && !empty($topReferrerLabel['host']) ? trim($topReferrerLabel['host']) : '';
-$thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrer) ? wp_parse_url($thisPeriodTopReferrer) : '';
-$thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thisPeriodTopReferrerLabel['host']) ? trim($thisPeriodTopReferrerLabel['host']) : '';
+// Chart caption: which metric the bars show, and the busiest day.
+$chartData     = !empty($summary['postChartData']) && is_array($summary['postChartData']) ? $summary['postChartData'] : [];
+$chartSettings = !empty($summary['postChartSettings']) && is_array($summary['postChartSettings']) ? $summary['postChartSettings'] : [];
+$chartMetric   = isset($chartSettings['metric']) && $chartSettings['metric'] === 'visitors' ? 'visitors' : 'views';
+
+$peak = null;
+foreach ($chartData as $day) {
+    if (intval($day['hits']) > 0 && ($peak === null || intval($day['hits']) > intval($peak['hits']))) {
+        $peak = $day;
+    }
+}
+$firstDay = !empty($chartData) ? reset($chartData) : null;
+$lastDay  = !empty($chartData) ? end($chartData) : null;
 ?>
-
-<p><?php
-
-    // Display the first part of text only if the post has been published more than a week ago
-    if (strtotime('now') - strtotime($summary['publishDateString']) >= WEEK_IN_SECONDS) {
-        echo sprintf(
-            // translators: 1: Start date - 2: To date - 3: Views count - 4: Visitors count.
-            __('Over the past week (<b>%1$s - %2$s</b>), this post has been <b>viewed %3$s times by %4$s visitors</b>', 'wp-statistics'),
-            esc_html($summary['fromString']),
-            esc_html($summary['toString']),
-            number_format(intval($summary['thisPeriodViews'])),
-            number_format(intval($summary['thisPeriodVisitors']))
-        );
-
-        // If post had any referrers in this period
-        if (intval($summary['thisPeriodTopReferrerCount']) > 0 && !empty($topReferrerLabel)) {
-            echo sprintf(
-                // translators: 1: Referrer link - 2: Referrer name - 3: Referrer count.
-                __(', with \'<a href="%1$s" target="_blank" rel="noreferrer nofollow">%2$s</a>\' leading with <b>%3$s referrals</b>', 'wp-statistics'),
-                esc_url($thisPeriodTopReferrer),
-                esc_html($thisPeriodTopReferrerLabel),
-                number_format(intval($summary['thisPeriodTopReferrerCount']))
-            );
-        }
-
-        echo '.<br />';
+<div class="wps-post-summary">
+    <?php
+    if ($showThisPeriod) {
+        View::load('components/meta-box/post-summary-row', [
+            'label'         => sprintf(
+                // translators: 1: Start date - 2: End date.
+                __('Last 7 days · %1$s - %2$s', 'wp-statistics'),
+                $summary['fromString'],
+                $summary['toString']
+            ),
+            'views'         => $summary['thisPeriodViews'],
+            'visitors'      => $summary['thisPeriodVisitors'],
+            'referrerUrl'   => $summary['thisPeriodTopReferrer'],
+            'referrerCount' => $summary['thisPeriodTopReferrerCount'],
+        ]);
     }
 
-    echo sprintf(
-        // translators: 1: Views count - 2: Visitors count.
-        __('In total, this post has been <b>viewed %1$s times by %2$s visitors</b>', 'wp-statistics'),
-        number_format(intval($summary['totalViews'])),
-        number_format(intval($summary['totalVisitors']))
-    );
-
-    // If post had any referrers in total
-    if (intval($summary['topReferrerCount']) > 0 && !empty($topReferrerLabel)) {
-        echo sprintf(
-            // translators: 1: Referrer link - 2: Referrer name - 3: Referrer count.
-            __(', with \'<a href="%1$s" target="_blank" rel="noreferrer nofollow">%2$s</a>\' leading with <b>%3$s referrals</b>', 'wp-statistics'),
-            esc_url($topReferrer),
-            esc_html($topReferrerLabel),
-            number_format(intval($summary['topReferrerCount']))
-        );
-    }
-
-    echo sprintf(
-        // translators: %s: Content analytics link.
-        __('. For more detailed insights, visit the <b><a href="%s" target="_blank">analytics section</a></b>.', 'wp-statistics'),
-        esc_url($summary['contentAnalyticsUrl'])
-    );
-
+    View::load('components/meta-box/post-summary-row', [
+        'label'         => __('All time', 'wp-statistics'),
+        'views'         => $summary['totalViews'],
+        'visitors'      => $summary['totalVisitors'],
+        'referrerUrl'   => $summary['topReferrer'],
+        'referrerCount' => $summary['topReferrerCount'],
+    ]);
     ?>
-</p>
-<?php if(isset($summary)): ?>
-    <div class="c-wps-post-summary-panel-chart">
-        <canvas id="postSummaryChart" height="100" aria-label="Summary chart" role="img"></canvas>
-    </div>
-<?php endif; ?>
+
+    <?php if (!empty($chartData)) : ?>
+        <div class="wps-post-summary__chart">
+            <div class="wps-post-summary__caption">
+                <span><?php
+                    // The chart covers the Mini Chart range (14 days by default, up to a year), not the 7 days above: say so.
+                    $chartDays = count($chartData);
+                    echo esc_html(sprintf(
+                        // translators: 1: "Views per day" or "Visitors per day" - 2: Number of days in the chart.
+                        _n('%1$s · last %2$s day', '%1$s · last %2$s days', $chartDays, 'wp-statistics'),
+                        $chartMetric === 'visitors' ? __('Visitors per day', 'wp-statistics') : __('Views per day', 'wp-statistics'),
+                        number_format_i18n($chartDays)
+                    ));
+                    ?></span>
+                <span>
+                    <?php
+                    if ($peak) {
+                        echo esc_html(sprintf(
+                            // translators: 1: Highest daily count - 2: Date of that day.
+                            __('Peak %1$s on %2$s', 'wp-statistics'),
+                            number_format_i18n(intval($peak['hits'])),
+                            $peak['fullDate']
+                        ));
+                    } else {
+                        echo $chartMetric === 'visitors' ? esc_html__('No visitors in this period', 'wp-statistics') : esc_html__('No views in this period', 'wp-statistics');
+                    }
+                    ?>
+                </span>
+            </div>
+            <div class="c-wps-post-summary-panel-chart">
+                <canvas id="postSummaryChart" height="64" role="img" aria-label="<?php
+                echo esc_attr(sprintf(
+                    // translators: 1: Start date - 2: End date.
+                    $chartMetric === 'visitors' ? __('Visitors per day, %1$s to %2$s', 'wp-statistics') : __('Views per day, %1$s to %2$s', 'wp-statistics'),
+                    $firstDay['fullDate'],
+                    $lastDay['fullDate']
+                ));
+                ?>"></canvas>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <a class="wps-post-summary__link" href="<?php echo esc_url($summary['contentAnalyticsUrl']); ?>" target="_blank">
+        <?php esc_html_e('View full analytics', 'wp-statistics'); ?>
+        <span aria-hidden="true"><?php echo is_rtl() ? '&larr;' : '&rarr;'; ?></span>
+    </a>
+</div>

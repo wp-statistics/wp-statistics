@@ -84,10 +84,37 @@ wps_js.meta_box_name_by_id = function (ID) {
 };
 
 /**
+ * Where to insert our own buttons (reload, Search Console link) in a meta box header.
+ *
+ * WordPress 7.1+ wraps each header button in a `span.wp-tooltip`. Our buttons go before
+ * that wrapper, not inside it: inside, they break the wrapper's baseline and the
+ * "Move up" arrow sits higher than "Move down".
+ */
+wps_js.metaBoxActionsAnchor = function (boxSelector) {
+    const $first = jQuery(boxSelector + ' .handle-actions button:first');
+    const $wrapper = $first.parent('.wp-tooltip');
+    return $wrapper.length ? $wrapper : $first;
+};
+
+/**
+ * Is this the post edit screen (classic or block editor)?
+ *
+ * Meta boxes there load fresh with the page, so they get no reload button and
+ * keep the core WordPress header (title, move up/down, toggle) as it is.
+ */
+wps_js.isPostEditScreen = function () {
+    const file = wps_js.global && wps_js.global.page ? wps_js.global.page.file : '';
+    return file === 'post.php' || file === 'post-new.php';
+};
+
+/**
  * Create Custom Button for Meta Box
  */
 wps_js.meta_box_button = function (key) {
-    let selector = "#" + wps_js.getMetaBoxKey(key) + " .handle-actions button:first";
+    if (wps_js.isPostEditScreen()) {
+        return;
+    }
+
     let meta_box_info = wps_js.get_meta_box_info(key);
 
     // Gutenberg Button Style
@@ -101,7 +128,7 @@ wps_js.meta_box_button = function (key) {
     jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    jQuery(`<button class="handlediv wps-refresh" aria-label="reload button"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" title="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
+    jQuery(`<button class="handlediv wps-refresh" aria-label="reload button"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" title="` + wps_js._('reload') + `"></button>`).insertBefore(wps_js.metaBoxActionsAnchor("#" + wps_js.getMetaBoxKey(key)));
 
     if (wps_js.is_active('gutenberg')){
         jQuery('body').addClass('wps-gutenberg');
@@ -294,7 +321,7 @@ wps_js.meta_box_footer = function (key, data) {
     }
     html += `</div><div class="c-footer__more">`;
     if (params.footer_options.display_more_link) {
-        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z" fill="#56585A"/></svg></a>`;
+        html += `<a class="c-footer__more__link" href="` + args.page_url + `"><span class="wps-card-footer__label">${params.footer_options.more_link_title}</span><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z" fill="#56585A"/></svg></a>`;
     }
     html += `</div></div>`;
 
@@ -513,6 +540,20 @@ jQuery(document).on("click", function (event) {
         }
     }
 });
+
+// "WP Statistics" card on the Overview page: the version badge sits right after the card
+// title, so the name shows once (header) and the version link stays one click away.
+const wpsAboutBox = document.getElementById('wp-statistics-about-metabox');
+if (wpsAboutBox) {
+    const badge = wpsAboutBox.querySelector('.c-about__row--version .c-about-badge');
+    const title = wpsAboutBox.querySelector('.postbox-header h2');
+    if (badge && title && !title.querySelector('.c-about-badge')) {
+        // Keep clicks on the badge from starting a drag of the card.
+        badge.addEventListener('mousedown', event => event.stopPropagation());
+        title.appendChild(badge);
+        wpsAboutBox.querySelector('.c-about__row--version').remove();
+    }
+}
 
 const wpsAoutWidget = document.getElementById('wp-statistics-about-widget');
 if (wpsAoutWidget) {

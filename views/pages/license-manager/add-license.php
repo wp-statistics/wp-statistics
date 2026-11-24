@@ -1,12 +1,30 @@
-<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
+<?php
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+
+// A site that already has a valid license is not asked to buy Premium again: it can add another key or download its add-ons.
+$validKeys  = array_keys(LicenseHelper::getLicenses('valid'));
+$hasLicense = !empty($validKeys);
+$hasPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
+// No download link when every licensed add-on is already installed.
+$canDownload = $hasLicense && PluginHelper::hasAddonsToDownload();
+?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
 
     <div class="wps-postbox-addon__step">
         <div class="wps-addon__step__info">
             <span class="wps-addon__step__image wps-addon__step__image--lock"></span>
-            <h2 class="wps-addon__step__title"><?php esc_html_e('Unlock Premium Features', 'wp-statistics'); ?></h2>
-            <p class="wps-addon__step__desc"><?php esc_html_e('Enter your license key to unlock premium add-ons and enhance your experience.', 'wp-statistics'); ?></p>
+            <?php if ($hasLicense) : ?>
+                <h2 class="wps-addon__step__title"><?php esc_html_e('Add Another License', 'wp-statistics'); ?></h2>
+                <p class="wps-addon__step__desc"><?php esc_html_e('Your license is already active on this site. Enter another license key only if you bought more add-ons.', 'wp-statistics'); ?></p>
+            <?php else : ?>
+                <h2 class="wps-addon__step__title"><?php esc_html_e('Unlock Premium Features', 'wp-statistics'); ?></h2>
+                <p class="wps-addon__step__desc"><?php esc_html_e('Enter your license key to unlock premium add-ons and enhance your experience.', 'wp-statistics'); ?></p>
+            <?php endif; ?>
         </div>
         <div class="wps-addon__step__license">
             <div class="wps-addon__step__active-license">
@@ -17,14 +35,21 @@
          </div>
         <div class="wps-addon__step__faq">
             <ul>
+                <?php if ($canDownload) : ?>
+                    <li>
+                        <a href="<?php echo esc_url(Menus::admin_url('plugins', ['tab' => 'downloads', 'license_key' => $validKeys[0]])); ?>"><?php esc_html_e('Download your add-ons', 'wp-statistics'); ?></a>
+                    </li>
+                <?php endif; ?>
+                <?php if (!$hasPremium) : ?>
+                    <li>
+                        <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::pricing('add-ons-page')); ?>" target="_blank" rel="noopener"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
+                    </li>
+                <?php endif; ?>
                 <li>
-                    <a href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank" aria-label="<?php esc_html_e('Buy Premium Now', 'wp-statistics'); ?>"><?php esc_html_e('Buy Premium Now', 'wp-statistics'); ?></a>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/resources/finding-and-entering-your-license-key/', 'add-ons-page', 'premium', 'license-key')); ?>" target="_blank" aria-label="<?php esc_html_e('I bought Premium, where is my license key?', 'wp-statistics'); ?>"><?php esc_html_e('I bought Premium, where is my license key?', 'wp-statistics'); ?></a>
                 </li>
                 <li>
-                    <a href="https://wp-statistics.com/resources/finding-and-entering-your-license-key/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank" aria-label="<?php esc_html_e('I bought Premium, where is my license key?', 'wp-statistics'); ?>"><?php esc_html_e('I bought Premium, where is my license key?', 'wp-statistics'); ?></a>
-                </li>
-                <li>
-                    <a href="https://wp-statistics.com/contact-us/?step=purchasing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank" aria-label="<?php esc_html_e('Have questions or trouble activating your license?', 'wp-statistics'); ?>"><?php esc_html_e('Have questions or trouble activating your license?', 'wp-statistics'); ?></a>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/contact-us/?step=purchasing', 'add-ons-page', 'premium', 'support')); ?>" target="_blank" aria-label="<?php esc_html_e('Have questions or trouble activating your license?', 'wp-statistics'); ?>"><?php esc_html_e('Have questions or trouble activating your license?', 'wp-statistics'); ?></a>
                 </li>
             </ul>
         </div>

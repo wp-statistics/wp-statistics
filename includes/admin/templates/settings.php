@@ -41,28 +41,28 @@ View::load('components/objects/share-anonymous-notice');
                         <div id="exclusions-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/exclusions.php'; ?>
                         </div>
-                        <div id="marketing-settings" class="tab-content">
+                        <div id="marketing-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/marketing.php'; ?>
                         </div>
-                        <div id="data-plus-settings" class="tab-content">
+                        <div id="data-plus-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/data-plus.php'; ?>
                         </div>
-                        <div id="realtime-stats-settings" class="tab-content">
+                        <div id="realtime-stats-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/realtime-stats.php'; ?>
                         </div>
-                        <div id="customization-settings" class="tab-content">
+                        <div id="customization-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/customization.php'; ?>
                         </div>
-                        <div id="advanced-reporting-settings" class="tab-content">
+                        <div id="advanced-reporting-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/advanced-reporting.php'; ?>
                         </div>
-                        <div id="mini-chart-settings" class="tab-content">
+                        <div id="mini-chart-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/mini-chart.php'; ?>
                         </div>
-                        <div id="rest-api-settings" class="tab-content">
+                        <div id="rest-api-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/rest-api.php'; ?>
                         </div>
-                        <div id="widgets-settings" class="tab-content">
+                        <div id="widgets-settings" class="tab-content wps-addon-tab">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/widgets.php'; ?>
                         </div>
                     <?php } ?>

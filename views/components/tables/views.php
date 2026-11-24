@@ -33,6 +33,7 @@ use WP_STATISTICS\Menus;
                     </thead>
 
                     <tbody>
+                    <?php VisitorDecorator::primeOnlineStatus($data); ?>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
@@ -49,7 +50,8 @@ use WP_STATISTICS\Menus;
                                 View::load("components/objects/referrer-link", [
                                     'label' => $visitor->getReferral()->getSourceChannel(),
                                     'url'   => $visitor->getReferral()->getReferrer(),
-                                    'title' => $visitor->getReferral()->getRawReferrer()
+                                    'title' => $visitor->getReferral()->getRawReferrer(),
+                                    'source_name' => $visitor->getReferral()->getSourceNameWithoutReferrer()
                                 ]);
                                 ?>
                             </td>
@@ -80,9 +82,7 @@ use WP_STATISTICS\Menus;
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-            </div>
+            <?php \WP_Statistics\Components\View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
     </div>
 <?php echo $pagination ?? ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

@@ -6,7 +6,6 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Utils\Request;
 
 class HistoricalModel
 {
@@ -77,10 +76,15 @@ class HistoricalModel
 
         $args = wp_parse_args($args, $defaults);
 
+        // A single URL report passes its URI as `query_param`
+        if (empty($args['uri']) && !empty($args['query_param']) && is_string($args['query_param'])) {
+            $args['uri'] = $args['query_param'];
+        }
+
         $args['resource_id'] = $this->getResourceId($args);
         $args['uri']         = $this->getResourceUri($args);
 
-        if (!empty($args['uri']) && !empty($args['resource_id'])) {
+        if (!empty($args['uri'])) {
             $args['category'] = 'uri';
         }
 
@@ -255,8 +259,8 @@ class HistoricalModel
     public function isPostInAllTimeRange($args)
     {
         $id  = $args['resource_id'] ?? $args['post_id'] ?? null;
-        $uri = Request::get('uri', '', 'raw');
-        
+        $uri = !empty($args['uri']) ? $args['uri'] : ($args['query_param'] ?? null);
+
         if (empty($id) && empty($uri)) {
             return false;
         }

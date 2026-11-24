@@ -15,6 +15,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackingHealth;
 
 class GeneralNotices
 {
@@ -27,13 +28,15 @@ class GeneralNotices
      */
     private $coreNotices = [
         'detectConsentIntegrations',
+        'consentIntegrationWarning',
         'detectCachePlugins',
         'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
         'emailReportSchedule',
         'checkCloudflareGeolocatin',
-        'checkDbSchemaIssue'
+        'checkDbSchemaIssue',
+        'trackingStopped'
     ];
 
     /**
@@ -56,6 +59,30 @@ class GeneralNotices
                 }
             }
         }
+    }
+
+    /**
+     * Warns on WP Statistics pages when the selected consent integration cannot work as set up.
+     *
+     * @return void
+     */
+    private function consentIntegrationWarning()
+    {
+        if (!Menus::in_plugin_page()) return;
+
+        $warning = IntegrationHelper::getConfigurationWarning();
+
+        if (empty($warning)) return;
+
+        $message = sprintf(
+            '<div><b class="wp-statistics-notice__title">%s</b><p>%s <a href="%s">%s</a></p></div>',
+            esc_html__('WP Statistics - Consent Integration Needs Attention', 'wp-statistics'),
+            esc_html($warning),
+            esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
+            esc_html__('Review consent settings ›', 'wp-statistics')
+        );
+
+        Notice::addNotice(wp_kses_post($message), 'consent_integration_warning', 'warning', false);
     }
 
     /**
@@ -366,5 +393,44 @@ class GeneralNotices
         );
 
         Notice::addNotice($message, 'database_schema_issue_detected', 'warning', false);
+    }
+
+    /**
+     * Warns, on WP Statistics screens, while the daily check finds that visits stopped being recorded.
+     * Dismissing it hides it for this outage only.
+     *
+     * @return void
+     */
+    private function trackingStopped()
+    {
+        if (!Menus::in_plugin_page() || !TrackingHealth::isEnabled() || !TrackingHealth::isStopped()) {
+            return;
+        }
+
+        $noticeId = TrackingHealth::getNoticeId();
+
+        if (in_array($noticeId, Notice::getDismissedNotices(), true)) {
+            return;
+        }
+
+        $state = TrackingHealth::getState();
+
+        $message = sprintf(
+            wp_kses(
+                /* translators: %1$s: date and time of the last recorded visit, %2$s: Tracker Debugger URL, %3$s: link text */
+                __('<b>WP Statistics:</b> No visits have been recorded since %1$s, but your site usually gets visitors. <a href="%2$s">%3$s</a> to find out why.', 'wp-statistics'),
+                [
+                    'b' => [],
+                    'a' => [
+                        'href' => [],
+                    ],
+                ]
+            ),
+            esc_html(TrackingHealth::formatDate($state['stopped_since'])),
+            esc_url(TrackingHealth::getDebuggerUrl()),
+            esc_html(TrackingHealth::getDebuggerLinkText())
+        );
+
+        Notice::addNotice($message, $noticeId, 'warning');
     }
 }

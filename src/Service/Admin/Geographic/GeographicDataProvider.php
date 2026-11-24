@@ -10,6 +10,11 @@ use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class GeographicDataProvider
 {
+    /**
+     * Cities are grouped with their country and region, so cities with the same name in different places stay apart.
+     */
+    const CITY_GROUP = ['visitor.location', 'visitor.region', 'visitor.city'];
+
     protected $args;
     protected $visitorsModel;
 
@@ -25,8 +30,8 @@ class GeographicDataProvider
         $args = array_merge($this->args, ['per_page' => 5, 'page' => 1]);
 
         $countries     = $this->visitorsModel->getVisitorsGeoData($args);
-        $cities        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['city'], 'not_null' => 'visitor.city']));
-        $globalRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['region'], 'not_null' => 'visitor.region', 'per_page' => 1]));
+        $cities        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => self::CITY_GROUP, 'not_null' => 'visitor.city']));
+        $globalRegions = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['group_by' => ['visitor.location', 'visitor.region'], 'not_null' => 'visitor.region', 'per_page' => 1]));
         $states        = $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['country' => 'US', 'continent' => 'North America', 'group_by' => ['region'], 'not_null' => 'visitor.region']));
 
         $data = [
@@ -36,6 +41,8 @@ class GeographicDataProvider
                 'city'      => $cities[0]->city ?? '',
             ],
             'countries' => $countries,
+            // Base of the Top Countries "Share" column: all visitors in the range, not only the five rows
+            'countries_visitors' => $this->visitorsModel->countGeoVisitors($this->args),
             'cities'    => $cities,
             'states'    => $states,
         ];
@@ -66,8 +73,12 @@ class GeographicDataProvider
     public function getCountriesData()
     {
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
-            'total'     => $this->visitorsModel->countGeoData($this->args)
+            // One "(not set)" row for NULL, empty and unknown locations, grouped in SQL so every page
+            // and the row total agree (the same row as the Top Countries widget)
+            'countries' => $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['merge_unknown_country' => true])),
+            'total'     => $this->visitorsModel->countGeoData(array_merge($this->args, ['merge_unknown_country' => true])),
+            // Share base: every visitor in the range, so the column adds up to 100% over all rows (incl. "(not set)")
+            'visitors'  => $this->visitorsModel->countGeoVisitors($this->args)
         ];
     }
 
@@ -76,15 +87,18 @@ class GeographicDataProvider
         $args = array_merge(
             $this->args,
             [
-                'group_by'    => ['city'],
-                'not_null'    => 'visitor.city',
-                'count_field' => 'city'
+                'group_by'     => self::CITY_GROUP,
+                'not_null'     => 'visitor.city',
+                'count_field'  => 'city',
+                'count_fields' => self::CITY_GROUP
             ]
         );
 
         return [
-            'cities' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'cities'   => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'    => $this->visitorsModel->countGeoData($args),
+            // Share base: visitors with a known city (the same rows as the list)
+            'visitors' => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 
@@ -96,8 +110,10 @@ class GeographicDataProvider
         );
 
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countGeoData($args)
+            'countries' => $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['merge_unknown_country' => true])),
+            'total'     => $this->visitorsModel->countGeoData(array_merge($args, ['merge_unknown_country' => true])),
+            // Share base: all visitors from Europe
+            'visitors'  => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 
@@ -115,8 +131,10 @@ class GeographicDataProvider
         );
 
         return [
-            'states' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'states'   => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'    => $this->visitorsModel->countGeoData($args),
+            // Share base: US visitors with a known state (the same rows as the list)
+            'visitors' => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 
@@ -167,7 +185,7 @@ class GeographicDataProvider
         $cities = $this->visitorsModel->getVisitorsGeoData(array_merge(
             $this->args,
             [
-                'group_by'    => ['city'],
+                'group_by'    => self::CITY_GROUP,
                 'count_field' => 'city',
                 'not_null'    => 'visitor.city',
                 'per_page'    => 10,
@@ -178,9 +196,10 @@ class GeographicDataProvider
         $citiesTotal = $this->visitorsModel->countGeoData(array_merge(
             $this->args,
             [
-                'group_by'    => ['city'],
-                'count_field' => 'city',
-                'not_null'    => 'visitor.city',
+                'group_by'     => self::CITY_GROUP,
+                'count_field'  => 'city',
+                'count_fields' => self::CITY_GROUP,
+                'not_null'     => 'visitor.city',
             ]
         ));
 

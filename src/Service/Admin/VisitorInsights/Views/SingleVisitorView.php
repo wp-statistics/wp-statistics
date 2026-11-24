@@ -12,6 +12,7 @@ use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Admin\PageHeader\SingleHeaders;
 
 class SingleVisitorView extends BaseView
 {
@@ -43,25 +44,15 @@ class SingleVisitorView extends BaseView
         return $visitorData;
     }
 
+    /**
+     * Short title: the user name, or the IP / hash, following the visitor card privacy rule.
+     */
     public function getTitle($visitorData)
     {
         /** @var VisitorDecorator $visitor */
         $visitor = $visitorData['visitor'];
 
-        /* translators: %1$s: string value, %2$s: string value */
-        $title = esc_html__('Visitor Report - %1$s: %2$s', 'wp-statistics');
-
-        if ($visitor->isLoggedInUser()) {
-            $title = sprintf($title, esc_html__('User', 'wp-statistics'), $visitor->getUser()->getDisplayName());
-        } else {
-            $title = sprintf(
-                $title,
-                $visitor->isHashedIP() ? esc_html__('Hash', 'wp-statistics') : esc_html__('IP', 'wp-statistics'),
-                $visitor->getIP()
-            );
-        }
-
-        return $title;
+        return $visitor->getDisplayLabel();
     }
 
     public function render()
@@ -71,6 +62,7 @@ class SingleVisitorView extends BaseView
 
         $args = [
             'title'          => $title,
+            'pageHeader'     => SingleHeaders::visitor($visitorData['visitor']),
             'backUrl'        => Menus::admin_url('visitors'),
             'backTitle'      => esc_html__('Visitor Insights', 'wp-statistics'),
             'searchBoxTitle' => esc_html__('IP, Hash, Username, or Email', 'wp-statistics'),

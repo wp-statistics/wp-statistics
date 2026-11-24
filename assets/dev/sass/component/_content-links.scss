@@ -1,0 +1,52 @@
+// ---------------------------------------------------------------------------
+// Content links (owner rule, round 7): a link that IS the content of a row - page title,
+// referrer domain, a number that opens a filtered list - reads like text (text colour).
+// Only the link under the pointer or keyboard focus turns brand blue and underlined.
+// Brand blue at rest stays for action links: card footer "View ...", buttons, tabs, pills.
+// Covers core tables and lists and the add-on tables that use the same markup
+// (Data Plus, Marketing, Real-Time render .o-table / .wps-visitor-pages / .wps-link-arrow).
+// ---------------------------------------------------------------------------
+
+
+
+#wpbody .o-table td,
+#wpbody .wps-visitor-pages,
+#wpbody .wps-journey__step,
+#wpbody .wps-visitor-profile__facts dd {
+  a:not(.wps-button):not(.button):not(.wps-pill):not(.c-footer__more__link):not(.wps-card-footer__link):not(.js-wps-openPremiumModal):not(.wps-inline-teaser__link) {
+    color: $wps-text-strong !important;
+    text-decoration: none;
+
+    .wps-ellipsis-text,
+    > span:not(.wps-tooltip):not(.badge) {
+      color: $wps-text-strong !important;
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: $wps-brand !important;
+      text-decoration: underline;
+
+      .wps-ellipsis-text,
+      > span:not(.wps-tooltip):not(.badge) {
+        color: $wps-brand !important;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Source category name with its icon (Referrals > Source Categories table; same icon as the widget rows).
+#wpbody .wps-source-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  .wps-source-channel-icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+}

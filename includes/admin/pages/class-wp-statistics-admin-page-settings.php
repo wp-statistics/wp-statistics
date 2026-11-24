@@ -21,9 +21,21 @@ class settings_page extends Singleton
         // Save Setting Action
         add_action('admin_init', array($this, 'save'));
 
-        // Check Access Level
+        // Check Access Level (on admin_init, after the text domain is loaded; before save() runs).
+        add_action('admin_init', array($this, 'checkAccess'), 1);
+    }
+
+    /**
+     * Users without the manage capability get a 403 page on the Settings screen.
+     */
+    public function checkAccess()
+    {
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            wp_die(
+                esc_html__('You do not have sufficient permissions to access this page.', 'wp-statistics'),
+                esc_html__('Not allowed', 'wp-statistics'),
+                ['response' => 403, 'back_link' => true]
+            );
         }
     }
 
@@ -208,7 +220,8 @@ class settings_page extends Singleton
             "wps_email_free_content_header",
             "wps_email_free_content_footer",
             "wps_email_list",
-            "wps_upgrade_report"
+            "wps_upgrade_report",
+            "wps_tracking_stopped_alert"
         );
 
         foreach ($wps_option_list as $option) {

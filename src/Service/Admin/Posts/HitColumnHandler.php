@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
@@ -401,6 +403,11 @@ class HitColumnHandler
      */
     private function getPreviewChartUnlockHtml()
     {
+        // White label (or a hidden Add-ons menu): no "Unlock" teaser.
+        if (LicenseHelper::areAddonPromptsHidden()) {
+            return '';
+        }
+
         return sprintf(
             '<div class="wps-admin-column__unlock">
                         <a href="%s">

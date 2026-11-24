@@ -3,15 +3,34 @@
 namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 
+/**
+ * Rows of the "Top Source Categories" widget (Overview, WP Dashboard and Referrals Overview).
+ *
+ * Every category is sorted by visitors, Direct Traffic included, at its real place. The top
+ * {@see self::LIMIT} are listed and the rest are summed into one "Other N categories" row, so
+ * the shares add up to 100%. Each row carries its channel key with a fixed colour and icon.
+ *
+ * Row keys:
+ *  - key, label, domain ('' when none), count (int), share (float), color, icon, url, is_other
+ *  - source_category, top_domain ('-' when none), visitors (formatted), percentage ('12.5%'):
+ *    the old keys, kept for add-on templates that still read them.
+ */
 class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
 {
+    /**
+     * Number of categories listed before the "Other" row.
+     */
+    const LIMIT = 5;
+
     protected $visitorsModel;
 
-    public function __construct($args)
+    public function __construct($args = [])
     {
         parent::__construct($args);
 
@@ -20,7 +39,7 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
             'source_channel' => false,
             'not_null'       => false,
             'decorate'       => true,
-            'per_page'       => 10,
+            'per_page'       => false, // every category: the rest is summed into "Other"
             'page'           => 1
         ]);
 
@@ -29,55 +48,148 @@ class TopSourceCategoriesDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
-        $data       = $this->visitorsModel->getReferrers($this->args);
-        $parsedData = $this->parseData($data);
+        $data = $this->visitorsModel->getReferrers($this->args);
 
-        return $parsedData;
+        return $this->parseData($data);
     }
 
     protected function parseData($data)
     {
-        $parsedData = [];
-        $direct     = null;
+        $categories = [];
 
-        $totalReferrers = 0;
-        foreach ($data as $item) {
-            $totalReferrers += $item->getTotalReferrals(true);
-        }
+        foreach ((array)$data as $item) {
+            $key = $item->getRawSourceChannel();
+            $key = is_string($key) && $key !== '' ? $key : 'unassigned';
 
-        foreach ($data as $item) {
-            $topDomain = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 1, 'source_channel' => $item->getRawSourceChannel()]);
-            $referrers = $item->getTotalReferrals(true);
-
-            // Store direct category in a temp variable and add it at the end separately
-            if ($item->getRawSourceChannel() === 'direct') {
-                $direct = $item;
+            // NULL and '' both mean unassigned: merge them into one row
+            if (isset($categories[$key])) {
+                $categories[$key]['count'] += $item->getTotalReferrals(true);
                 continue;
             }
 
-            // Limit to 4 categories
-            if (count($parsedData) >= 4) break;
-
-            $parsedData[] = [
-                'source_category' => $item->getSourceChannel(),
-                'top_domain'      => !empty($topDomain) ? Url::cleanUrl($topDomain[0]->getReferrer()) : '-',
-                'visitors'        => number_format_i18n($referrers),
-                'percentage'      => Helper::calculatePercentage($referrers, $totalReferrers) . '%'
+            $categories[$key] = [
+                'key'   => $key,
+                'label' => SourceChannels::getName($key),
+                'count' => $item->getTotalReferrals(true),
             ];
         }
 
-        // Add direct category
-        if (!empty($parsedData)) {
-            $referrers = $direct ? $direct->getTotalReferrals(true) : 0;
+        $categories = array_values(array_filter($categories, function ($row) {
+            return $row['count'] > 0;
+        }));
 
-            $parsedData[] = [
-                'source_category' => esc_html__('Direct', 'wp-statistics'),
-                'top_domain'      => '-',
-                'visitors'        => number_format_i18n($referrers),
-                'percentage'      => Helper::calculatePercentage($referrers, $totalReferrers) . '%'
-            ];
+        // By visitors, Direct Traffic included; same count keeps the query order
+        $order = array_flip(array_column($categories, 'key'));
+        usort($categories, function ($a, $b) use ($order) {
+            if ($a['count'] === $b['count']) {
+                return $order[$a['key']] - $order[$b['key']];
+            }
+            return $b['count'] - $a['count'];
+        });
+
+        $total = array_sum(array_column($categories, 'count'));
+        $top   = array_slice($categories, 0, self::LIMIT);
+        $rest  = array_slice($categories, self::LIMIT);
+        $date  = $this->getDateRange();
+
+        $rows = [];
+        foreach ($top as $category) {
+            $style  = SourceChannels::getStyle($category['key']);
+            $domain = $category['key'] === 'direct' ? '' : $this->getTopDomain($category['key']);
+
+            $rows[] = $this->buildRow([
+                'key'    => $category['key'],
+                'label'  => $category['label'],
+                'domain' => $domain,
+                'count'  => $category['count'],
+                'color'  => $style['color'],
+                'icon'   => $style['icon'],
+                // Direct visits are not referrals: they open the visitors list filtered to Direct.
+                'url'    => $category['key'] === 'direct'
+                    ? Menus::admin_url('visitors', array_merge(['tab' => 'visitors', 'source_channel' => 'direct'], $date))
+                    : Menus::admin_url('referrals', array_merge(['tab' => 'referred-visitors', 'source_channel' => $category['key']], $date)),
+            ], $total);
         }
 
-        return $parsedData;
+        if (!empty($rest)) {
+            $rows[] = $this->buildRow([
+                'key'      => 'other',
+                /* translators: %s: number of categories summed into the row */
+                'label'    => sprintf(_n('Other %s category', 'Other %s categories', count($rest), 'wp-statistics'), number_format_i18n(count($rest))),
+                'domain'   => '',
+                'count'    => array_sum(array_column($rest, 'count')),
+                'color'    => '#A9AAAE',
+                'icon'     => '',
+                'url'      => Menus::admin_url('referrals', array_merge(['tab' => 'source-categories'], $date)),
+                'is_other' => true,
+            ], $total);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Adds the share and the old keys add-on templates read.
+     *
+     * @param array $row
+     * @param int $total
+     * @return array
+     */
+    protected function buildRow($row, $total)
+    {
+        $row = array_merge(['is_other' => false], $row);
+
+        $row['share']           = Helper::calculatePercentage($row['count'], $total);
+        $row['source_category'] = $row['label'];
+        $row['top_domain']      = $row['domain'] !== '' ? $row['domain'] : '-';
+        $row['visitors']        = number_format_i18n($row['count']);
+        $row['percentage']      = $row['share'] . '%';
+
+        return $row;
+    }
+
+    /**
+     * Most common referrer domain of a category, in the same date range as the widget.
+     *
+     * @param string $channel
+     * @return string Domain, '' when there is none.
+     */
+    protected function getTopDomain($channel)
+    {
+        $args = [
+            'decorate'       => true,
+            'per_page'       => 1,
+            'source_channel' => $channel,
+        ];
+
+        if (!empty($this->args['date'])) {
+            $args['date'] = $this->args['date'];
+        }
+
+        $topDomain = $this->visitorsModel->getReferrers($args);
+
+        if (empty($topDomain)) {
+            return '';
+        }
+
+        $domain = $topDomain[0]->getReferrer();
+
+        return !empty($domain) ? Url::cleanUrl($domain) : '';
+    }
+
+    /**
+     * The widget range as from/to query args for the links ([] when the default range is used).
+     *
+     * @return array
+     */
+    protected function getDateRange()
+    {
+        $date = $this->args['date'] ?? [];
+
+        if (!is_array($date) || empty($date['from']) || empty($date['to'])) {
+            return [];
+        }
+
+        return ['from' => $date['from'], 'to' => $date['to']];
     }
 }

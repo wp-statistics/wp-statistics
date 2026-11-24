@@ -3,17 +3,13 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\View;
 
 ?>
 
 <div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html__('Top Cities', 'wp-statistics') ?>
-        </h2>
-    </div>
+    <?php View::load('components/objects/card-header', ['title' => __('Top Cities', 'wp-statistics'), 'context' => 'card']); ?>
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
@@ -23,18 +19,18 @@ use WP_STATISTICS\Menus;
                         <th class="wps-pd-l">
                             <?php esc_html_e('City', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-low">
                             <?php esc_html_e('Region', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-mid">
                             <?php esc_html_e('Country', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order">
                                     <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                 </span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-num">
                             <?php esc_html_e('Views', 'wp-statistics') ?>
                         </th>
                     </tr>
@@ -45,19 +41,19 @@ use WP_STATISTICS\Menus;
                             <td class="wps-pd-l">
                                 <span class="truncate" title="<?php echo esc_attr($item->city); ?>"><?php echo esc_html($item->city); ?></span>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-low">
                                 <span class="truncate" title="<?php echo esc_attr($item->region); ?>"><?php echo esc_html($item->region); ?></span>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-mid">
                                 <div class="wps-country-name">
                                     <img class="wps-flag" src="<?php echo esc_url(Country::flag($item->country)); ?>" alt="<?php echo esc_attr(Country::getName($item->country)); ?>">
                                     <span class="truncate" title="<?php echo esc_attr(Country::getName($item->country)); ?>"><?php echo esc_html(Country::getName($item->country)); ?></span>
                                 </div>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-num">
                                 <span><?php echo esc_html(number_format_i18n($item->visitors)); ?></span>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-num">
                                 <span><?php echo esc_html(number_format_i18n($item->views)); ?></span>
                             </td>
                         </tr>
@@ -66,16 +62,8 @@ use WP_STATISTICS\Menus;
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php echo esc_html(Helper::getNoDataMessage()); ?>
-            </div>
+            <?php View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
     </div>
-    <div class="wps-card__footer">
-        <div class="wps-card__footer__more">
-            <a class="wps-card__footer__more__link" href="<?php echo esc_url(Menus::admin_url('geographic', ['tab' => 'cities'])); ?>">
-                <?php esc_html_e('View Cities', 'wp-statistics') ?>
-            </a>
-        </div>
-    </div>
+    <?php View::load('components/objects/card-footer', ['href' => Menus::admin_url('geographic', ['tab' => 'cities']), 'title' => __('View Cities', 'wp-statistics')]); ?>
 </div>

@@ -25,7 +25,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 parentElement.html(wps_js.no_results());
             } else {
                 jQuery('.wps-ph-item').remove();
-                wps_js.horizontal_bar(id, data.labels, data.data, data.icons);
+                // Pass the real total so a top-5 list shows each row's share of everything, not of the five.
+                wps_js.horizontal_bar(id, data.labels, data.data, data.icons, data.percentages || [], {total: data.total});
             }
         }
     }

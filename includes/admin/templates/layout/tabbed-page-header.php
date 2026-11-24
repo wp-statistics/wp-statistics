@@ -61,18 +61,14 @@ View::load('components/objects/share-anonymous-notice');
                     <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                         <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                     </a>
-                <?php else: ?>
-                    <button class="wps-realtime-btn disabled wps-tooltip-premium">
-                        <?php esc_html_e('Realtime', 'wp-statistics'); ?>
-                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
-                        <span id="tooltip_realtime">
-                            <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                            <span>
-                                <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                            </span>
-                        </span>
-                    </span>
-                    </button>
+                <?php elseif (!\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()): // white label: no upsell button ?>
+                    <?php
+                    View::load('components/objects/premium-locked-button', [
+                        'label' => __('Realtime', 'wp-statistics'),
+                        'addon' => 'wp-statistics-realtime-stats',
+                        'class' => 'wps-realtime-btn',
+                    ]);
+                    ?>
                 <?php endif;
             endif;
 
@@ -89,7 +85,7 @@ View::load('components/objects/share-anonymous-notice');
             if (!empty($tabs) && is_array($tabs)) {
                 foreach ($tabs as $tab) {
                     if ($tab['class'] === 'current' || Url::getParam($tab['link'], 'tab') === $active_tab) {
-                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip']) && AuthHelper::isAuthenticated() && Option::getByAddon('site', 'marketing')) {
+                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip']) && class_exists(AuthHelper::class) && AuthHelper::isAuthenticated() && Option::getByAddon('site', 'marketing')) {
                             ?>
                             <div class="wps-last-updated wps-tooltip" title="<?php echo esc_attr($tab['lastUpdatedTooltip']); ?>">
                                 <span>
@@ -116,13 +112,16 @@ View::load('components/objects/share-anonymous-notice');
                 $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
 
                 if (!empty($tab['hidden'])) continue;
+                // White label: a locked (premium) tab is an upsell, so it is left out.
+                if (!empty($tab['locked']) && \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) continue;
                 ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (!empty($tab['locked'])) : ?>
-                        <a data-target="<?php echo isset($tab['lockedTarget']) ? esc_attr($tab['lockedTarget']) : "wp-statistics-data-plus" ?>" class="js-wps-openPremiumModal wps-locked">
+                        <?php // Locked tab: a normal link to its lock page (headline, benefits, Upgrade to Premium / Learn more). ?>
+                        <a href="<?php echo esc_attr($tab['link']); ?>" class="wps-locked">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>
                                 <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>

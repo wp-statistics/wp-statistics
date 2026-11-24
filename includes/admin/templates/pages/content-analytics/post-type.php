@@ -66,38 +66,36 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
         View::load("components/traffic-summary", ['data' => $data]);
 
-        $categories = [
-            'title'      => esc_html__('Top Categories', 'wp-statistics'),
-            /* translators: %s: string value */
-            'tooltip'    => sprintf(esc_html__('The most popular categories by number of published %s.', 'wp-statistics'), strtolower($postTypePlural)),
-            'taxonomies' => $data['taxonomies']
+        $topCountries = [
+            'tooltip' => esc_html__('Countries with the most visitors.', 'wp-statistics'),
+            'data'    => $data['visitors_country']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
+        View::load("components/tables/top-countries", $topCountries);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by operating system.', 'wp-statistics'),
             'unique_id' => 'content_operating_systems'
         ];
         View::load("components/charts/horizontal-bar", $operatingSystems);
 
         $browsers = [
             'title'     => esc_html__('Browsers', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by browser.', 'wp-statistics'),
             'unique_id' => 'content_browsers'
         ];
         View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceModels = [
             'title'     => esc_html__('Device Models', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device model.', 'wp-statistics'),
             'unique_id' => 'content_device_models'
         ];
         View::load("components/charts/horizontal-bar", $deviceModels);
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device type.', 'wp-statistics'),
             'unique_id' => 'content_device_usage'
         ];
         View::load("components/charts/horizontal-bar", $deviceUsage);
@@ -116,16 +114,20 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             /* translators: %s: string value */
             'title'   => sprintf(esc_html__('Top %s', 'wp-statistics'), $postTypePlural),
             /* translators: %s: string value */
-            'tooltip' => sprintf(esc_html__('Displays the most popular, most commented, and most recent %s in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
+            'tooltip' => sprintf(esc_html__('Most viewed, most commented or newest %s. Switch with "Rank by".', 'wp-statistics'), strtolower($postTypePlural)),
             'data'    => $data['posts']
         ];
         Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);
 
-        $topCountries = [
-            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
-            'data'    => $data['visitors_country']
+        // Top Categories has five columns (name, posts, per post, published, comments): it needs the
+        // wide column. Top Countries (one name + count rows) takes its place in the narrow one.
+        $categories = [
+            'title'      => esc_html__('Top Categories', 'wp-statistics'),
+            /* translators: %s: string value */
+            'tooltip'    => sprintf(esc_html__('Terms ranked by views of their %s. Click a column to sort.', 'wp-statistics'), strtolower($postTypePlural)),
+            'taxonomies' => $data['taxonomies']
         ];
-        View::load("components/tables/top-countries", $topCountries);
+        Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
 
         $engines = [
             'title'     => esc_html__('Search Engines', 'wp-statistics'),
@@ -135,7 +137,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
+            'tooltip' => esc_html__('Sites that sent the most visitors.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
         View::load("components/tables/top-referring", $topReferring);

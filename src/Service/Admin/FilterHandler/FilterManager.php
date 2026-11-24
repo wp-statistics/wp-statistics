@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\FilterHandler;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\ViewsModel;
@@ -237,25 +238,23 @@ class FilterManager
 
         // Base query
         $query = "SELECT visitors.user_id, users.user_login, users.user_email
-                  FROM `" . DB::table('visitor') . "` AS visitors
-                  JOIN `" . $wpdb->users . "` AS users
+                  FROM %i AS visitors
+                  JOIN %i AS users
                   ON visitors.user_id = users.ID
                   WHERE visitors.user_id > 0";
+        $params = [DB::table('visitor'), $wpdb->users];
 
         // If search term is provided, filter by email or username
         if (!empty($search)) {
             $search = '%' . $wpdb->esc_like($search) . '%';
-            $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+            $query    .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+            $params[] = $search;
+            $params[] = $search;
         }
 
         $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
 
-        // Prepare and execute the query
-        if (!empty($search)) {
-            $query = $wpdb->prepare($query, $search, $search);
-        }
-
-        $results = $wpdb->get_results($query, ARRAY_A);
+        $results = $wpdb->get_results($wpdb->prepare($query, $params), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $query is built from fixed strings above
 
         foreach ($results as $user) {
             $option = [
@@ -379,11 +378,18 @@ class FilterManager
         $args = [];
 
         foreach ($postTypes as $postType) {
+            $isPremium = Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus');
+
+            // White label: a Premium post type is an upsell (it opens the Premium popup), so it is left out.
+            if ($isPremium && LicenseHelper::areAddonPromptsHidden()) {
+                continue;
+            }
+
             $args[] = [
                 'slug' => esc_html($postType),
                 'name' => esc_html(Helper::getPostTypeName($postType)),
                 'url' => esc_url_raw(add_query_arg([$queryKey => $postType], $baseUrl)),
-                'premium' => Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus')
+                'premium' => $isPremium
             ];
         }
 
@@ -588,7 +594,13 @@ class FilterManager
         $args = [];
 
         foreach ($parameters as $key => $parameter) {
-            $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $parameter->uri);
+            // Show only the query string when the path is the page's own path, otherwise the full URI
+            $uriParts = explode('?', $parameter->uri, 2);
+            $title    = $parameter->uri;
+
+            if (isset($uriParts[1]) && trim($uriParts[0], '/') === trim($pageSlug, '/')) {
+                $title = '?' . $uriParts[1];
+            }
 
             $args[] = [
                 'slug' => esc_attr($parameter->page_id),

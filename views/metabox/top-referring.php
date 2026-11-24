@@ -8,29 +8,27 @@ use WP_Statistics\Components\View;
 
 ?>
 
-<?php if (!empty($data)) : ?>
-    <div class="o-table-wrapper">
-        <table width="100%" class="o-table wps-new-table">
-            <thead>
-            <tr>
-                <th class="wps-pd-l"><?php esc_html_e('Domain Address', 'wp-statistics'); ?></th>
-                <th class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Referrals', 'wp-statistics'); ?></span></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($data as $item) : ?>
-                <?php /** @var ReferralDecorator $item * */ ?>
+<?php
+// Rows + range total from MetaboxDataProvider::getReferrersShare(); a plain row list still works.
+$rows  = isset($data['rows']) ? $data['rows'] : (is_array($data ?? null) ? $data : []);
+$total = isset($data['total']) ? intval($data['total']) : 0;
+$items = [];
 
-                <tr>
-                    <td class="wps-pd-l">
-                        <a class="wps-link-arrow" href="<?php echo esc_url($item->getReferrer()) ?>" title="<?php echo esc_attr($item->getRawReferrer()) ?>" target="_blank"><span><?php echo esc_html($item->getRawReferrer()) ?></span></a>
-                    </td>
-
-                    <td class="wps-pd-l wps-middle-vertical"><a href="<?php echo esc_url(Menus::admin_url('referrals', ['tab'=>'referred-visitors','referrer' => $item->getRawReferrer(), 'from' => $filters['date']['from'], 'to' => $filters['date']['to']])) ?>"><?php echo esc_html($item->getTotalReferrals()) ?></a></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+foreach ($rows as $item) {
+    /** @var ReferralDecorator $item */
+    $items[] = [
+        'label'     => $item->getListLabel($rows),
+        'url'       => $item->getReferrer(),
+        'new_tab'   => true,
+        'count'     => intval($item->getTotalReferrals(true)),
+        'count_url' => Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'referrer' => $item->getRawReferrer(), 'from' => $filters['date']['from'] ?? '', 'to' => $filters['date']['to'] ?? '']),
+        'icon'      => 'globe',
+    ];
+}
+?>
+<?php if (!empty($items)) : ?>
+    <div class="o-wrap">
+        <?php View::load('components/objects/share-list', ['items' => $items, 'total' => $total, 'class' => 'wps-share-list--referrers']); ?>
     </div>
 <?php else : ?>
     <?php
@@ -40,7 +38,8 @@ use WP_Statistics\Components\View;
     }
     View::load("components/objects/no-data", [
         'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-2.svg',
-        'title' => $title
+        'title' => $title,
+        'date'  => $filters['date'] ?? null
     ]);
     ?>
 <?php endif; ?>

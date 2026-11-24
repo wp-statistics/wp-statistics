@@ -13,23 +13,7 @@ body.toplevel_page_wps_overview_page {
       gap: 0;
     }
 
-    .postbox {
-
-      .c-footer {
-        @media screen and (min-width: 758px) and (max-width: 900px) {
-          padding: 24px 24px 0 24px !important;
-        }
-
-        @media screen and (min-width: 758px) and (max-width: 1300px) {
-           flex-direction: column;
-           align-items: flex-start;
-        }
-
-        @media screen and (min-width: 900px) and (max-width: 1420px) {
-          padding: 24px 24px 4px 24px !important;
-        }
-      }
-    }
+    // Footer spacing and the one-row layout come from component/_card.scss (no stacking here).
   }
 
   #normal-sortables #wp-statistics-summary-widget {

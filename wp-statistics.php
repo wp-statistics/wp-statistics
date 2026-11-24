@@ -4,7 +4,7 @@
  * Plugin URI: https://wp-statistics.com/
  * GitHub Plugin URI: https://github.com/wp-statistics/wp-statistics
  * Description: Get website traffic insights with privacy-friendly analytics. Includes visitor data and clear graphs, stored on your own server.
- * Version: 14.16.20
+ * Version: 14.17.0
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) exit;
 require_once __DIR__ . '/includes/defines.php';
 
 # Set another useful plugin define.
-define('WP_STATISTICS_VERSION', '14.16.20');
+define('WP_STATISTICS_VERSION', '14.17.0');
 
 # Load Plugin
 if (!class_exists('WP_Statistics')) {

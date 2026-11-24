@@ -80,6 +80,11 @@ final class WP_Statistics
         register_activation_hook(WP_STATISTICS_MAIN_FILE, [$this, 'activator']);
 
         /**
+         * Stop the plugin's own cron checks while it is inactive
+         */
+        register_deactivation_hook(WP_STATISTICS_MAIN_FILE, [self::class, 'deactivator']);
+
+        /**
          * Remove plugin data
          */
         register_uninstall_hook(WP_STATISTICS_MAIN_FILE, [self::class, 'uninstaller']);
@@ -175,12 +180,13 @@ final class WP_Statistics
 
         CoreFactory::updater();
 
+        // Site create/delete hooks must run outside wp-admin too (WP-CLI, REST, signup).
+        CoreFactory::loader();
+
         new BackgroundProcessManager();
 
         // Admin classes
         if (is_admin()) {
-            CoreFactory::loader();
-
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
 
@@ -333,6 +339,35 @@ final class WP_Statistics
     {
         require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         CoreFactory::activator($networkWide);
+    }
+
+    /**
+     * Plugin deactivation callback.
+     *
+     * Removes the daily "visits stopped" check, so an inactive plugin sends no alerts.
+     * It is scheduled again on the next request after the plugin is activated.
+     * On a network deactivation the check is removed from every site.
+     *
+     * @param bool $networkWide Whether the plugin is being deactivated network-wide.
+     * @return void
+     */
+    public static function deactivator($networkWide = false)
+    {
+        if (is_multisite() && $networkWide) {
+            $siteIds = get_sites(['fields' => 'ids', 'number' => 0]);
+
+            foreach ($siteIds as $siteId) {
+                switch_to_blog($siteId);
+                wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
+                delete_option('wp_statistics_tracking_health_baseline');
+                restore_current_blog();
+            }
+
+            return;
+        }
+
+        wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
+        delete_option('wp_statistics_tracking_health_baseline');
     }
 
     /**

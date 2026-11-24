@@ -18,7 +18,7 @@ class OperatingSystems extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics');
+        return esc_html__('Visitors by operating system.', 'wp-statistics');
     }
 
     public function getOptions()

@@ -92,8 +92,9 @@ class Visitor
         $columns      = (empty($fields) ? '*' : Helper::prepareArrayToStringForQuery($fields));
         $columns      = str_replace("'", '', $columns);
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
-        $visitor      = $wpdb->get_row(
-            $wpdb->prepare("SELECT {$columns} FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
+        // $columns is a column list from the calling code (quotes stripped), never request input.
+        $visitor      = $wpdb->get_row( // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter
+            $wpdb->prepare("SELECT {$columns} FROM %i WHERE `last_counter` = %s AND `ip` = %s", DB::table('visitor'), $last_counter, $ip) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         );
 
         return (!$visitor ? false : $visitor);
@@ -157,30 +158,19 @@ class Visitor
             //Save Visitor TO DB
             $visitor_id = self::save_visitor($visitor, $visitorProfile);
 
-        } else {
+            // Two first hits of the same visitor at the same moment (several tabs): the unique key
+            // (day, ip, agent, platform, version) let only one row in and INSERT IGNORE gave this
+            // request no ID. Count this hit on the row the other request created.
+            if (empty($visitor_id)) {
+                $same_visitor = self::find_today_row($visitor);
 
-            //Get Current Visitor ID
-            $visitor_id = $same_visitor->ID;
-
-            // Update Same Visitor Hits
-            if ($args['exclusion_reason'] != 'Robot threshold') {
-
-                // Action Before Visitor Update
-                do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
-
-                $data = [
-                    'hits'    => $same_visitor->hits + 1,
-                    'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
-                ];
-
-                $data['last_page'] = $args['page_id'];
-                $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
-
-                $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
-
-                $visitorModel = new VisitorsModel();
-                $visitorModel->updateVisitor($visitor_id, $data);
+                if ($same_visitor) {
+                    $visitor_id = self::update_same_visitor($same_visitor, $visitorProfile, $args);
+                }
             }
+
+        } else {
+            $visitor_id = self::update_same_visitor($same_visitor, $visitorProfile, $args);
         }
 
         $visitor_id = (isset($visitor_id) ? $visitor_id : false);
@@ -189,6 +179,78 @@ class Visitor
         do_action('wp_statistics_record_visitor', $visitor_id);
 
         return $visitor_id;
+    }
+
+    /**
+     * Count one more hit on today's visitor row.
+     *
+     * @param object         $same_visitor   Row from the visitor table.
+     * @param VisitorProfile $visitorProfile
+     * @param array          $args           record() args (exclusion_reason, page_id).
+     * @return int Visitor ID.
+     */
+    private static function update_same_visitor($same_visitor, $visitorProfile, $args)
+    {
+        $visitor_id = (int) $same_visitor->ID;
+
+        // Update Same Visitor Hits
+        if ($args['exclusion_reason'] != 'Robot threshold') {
+
+            // Action Before Visitor Update
+            do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
+
+            $data = [
+                'hits'    => $same_visitor->hits + 1,
+                'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
+            ];
+
+            $data['last_page'] = $args['page_id'];
+            $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
+
+            $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
+
+            // Several tabs opened at once read the same hits value; writing "read value + 1" back
+            // lost all but one of them. Add 1 in the database instead, unless a filter set its own number.
+            $addOneHit = isset($data['hits']) && (int) $data['hits'] === (int) $same_visitor->hits + 1;
+            if ($addOneHit) {
+                unset($data['hits']);
+            }
+
+            if (!empty($data)) {
+                $visitorModel = new VisitorsModel();
+                $visitorModel->updateVisitor($visitor_id, $data);
+            }
+
+            if ($addOneHit) {
+                global $wpdb;
+                $wpdb->query($wpdb->prepare("UPDATE %i SET `hits` = `hits` + 1 WHERE `ID` = %d", DB::table('visitor'), $visitor_id));
+            }
+        }
+
+        return $visitor_id;
+    }
+
+    /**
+     * Today's visitor row that matches the visitor table's unique key (day, ip, agent, platform, version).
+     *
+     * @param array $visitor The row that could not be inserted.
+     * @return object|false
+     */
+    private static function find_today_row($visitor)
+    {
+        global $wpdb;
+
+        $row = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM %i WHERE `last_counter` = %s AND `ip` = %s AND `agent` = %s AND `platform` = %s AND `version` = %s LIMIT 1",
+            DB::table('visitor'),
+            $visitor['last_counter'],
+            $visitor['ip'],
+            (string) $visitor['agent'],
+            (string) $visitor['platform'],
+            (string) $visitor['version']
+        ));
+
+        return $row ? $row : self::exist_ip_in_day($visitor['ip'], $visitor['last_counter']);
     }
 
     /**
@@ -214,7 +276,7 @@ class Visitor
          *
          */
         $row = $wpdb->get_row(
-            $wpdb->prepare("SELECT ID, page_id FROM `" . $tableName . "` WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $visitor_id, $currentDate)
+            $wpdb->prepare("SELECT ID, page_id FROM %i WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $tableName, $visitor_id, $currentDate)
         );
 
         // Insert a new record in visitor relationship only if the last viewed page is not equal to the current page
@@ -273,7 +335,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM %i WHERE last_counter = %s ORDER BY hits DESC", DB::table('visitor'), $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -483,9 +545,9 @@ class Visitor
     public static function Count($args = array())
     {
         global $wpdb;
-        $sql = "SELECT COUNT(*) FROM `" . DB::table('visitor') . "`";
+        $sql = $wpdb->prepare("SELECT COUNT(*) FROM %i", DB::table('visitor'));
         $sql .= Helper::getConditionSQL($args);
-        return $wpdb->get_var($sql);
+        return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- conditions come from internal callers, not request input
     }
 
     /**
@@ -497,7 +559,11 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT visitors.user_id, users.user_login, users.user_email FROM `" . DB::table('visitor') . "` AS visitors JOIN `" . $wpdb->users . "` AS users ON visitors.user_id = users.ID WHERE visitors.user_id > 0 GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;",
+            $wpdb->prepare(
+                "SELECT visitors.user_id, users.user_login, users.user_email FROM %i AS visitors JOIN %i AS users ON visitors.user_id = users.ID WHERE visitors.user_id > 0 GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;",
+                DB::table('visitor'),
+                $wpdb->users
+            ),
             ARRAY_A
         );
         $item  = array();

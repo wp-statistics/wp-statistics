@@ -5,16 +5,15 @@ namespace WP_Statistics\Core\Operations;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Core\AbstractCore;
+use WP_Statistics\Core\CoreFactory;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
  * Handles runtime registrations and the admin upgrade UI.
  *
- * Runs on load to register multisite create/drop handlers, add plugin row
- * meta links, and initialize the page-type updater, which displays an admin
- * notice and processes updates via AJAX until all records are typed.
+ * Runs on every request to register the multisite create/drop handlers and
+ * the plugin row meta links.
  *
  * @package WP_Statistics\Core\Operations
  */
@@ -38,28 +37,109 @@ class Loader extends AbstractCore
      */
     public function execute()
     {
-        add_action('wpmu_new_blog', [$this, 'addTableOnCreateBlog'], 10, 1);
-        add_filter('wpmu_drop_tables', [$this, 'removeTableOnDeleteBlog']);
+        // Site lifecycle hooks. They are registered on every request (not only in wp-admin),
+        // so sites created or deleted by WP-CLI, the REST API or front-end signup are covered.
+        add_action('wp_initialize_site', [$this, 'setupNewSite'], 20, 1);
+        add_filter('wpmu_drop_tables', [$this, 'removeTableOnDeleteBlog'], 10, 2);
         add_filter('plugin_row_meta', [$this, 'addMetaLinks'], 10, 2);
     }
 
-    public function addTableOnCreateBlog($blogId)
+    /**
+     * Sets up WP Statistics on a site that was just created, when the plugin is
+     * network-activated: tables, default options and stored version.
+     *
+     * The new site starts from the options of the site it was created from (as before),
+     * then runs the same per-site steps as a network activation.
+     *
+     * @param \WP_Site|int $site New site object (wp_initialize_site) or ID.
+     * @return void
+     */
+    public function setupNewSite($site)
     {
-        if (!is_plugin_active_for_network(plugin_basename(WP_STATISTICS_MAIN_FILE))) {
+        $blogId = $site instanceof \WP_Site ? (int)$site->blog_id : (int)$site;
+
+        if ($blogId <= 0 || !self::isNetworkActive()) {
             return;
         }
 
         $options = get_option(Option::$opt_name);
+
         switch_to_blog($blogId);
-        TableHandler::createAllTables();
-        update_option(Option::$opt_name, $options);
+
+        if (is_array($options) && !empty($options)) {
+            update_option(Option::$opt_name, $options);
+        }
+
+        CoreFactory::activator(false);
+
         restore_current_blog();
     }
 
-    public function removeTableOnDeleteBlog($tables)
+    /**
+     * Back-compat alias for the old wpmu_new_blog callback.
+     *
+     * @param int $blogId
+     * @return void
+     * @deprecated 14.17.0 Use setupNewSite().
+     */
+    public function addTableOnCreateBlog($blogId)
     {
-        $tables[] = array_merge($tables, DB::table('all'));
+        $this->setupNewSite($blogId);
+    }
+
+    /**
+     * Adds the WP Statistics tables of a site to the list WordPress drops when the
+     * site is deleted. WordPress has already switched to that site, so the table
+     * names carry the site's own prefix.
+     *
+     * @param string[] $tables Table names WordPress will drop.
+     * @param int $blogId Site ID being deleted.
+     * @return string[]
+     */
+    public function removeTableOnDeleteBlog($tables, $blogId = 0)
+    {
+        return self::addSiteTables($tables);
+    }
+
+    /**
+     * Adds the current site's WP Statistics table names to a list of tables.
+     *
+     * @param string[] $tables
+     * @return string[]
+     */
+    public static function addSiteTables($tables)
+    {
+        $tables = is_array($tables) ? $tables : [];
+
+        // Every known table name, whether it exists or not: WordPress drops them
+        // with DROP TABLE IF EXISTS, so missing add-on tables are skipped.
+        foreach (array_unique(DB::$db_table) as $name) {
+            $table = DB::getTableName($name);
+
+            if (!in_array($table, $tables, true)) {
+                $tables[] = $table;
+            }
+        }
+
         return $tables;
+    }
+
+    /**
+     * Whether the plugin is network-activated.
+     *
+     * @return bool
+     */
+    private static function isNetworkActive()
+    {
+        if (!is_multisite()) {
+            return false;
+        }
+
+        if (!function_exists('is_plugin_active_for_network')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        return is_plugin_active_for_network(plugin_basename(WP_STATISTICS_MAIN_FILE));
     }
 
     public function addMetaLinks($links, $file)

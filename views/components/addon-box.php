@@ -25,8 +25,8 @@ $statusIcons = [
              </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
-                    <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
-                        <?php echo esc_html($addOn->getName())?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'add-ons-page', $addOn->getSlug(), 'learn-more')); ?>" target="_blank">
+                        <?php echo esc_html($addOn->getName())?><?php if ($addOn->getVersion()) : ?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span><?php endif; ?>
                     </a>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
@@ -44,6 +44,9 @@ $statusIcons = [
         </div>
         <div class="wps-postbox-addon__item--actions">
             <div class="wps-postbox-addon__buttons">
+                <?php if ($addOn->isBundled() && !$addOn->isInstalled()) : ?>
+                    <a class="wps-postbox-addon__button wps-postbox-addon__button--learn" href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'add-ons-page', $addOn->getSlug(), 'learn-more')); ?>" target="_blank" rel="noopener"><?php esc_html_e('Learn more', 'wp-statistics'); ?><span class="screen-reader-text"> <?php echo esc_html($addOn->getName()); ?></span></a>
+                <?php endif; ?>
                 <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
                     <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
                 <?php endif; ?>
@@ -63,12 +66,12 @@ $statusIcons = [
                         <li><a class="wps-addon--submenu wps-addon--submenu__settings wps-addon--submenu--disabled" aria-disabled="true" data-settings-url="<?php echo esc_url($addOn->getSettingsUrl()); ?>" title="<?php esc_attr_e('Activate the add-on to open its settings', 'wp-statistics'); ?>"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
                         <li><span class="wps-separator"></span></li>
                     <?php endif; ?>
-                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'add-ons-page', $addOn->getSlug(), 'learn-more')); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>
                     <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>&utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getChangelogUrl(), 'add-ons-page', $addOn->getSlug(), 'changelog')); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                     <?php if (!empty($addOn->getDocumentationUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getDocumentationUrl(), 'add-ons-page', $addOn->getSlug(), 'docs')); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                 </ul>
             </div>

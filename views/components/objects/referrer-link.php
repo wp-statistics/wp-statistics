@@ -7,6 +7,9 @@
             <b class="badge"><?php echo esc_html($badge)?></b>
             <?php endif; ?>
         </a>
+    <?php elseif (!empty($source_name)) : ?>
+        <?php // No referrer, but the source is known from the landing URL (for example Microsoft Ads via msclkid). ?>
+        <span title="<?php echo esc_attr($source_name) ?>"><?php echo esc_html($source_name) ?></span>
     <?php endif; ?>
 
     <span class="wps-referral-label"><?php echo esc_html($label)?></span>

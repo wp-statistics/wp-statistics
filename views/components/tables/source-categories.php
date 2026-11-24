@@ -1,50 +1,57 @@
 <?php
+/**
+ * Top Source Categories: the Top Countries share rows (components/objects/share-list).
+ * Category name (no icon: the rows read as a plain ranking, like Top Countries without flags),
+ * the top domain as grey text, count + share on the end side, thin bar under the row. The last
+ * row sums the categories past the top five. The full Referrals > Source Categories report keeps
+ * the coloured icons, because there they match the lines of the chart above the table.
+ *
+ * Args:
+ *  - data    (array) Rows from TopSourceCategoriesDataProvider::getData(). Rows with only the
+ *                    old keys (source_category, top_domain, visitors, percentage) still work.
+ *  - filters (array) Optional, ['date' => ['from' => ..., 'to' => ...]] for the empty state.
+ *  - wrap    (bool)  Optional, print the `.inside` wrapper (default true, as before).
+ */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-$source_colors = [
-    '#4285F4',
-    '#9C27B0',
-    '#34A853',
-    '#FBBC05',
-    '#9E9E9E',
-];
+use WP_Statistics\Components\View;
+
+$rows  = isset($data) && is_array($data) ? $data : [];
+$wrap  = !isset($wrap) || $wrap;
+$items = [];
+
+foreach ($rows as $row) {
+    if (!is_array($row)) {
+        continue;
+    }
+
+    $count = isset($row['count']) ? intval($row['count']) : intval(preg_replace('/[^\d]/', '', (string)($row['visitors'] ?? '0')));
+    $label = (string)($row['label'] ?? ($row['source_category'] ?? ''));
+
+    if (array_key_exists('domain', $row)) {
+        $domain = (string)$row['domain'];
+    } else {
+        $domain = (string)($row['top_domain'] ?? '');
+        $domain = $domain === '-' ? '' : $domain;
+    }
+
+    $items[] = [
+        'label'    => $label,
+        'count'    => $count,
+        'url'      => $row['url'] ?? '',
+        'meta'     => $domain,
+        'meta_dir' => 'ltr',
+        'class'    => !empty($row['is_other']) ? 'wps-share-list__item--other' : '',
+    ];
+}
 ?>
-<div class="inside">
-    <?php if (!empty($data)): ?>
-        <div class="o-table-wrapper wps-source-category">
-            <table class="o-table wps-new-table wps-source-category__table">
-                <thead>
-                <tr>
-                    <th scope="col" class="wps-pd-l"><?php esc_html_e('Source Category', 'wp-statistics') ?></th>
-                    <th scope="col" class="wps-pd-l"><?php esc_html_e('Top Domain', 'wp-statistics') ?></th>
-                    <th scope="col" class="wps-pd-l"><?php esc_html_e('Visitors', 'wp-statistics') ?></th>
-                    <th scope="col" class="wps-pd-l">%</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($data as $index => $row):
-                    $color = $source_colors[$index] ?? '#4285F4'; // default color
-                    ?>
-                    <tr>
-                        <td class="wps-pd-l">
-                            <div class="wps-source-category__bg" style="border-color:<?php echo $color; ?>;color: <?php echo $color; ?>;"></div>
-                            <span><?php echo esc_html($row['source_category']); ?></span>
-                            <p class="wps-ellipsis-parent <?php echo ($row['top_domain'] === '-') ? 'wps-hidden' : ''; ?>" title="<?php echo esc_attr($row['top_domain']); ?>">
-                                <span class="wps-ellipsis-text"><?php echo esc_html($row['top_domain']); ?></span>
-                            </p>
-                        </td>
-                        <td class="wps-pd-l"><span><?php echo esc_html($row['top_domain']); ?></span></td>
-                        <td class="wps-pd-l"><span><?php echo esc_html($row['visitors']); ?></span></td>
-                        <td class="wps-pd-l"><span><?php echo esc_html($row['percentage']); ?></span></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+<?php if ($wrap) : ?><div class="inside"><?php endif; ?>
+    <?php if (!empty($items)) : ?>
+        <div class="o-wrap wps-source-categories">
+            <?php View::load('components/objects/share-list', ['items' => $items, 'class' => 'wps-share-list--categories']); ?>
         </div>
-    <?php else: ?>
-        <div class="o-wrap o-wrap--no-data wps-center">
-            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-        </div>
+    <?php else : ?>
+        <?php View::load('components/objects/empty-state', ['date' => $filters['date'] ?? ($args['date'] ?? null)]); ?>
     <?php endif; ?>
-</div>
+<?php if ($wrap) : ?></div><?php endif; ?>

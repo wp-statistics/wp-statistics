@@ -1,5 +1,67 @@
 [
   {
+    "type": "paid_other",
+    "description": "OpenAI (ChatGPT) ad clicks, identified by the oppref parameter; they often come without a referrer",
+    "rules_only": true,
+    "channels": [
+      {
+        "name": "OpenAI Ads",
+        "identifier": "openai_ads",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]oppref=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_search",
+    "description": "Microsoft Advertising clicks, identified by the msclkid parameter, with or without a referrer",
+    "rules_only": true,
+    "channels": [
+      {
+        "name": "Microsoft Ads",
+        "identifier": "microsoft_ads",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]msclkid=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_social",
+    "description": "Facebook ad clicks: facebook.com referrer, utm_source facebook (or fb) and a paid utm_medium. fbclid alone is not an ad click",
+    "rules_only": true,
+    "channels": [
+      {
+        "name": "Facebook Ads",
+        "identifier": "facebook_ads",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "REFERRER MATCH",
+        "pattern": "/(^|\\.)facebook\\.com$/i"
+      },
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]utm_source=(facebook|fb)(?:&|$)/i"
+      },
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(([^&]*)cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+      }
+    ]
+  },
+  {
     "type": "direct",
     "description": "Direct traffic",
     "channels": [
@@ -14,7 +76,7 @@
     "rules": [
       {
         "operator": "NOT MATCH",
-        "pattern": "/\\b(gclid|fbclid|msclkid|li_fat_id|twclid|ttclid|yclid|dclid|ref|source|utm_source|utm_medium|utm_campaign|gad_source)\\b/"
+        "pattern": "/\\b(gclid|fbclid|msclkid|li_fat_id|twclid|ttclid|yclid|dclid|ref|source|utm_source|utm_medium|utm_campaign|gad_source|gbraid|wbraid)\\b/"
       }
     ]
   },
@@ -7436,6 +7498,114 @@
       {
         "operator": "MATCH",
         "pattern": "/utm_medium=([^&]*)push(?:&|$)|utm_medium=([^&]*)(mobile|notification)([^&]*)|(?:utm_source|source|ref)=firebase(?:&|$)/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_search",
+    "description": "Google Ads clicks with no referrer and no other known source, identified by the gclid, gad_source, gbraid, wbraid or dclid parameter",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "Google Ads",
+        "identifier": "google_ads",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&](gclid|gad_source|gbraid|wbraid|dclid)=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_search",
+    "description": "Yandex Direct clicks with no referrer and no other known source, identified by the yclid parameter",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "Yandex",
+        "identifier": "yandex",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]yclid=/i"
+      }
+    ]
+  },
+  {
+    "type": "social",
+    "description": "Facebook clicks with no referrer and no other known source, identified by the fbclid parameter (fbclid alone is not an ad click)",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "Facebook",
+        "identifier": "facebook",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]fbclid=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_social",
+    "description": "LinkedIn ad clicks with no referrer and no other known source, identified by the li_fat_id parameter",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "LinkedIn",
+        "identifier": "linkedin",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]li_fat_id=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_social",
+    "description": "X (Twitter) ad clicks with no referrer and no other known source, identified by the twclid parameter",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "X (Twitter)",
+        "identifier": "twitter",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]twclid=/i"
+      }
+    ]
+  },
+  {
+    "type": "paid_social",
+    "description": "TikTok ad clicks with no referrer and no other known source, identified by the ttclid parameter",
+    "fallback": true,
+    "channels": [
+      {
+        "name": "tiktok",
+        "identifier": "tiktok",
+        "domains": []
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/[?&]ttclid=/i"
       }
     ]
   }

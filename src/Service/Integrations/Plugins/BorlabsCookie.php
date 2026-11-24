@@ -53,37 +53,54 @@ class BorlabsCookie extends AbstractIntegration
         // If any other consent integration is active, return
         if (!empty($integration) && $integration !== $this->getKey()) return;
 
-        $isServiceActive = $this->isServiceInstalled();
-
-        // If the WP Statistics service is no longer active, remove the integration
-        if ($integration === $this->getKey() && !$isServiceActive) {
-            Option::update('consent_integration', '');
-        }
-
-        // If the WP Statistics service is active, set the integration
-        if ($isServiceActive) {
+        // If the WP Statistics service is active, set the integration. When the service is removed
+        // later, the saved choice stays and the admin sees a notice.
+        if ($integration !== $this->getKey() && $this->isServiceInstalled()) {
             Option::update('consent_integration', $this->getKey());
         }
     }
 
     /**
+     * Borlabs Cookie only blocks the tracker when the WP Statistics service is set up in it.
+     *
+     * @return string The warning, or an empty string when the setup is fine.
+     */
+    public function getConfigurationWarning()
+    {
+        if ($this->isAvailable() && !$this->isServiceInstalled()) {
+            return esc_html__('Consent integration is set to Borlabs Cookie, but the WP Statistics service is not set up in Borlabs Cookie, so it does not ask visitors for consent.', 'wp-statistics');
+        }
+
+        return parent::getConfigurationWarning();
+    }
+
+    /**
      * Check if the WP Statistics service is installed in Borlabs Cookie.
+     * The answer is kept for the request, since it is asked on every hit.
      *
      * @return  bool
      */
     public function isServiceInstalled()
     {
+        static $isServiceInstalled = null;
+
+        if ($isServiceInstalled !== null) {
+            return $isServiceInstalled;
+        }
+
         if (!class_exists(ServiceRepository::class)) {
             return false;
         }
 
-        $isServiceInstalled = Query::select('*')
+        $service = Query::select('*')
             ->from(ServiceRepository::TABLE)
             ->where('`key`', '=', 'wp-statistics')
             ->where('status', '=', '1')
             ->getRow();
 
-        return !empty($isServiceInstalled);
+        $isServiceInstalled = !empty($service);
+
+        return $isServiceInstalled;
     }
 
     /**

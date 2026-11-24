@@ -1,0 +1,19 @@
+// CSS custom properties mirroring the SCSS tokens in settings/_vars.scss, so add-ons and
+// inline styles can read the same values: var(--wps-brand), var(--wps-card-radius) ...
+:root {
+  --wps-brand: #{$wps-brand};
+  --wps-brand-soft: #{$wps-brand-soft};
+  --wps-brand-tint: #{$wps-brand-tint};
+  --wps-text-strong: #{$wps-text-strong};
+  --wps-text: #{$wps-text};
+  --wps-text-muted: #{$wps-text-muted};
+  --wps-text-subtle: #{$wps-text-subtle};
+  --wps-card-bg: #{$wps-card-bg};
+  --wps-card-border: #{$wps-card-border};
+  --wps-card-radius: #{$wps-card-radius};
+  --wps-card-pad: #{$wps-card-pad-top} #{$wps-card-pad-x} #{$wps-card-pad-bottom};
+  --wps-card-rule: #{$wps-card-rule};
+  --wps-track: #{$wps-track};
+  --wps-good: #{$wps-good};
+  --wps-bad: #{$wps-bad};
+}

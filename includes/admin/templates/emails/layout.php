@@ -16,15 +16,25 @@ $dir                = $is_rtl ? 'rtl' : 'ltr';
 // Setting up the logo.
 $final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="168" height="38" title="WP Statistics" alt="WP Statistics" style="margin: 0; margin-bottom: 32px; padding: 0; text-decoration: none;"></a>';
 
+// Alerts, for example "visits stopped", pass is_report false: same frame, no report sections.
+$is_report             = !isset($is_report) || !empty($is_report);
+$advanced_reporting_ad = '';
+$privacyBox            = '';
+$email_performance_html = '';
+$tip_html              = '';
+
+if ($is_report) {
+
 // Advertisement For WP Statistics Advanced Report Plugin
-$advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
-    '<table class="better-reports" style="background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; margin-top: 39px;  text-align: center; text-decoration: none;">
+// Not when Advanced Reporting runs, and not under white label (or a hidden Add-ons menu).
+$advanced_reporting_ad = (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') || \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) ? '' :
+    '<table class="better-reports" width="100%" style="width: 100%; background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; margin-top: 39px;  text-align: center; text-decoration: none;">
         <tbody><tr><td style="padding: 32px 18px;">
         <h2 class="better-reports__title" style=" color: #fff; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
         <p style=" color: #fff; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
            ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
         </p>
-        <a href="https://wp-statistics.com/add-ons/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px;  text-decoration: none; word-break: break-word;">
+        <a href="' . esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::addon('wp-statistics-advanced-reporting', 'email')) . '"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px;  text-decoration: none; word-break: break-word;">
             ' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '
         </a>
    </td></tr></tbody></table>';
@@ -33,7 +43,7 @@ $privacyBox      = '';
 $privacyAuditData = new PrivacyAuditDataProvider();
 $complianceStatus = $privacyAuditData->getComplianceStatus();
 if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required']) && Option::get('privacy_audit') && Option::get('show_privacy_issues_in_report')) {
-    $privacyBox = '<table style="background-color: #B266200D;border-radius: 12px;margin-bottom: 24px;">
+    $privacyBox = '<table width="100%" style="width: 100%; background-color: #B266200D;border-radius: 12px;margin-bottom: 24px;">
                 <tbody>
                    <tr>
                         <td style="padding: 20px">
@@ -71,7 +81,10 @@ if (!empty($schedule)) {
 }
 $websitePerformanceDataProvider = new WebsitePerformanceDataProvider($startDate, $endDate);
 
-function getPerformanceStyles($percentageChange) {
+// The layout can be included more than once per request (for example a report and an
+// alert sent together), so the helpers are declared once, with prefixed names.
+if (!function_exists('wp_statistics_email_performance_styles')) {
+function wp_statistics_email_performance_styles($percentageChange) {
     $styles = [
         'background' => '#A9AAAE1A', // Default for 0 change
         'color' => '#A9AAAE',
@@ -89,7 +102,10 @@ function getPerformanceStyles($percentageChange) {
     return $styles;
 }
 
-function generatePerformanceSection($icon, $currentValue, $percentageChange, $label, $text_align = null, $text_align_reverse = null) {
+}
+
+if (!function_exists('wp_statistics_email_performance_section')) {
+function wp_statistics_email_performance_section($icon, $currentValue, $percentageChange, $label, $text_align = null, $text_align_reverse = null) {
     if (is_null($text_align)) {
         $text_align = is_rtl() ? 'right' : 'left';
     }
@@ -100,7 +116,7 @@ function generatePerformanceSection($icon, $currentValue, $percentageChange, $la
     // Build the percentage change badge only if we have valid data
     $percentageBadge = '';
     if ($percentageChange !== null) {
-        $styles = getPerformanceStyles($percentageChange);
+        $styles = wp_statistics_email_performance_styles($percentageChange);
         $percentageBadge = '
                         <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . $styles['background'] . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . $styles['color'] . ';display: inline-block">
                             <img alt="' . $label . '" width="7" height="7" style="margin-' . $text_align_reverse . ': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $styles['image']) . '"  >
@@ -123,6 +139,7 @@ function generatePerformanceSection($icon, $currentValue, $percentageChange, $la
             </tr>
         </table>';
 }
+}
 
 
 $email_performance_html = '
@@ -140,13 +157,13 @@ $email_performance_html = '
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td width="40%" >
-                          ' . generatePerformanceSection(
+                          ' . wp_statistics_email_performance_section(
                             'visitor.png',
                             Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeVisitors(),
                             __('Visitors', 'wp-statistics')
                         ) . '
-                        ' . generatePerformanceSection(
+                        ' . wp_statistics_email_performance_section(
                             'referrals.png',
                             Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeReferrals(),
@@ -154,13 +171,13 @@ $email_performance_html = '
                         ) . '
                     </td>
                     <td width="60%" >
-                        ' . generatePerformanceSection(
+                        ' . wp_statistics_email_performance_section(
                             'views.png',
                             Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
                             $websitePerformanceDataProvider->getPercentageChangeViews(),
                             __('Views', 'wp-statistics')
                         ) . '
-                        ' . generatePerformanceSection(
+                        ' . wp_statistics_email_performance_section(
                             'contents.png',
                             $websitePerformanceDataProvider->getCurrentPeriodContents(),
                             $websitePerformanceDataProvider->getPercentageChangeContents(),
@@ -273,37 +290,8 @@ $email_performance_html .= '<td width="60%" >' . implode('', $secondColumnConten
 
 $email_performance_html .= '</tr></table></div></div>';
 
-$email_body = '
-        <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 39px 0; text-decoration: none;">
-            <div class="main-section" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
-                <div style="border-radius: 12px;margin-bottom: 24px;background-color: #fff;">
-                    <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . (!empty($content) || !empty($email_header) ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
-                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
-                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
-                                 ' . $final_logo . '
-                            </td>
-                        </tr>
-                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
-                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
-                                <p style=" color: #0C0C0D ; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size:21px; font-weight: 600; line-height: 24.61px; margin: 0;  padding: 0">' . $email_title . '</p>
-                            </td>
-                        </tr>
-                    </table>
-                    ' . $email_header;
-if (!empty($content)) {
-
-    $email_body .= '<table>
-                        <tbody>
-                            <tr>
-                               <td style="padding: 32px;white-space: pre-wrap;font-size: 16px">' .wp_kses_post($content) . '</td>                   
-                            </tr>
-                        </tbody>   
-                    </table>';
-}
-$email_body .= '</div>
-                ' .$email_performance_html . $privacyBox .'
-                <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;">
-                     <table class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;  text-decoration: none;">
+    $tip_html = '<div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;">
+                     <table class="content__tip" width="100%" style="width: 100%; background-color: #E1EBFE; border-radius: 12px;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;  text-decoration: none;">
                         <tbody>
                             <tr>
                                 <td style="padding: 20px;">
@@ -320,7 +308,39 @@ $email_body .= '</div>
                             </tr>                 
                         </tbody> 
                      </table>
-                 </div>
+                 </div>';
+}
+
+$email_body = '
+        <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 39px 0; text-decoration: none;">
+            <div class="main-section" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 100%; max-width: 618px; box-sizing: border-box;">
+                <div style="border-radius: 12px;margin-bottom: 24px;background-color: #fff;">
+                    <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . (!empty($content) || !empty($email_header) ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
+                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                                 ' . $final_logo . '
+                            </td>
+                        </tr>
+                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                                <p style=" color: #0C0C0D ; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size:21px; font-weight: 600; line-height: 24.61px; margin: 0;  padding: 0">' . $email_title . '</p>
+                            </td>
+                        </tr>
+                    </table>
+                    ' . $email_header;
+if (!empty($content)) {
+
+    $email_body .= '<table width="100%" style="width: 100%; table-layout: fixed;">
+                        <tbody>
+                            <tr>
+                               <td style="padding: 32px;white-space: pre-wrap;font-size: 16px;overflow-wrap: break-word;word-wrap: break-word;">' .wp_kses_post($content) . '</td>                   
+                            </tr>
+                        </tbody>   
+                    </table>';
+}
+$email_body .= '</div>
+                ' .$email_performance_html . $privacyBox .'
+                 ' . $tip_html . '
                  ' . $advanced_reporting_ad . $email_footer . $copyright . '</div></div>';
 
 

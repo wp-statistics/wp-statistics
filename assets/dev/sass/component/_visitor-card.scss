@@ -1,0 +1,569 @@
+// Visitor Information pill + visitor card
+// (views/components/visitor-information.php + javascript/components/visitor-card.js).
+// The pill is the trigger; the card is moved to <body> while open (fixed position), so it is
+// never clipped by scrolling tables. Always light, like core popovers.
+
+// The pill. The list itself is the pill (one background, one radius), so the hover colour and
+// the focus ring follow its exact shape. The selector is doubled to beat the table rules in
+// elements/_table.scss without !important.
+$wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-info[data-wps-visitor-card]';
+
+#{$wps-pill} {
+  display: inline-flex;
+  flex-wrap: nowrap !important; // _title-cell.scss lets narrow tables wrap the old IP/name
+  align-items: center;
+  width: auto;
+  min-width: 0 !important;
+  max-width: 100%;
+  height: 24px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 3px;
+  list-style: none;
+  vertical-align: middle;
+  border-radius: 999px;
+  background: #F3F4F6;
+  box-shadow: inset 0 0 0 1px #E6E7EA;
+  cursor: pointer;
+  outline: 0;
+  transition: background-color .12s ease, box-shadow .12s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  .wps-visitor-info__slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    border-radius: 0;
+
+    & + .wps-visitor-info__slot {
+      border-inline-start: 1px solid #E2E3E6;
+      width: 25px;
+    }
+
+    & > span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    img {
+      display: block;
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+      cursor: inherit;
+
+      &.flag {
+        width: 16px;
+        height: 12px;
+        object-fit: cover;
+        border-radius: 2px;
+        box-shadow: 0 0 0 .5px rgba(12, 12, 13, .12);
+      }
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  .wps-visitor-info__unknown {
+    display: inline-flex;
+    width: 16px;
+    height: 12px;
+    align-items: center;
+    justify-content: center;
+    color: #6B6E73;
+    cursor: inherit;
+  }
+
+  // Fifth slot: login status only (person = logged-in user, incognito = anonymous visitor).
+  .wps-visitor-info__slot--user {
+    color: #404BF2;
+  }
+
+  .wps-visitor-info__slot--anonymous {
+    color: #56585A;
+  }
+
+  // Online now: a green dot with a white edge on the corner of the status icon, like an avatar.
+  // inset-inline-end puts it on the left corner in RTL.
+  .wps-visitor-info__slot--status {
+    position: relative;
+  }
+
+  .wps-visitor-info__online {
+    position: absolute;
+    top: 2px;
+    inset-inline-end: 2px;
+    width: 8px;
+    height: 8px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #00A32A;
+    box-shadow: 0 0 0 2px #fff;
+  }
+
+  // IP / name stay in the markup for add-ons, PDF exports and print, never on screen.
+  .wps-visitor-info__who {
+    display: none !important;
+  }
+
+  &:hover,
+  &.is-open {
+    background: #F0F1FE;
+    box-shadow: inset 0 0 0 1px #C6C9FB;
+
+    .wps-visitor-info__slot + .wps-visitor-info__slot {
+      border-inline-start-color: #D9DBFC;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid #404BF2;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// PDF export (Advanced Reporting) and print keep the IP / user text they always had.
+.wps-pdf-export #{$wps-pill} {
+  height: auto;
+  flex-wrap: wrap !important;
+  background: none;
+  box-shadow: none;
+
+  .wps-visitor-info__who {
+    display: list-item !important;
+    list-style: none;
+    margin-inline-start: 8px;
+  }
+}
+
+@media print {
+  #{$wps-pill} {
+    height: auto;
+    flex-wrap: wrap !important;
+    background: none;
+    box-shadow: none;
+
+    .wps-visitor-info__who {
+      display: list-item !important;
+      list-style: none;
+      margin-inline-start: 8px;
+    }
+  }
+}
+
+// The card.
+.wps-visitor-card {
+  --wps-card-dy: -4px;
+  position: fixed;
+  z-index: 100050; // above the admin bar and Thickbox
+  left: 0;
+  top: 0;
+  width: 340px;
+  max-width: calc(100vw - 16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  background: #fff;
+  color: #0C0C0D;
+  border: 1px solid #DADCE0;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(16, 24, 40, .16);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: start;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--wps-card-dy));
+  transition: opacity .1s cubic-bezier(.4, 0, 1, 1), transform .1s cubic-bezier(.4, 0, 1, 1), visibility 0s linear .1s;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &[data-side="top"] {
+    --wps-card-dy: 4px;
+  }
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity .14s cubic-bezier(.2, 0, 0, 1), transform .14s cubic-bezier(.2, 0, 0, 1), visibility 0s;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  svg {
+    display: block;
+    flex: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    box-shadow: none;
+    border-bottom: 1px solid #C6C9FB;
+
+    &:hover {
+      color: #404BF2;
+      border-bottom-color: #404BF2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 1px;
+      border-radius: 2px;
+    }
+  }
+
+  // Header: avatar, name, tag, close.
+  &__head {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 12px 10px 14px;
+
+    [dir="rtl"] & {
+      padding: 12px 14px 10px 12px;
+    }
+  }
+
+  &__avatar {
+    position: relative;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #F3F4F5;
+    color: #56585A;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--user {
+      background: #F0F1FE;
+      color: #404BF2;
+    }
+  }
+
+  &__photo {
+    position: absolute;
+    inset: 0;
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+
+  &__name {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: grid;
+    gap: 1px;
+
+    strong {
+      font-weight: 600;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    span {
+      font-size: 12px;
+      color: #6B6E73;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__tag {
+    flex: none;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+    border-radius: 999px;
+    padding: 0 8px;
+    white-space: nowrap;
+
+    &--user {
+      color: #196140;
+      background: #E3F1EA;
+    }
+
+    &--anonymous,
+    &--guest { // --guest: older markup
+      color: #56585A;
+      background: #EEEFF1;
+    }
+  }
+
+  &__close {
+    display: none;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin: -4px 0;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: #56585A;
+    cursor: pointer;
+
+    &:hover {
+      background: #F3F4F5;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 0;
+    }
+  }
+
+  &.is-pinned &__close,
+  &--sheet &__close {
+    display: inline-flex;
+  }
+
+  // Facts: one 16px icon column.
+  &__facts {
+    list-style: none;
+    margin: 0;
+    padding: 2px 14px 12px;
+    display: grid;
+    gap: 8px;
+    font-size: 13px;
+    color: #3C4043;
+
+    li {
+      display: grid;
+      grid-template-columns: 16px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin: 0;
+      min-width: 0;
+    }
+  }
+
+  &__text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B6E73;
+
+    img {
+      display: block;
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__flag {
+    width: 16px !important;
+    height: 12px !important;
+    object-fit: cover !important;
+    border-radius: 2px;
+    box-shadow: 0 0 0 .5px rgba(12, 12, 13, .15);
+  }
+
+  &__ip {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  &__sep {
+    color: #A9ABAE;
+    margin: 0 6px;
+  }
+
+  &__muted,
+  &__muted &__text {
+    color: #6B6E73;
+  }
+
+  // Actions: equal columns, icon above label, all the same weight (Visitor Journey last,
+  // same style as Copy IP / Filter by IP). Labels wrap to two lines, never cut.
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(var(--wps-card-actions, 3), minmax(0, 1fr));
+    border-top: 1px solid #EEEFF1;
+
+    & > a,
+    & > button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 0;
+      min-height: 52px;
+      margin: 0;
+      padding: 8px 6px;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.25;
+      color: #3C4043;
+      background: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      cursor: pointer;
+      text-align: center;
+      overflow-wrap: break-word;
+
+      & + a,
+      & + button {
+        border-inline-start: 1px solid #EEEFF1;
+      }
+
+      &:first-child {
+        border-end-start-radius: 9px;
+      }
+
+      &:last-child {
+        border-end-end-radius: 9px;
+      }
+
+      span {
+        max-width: 100%;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: manual;
+      }
+
+      svg {
+        flex: none;
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover {
+        background: #F7F7FE;
+        color: #404BF2;
+        border-bottom: 0;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #404BF2;
+        outline-offset: -2px;
+        border-radius: 6px;
+      }
+
+      &.is-copied {
+        color: #196140;
+      }
+    }
+  }
+
+  // Kept as a hook only (Visitor Journey): no color or weight of its own.
+  &__primary {
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  // The route icon reads start to end: mirror it in RTL.
+  &[dir="rtl"] &__route {
+    transform: scaleX(-1);
+  }
+
+  // Measuring pass (JS): would a label wrap?
+  &--measure &__actions span {
+    white-space: nowrap !important;
+  }
+
+  // Narrow card or long labels (German): the same equal columns, labels take two lines.
+  &--stack &__actions {
+    & > a,
+    & > button {
+      padding-inline: 4px;
+      min-height: 56px;
+    }
+  }
+
+  // Phones: bottom sheet with a close button.
+  &.wps-visitor-card--sheet {
+    --wps-card-dy: 16px;
+    left: max(8px, env(safe-area-inset-left, 0px)) !important;
+    right: max(8px, env(safe-area-inset-right, 0px));
+    top: auto !important;
+    bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-width: none;
+    max-height: calc(100vh - 16px);
+    box-shadow: 0 -4px 28px rgba(16, 24, 40, .22);
+
+    .wps-visitor-card__close {
+      width: 36px;
+      height: 36px;
+      margin: -6px 0;
+    }
+
+    .wps-visitor-card__actions > a,
+    .wps-visitor-card__actions > button {
+      min-height: 56px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &[data-side="top"],
+    &.wps-visitor-card--sheet {
+      --wps-card-dy: 0px;
+      transform: none;
+    }
+  }
+}
+
+// Never in PDFs, prints or exports.
+@media print {
+  .wps-visitor-card {
+    display: none !important;
+  }
+}
+
+.wps-pdf-export .wps-visitor-card {
+  display: none !important;
+}

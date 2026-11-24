@@ -4,6 +4,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\HistoricalModel;
 use WP_STATISTICS\Option;
 
@@ -108,6 +109,96 @@ abstract class BaseModel
         }
 
         return $args;
+    }
+
+    /**
+     * Convert post type names to the `type` values stored in the pages table
+     * (e.g. a custom post type becomes `post_type_{name}`, and `page` adds `home`).
+     *
+     * @param string|array $postTypes
+     * @param bool $includeHome Whether `page` also adds the `home` type (front page rows).
+     * @return array
+     */
+    protected function getResourceTypes($postTypes, $includeHome = true)
+    {
+        if (empty($postTypes)) {
+            return [];
+        }
+
+        // A comma-separated list, as the `IN` filters on post_type read it
+        if (is_string($postTypes)) {
+            $postTypes = array_values(array_filter(array_map('trim', explode(',', $postTypes))));
+        }
+
+        $parsed = $this->parseResourceTypeArg(['resource_type' => $postTypes]);
+        $types  = $parsed['resource_type'];
+
+        if (!$includeHome) {
+            $types = array_values(array_diff($types, ['home']));
+        }
+
+        return $types;
+    }
+
+    /**
+     * Cache a query whose date filters sit in its subqueries, the way whereDate() does: only when the
+     * range ends before today.
+     *
+     * @param Query $query
+     * @param array|string $date
+     */
+    protected function allowCachingForPastRange($query, $date)
+    {
+        if (empty($date)) {
+            return;
+        }
+
+        $range = is_array($date) ? $date : DateRange::get($date);
+
+        if (!empty($range['from']) && !empty($range['to']) && $range['to'] < DateTime::get()) {
+            $query->allowCaching();
+        }
+    }
+
+    /**
+     * Limit a query on the posts table to a taxonomy and/or term (no-op when neither is set).
+     *
+     * @param Query $query
+     * @param array $args Reads `taxonomy` and `term`.
+     * @param string $postIdColumn Column holding the post ID in $query.
+     */
+    protected function joinTermFilter($query, $args, $postIdColumn = 'posts.ID')
+    {
+        if (empty($args['taxonomy']) && empty($args['term'])) {
+            return;
+        }
+
+        $taxQuery = Query::select(['DISTINCT object_id'])
+            ->from('term_relationships')
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'] ?? '')
+            ->where('terms.term_id', '=', $args['term'] ?? '')
+            ->getQuery();
+
+        $query->joinQuery($taxQuery, [$postIdColumn, 'tax.object_id'], 'tax');
+    }
+
+    /**
+     * Turn rows of `id` + `total` into an id => count map.
+     *
+     * @param object[]|null $rows
+     * @return int[]
+     */
+    protected function pluckCounts($rows)
+    {
+        $counts = [];
+
+        foreach ((array) $rows as $row) {
+            $counts[(int) $row->id] = (int) $row->total;
+        }
+
+        return $counts;
     }
 
     /**

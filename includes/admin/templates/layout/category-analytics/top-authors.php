@@ -2,90 +2,35 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter;
 
+// Older callers passed ['viewing' => ..., 'publishing' => ...]; only the leaderboard shape is drawn now.
+$leaderboard = isset($data['rows']) ? $data : ['rows' => [], 'columns' => [], 'published_total' => 0, 'post_type' => []];
 ?>
 
-<div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html($title) ?>
-            <?php if ($tooltip): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>
-        </h2>
-    </div>
-    <div class="wps-flex-container">
-        <div class="wps-flex-half">
-            <div class="wps-tabs">
-                <input type="radio" name="views-tab" id="category-views" checked="checked">
-                <label for="category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-                    /** @var stdClass[] */
-                    $viewingAuthors = $data['viewing'];
-                    $counter        = 1;
+<div class="wps-card wps-leaderboard-card">
+    <?php View::load('components/objects/card-header', [
+        'title'   => $title,
+        'tooltip' => $tooltip ?? '',
+        'context' => 'card',
+    ]); ?>
 
-                    if ($viewingAuthors) {
-                        foreach ($viewingAuthors as $author) : ?>
-                            <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
-                                <div class="wps-content-tabs__item--image">
-                                    <span># <?php echo esc_html($counter); ?></span>
-                                    <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
-                                </div>
-                                <div class="wps-content-tabs__item--content">
-                                    <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
-                                    <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?></span><?php esc_html_e('content views', 'wp-statistics') ?></span>
-                                </div>
-                            </a>
-                            <?php $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-        <div class="wps-flex-half">
-            <div class="wps-tabs">
-                <input type="radio" name="publishing-tabs" id="category-publishing" checked="checked">
-                <label for="category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-                    /** @var stdClass[] */
-                    $publishingAuthors = $data['publishing'];
-                    $counter           = 1;
+    <?php View::load('components/leaderboard', [
+        'rows'       => LeaderboardPresenter::authorRows($leaderboard['rows']),
+        'rankings'   => LeaderboardPresenter::authorRankings($leaderboard),
+        'columns'    => $leaderboard['columns'],
+        'name_label' => __('Author', 'wp-statistics'),
+        'caption'    => $title,
+        'media'      => 'avatar',
+        'note'       => LeaderboardPresenter::publishedNote($leaderboard['published_total'], $leaderboard['post_type']),
+    ]); ?>
 
-                    if ($publishingAuthors) {
-                        foreach ($publishingAuthors as $author) : ?>
-                            <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
-                                <div class="wps-content-tabs__item--image">
-                                    <span># <?php echo esc_html($counter); ?></span>
-                                    <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
-                                </div>
-                                <div class="wps-content-tabs__item--content">
-                                    <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
-                                    <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?></span><?php esc_html_e('content published', 'wp-statistics'); ?></span>
-                                </div>
-                            </a>
-                            <?php $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    View::load("components/objects/view-more", [
+        'href'  => Menus::admin_url('author-analytics', ['type' => 'authors']),
+        'title' => __('See all authors', 'wp-statistics'),
+    ]);
+    ?>
 </div>

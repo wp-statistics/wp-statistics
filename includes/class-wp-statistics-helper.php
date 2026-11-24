@@ -639,12 +639,15 @@ class Helper
     /**
      * Remove Query String From Url
      *
-     * @param $url
-     * @return bool|string
+     * @param string $url
+     * @return string The URL without its query string; the URL itself when it has none.
      */
     public static function RemoveQueryStringUrl($url)
     {
-        return substr($url, 0, strrpos($url, "?"));
+        $url = (string) $url;
+        $pos = strpos($url, '?');
+
+        return $pos === false ? $url : substr($url, 0, $pos);
     }
 
     /**
@@ -825,10 +828,15 @@ class Helper
      */
     public static function send_mail($to, $subject, $content, $email_template = true, $args = array())
     {
+        // Alerts pass is_report false: they keep the core layout and skip the report add-ons (custom layout, PDF).
+        $isReport = !isset($args['is_report']) || !empty($args['is_report']);
+
         // Email Template
         if ($email_template) {
             $email_template = WP_STATISTICS_DIR . 'includes/admin/templates/emails/layout.php';
-            $email_template = apply_filters('wp_statistics_email_template_layout', $email_template);
+            if ($isReport) {
+                $email_template = apply_filters('wp_statistics_email_template_layout', $email_template);
+            }
             $email_template = wp_normalize_path($email_template);
         }
 
@@ -901,14 +909,24 @@ class Helper
          */
         try {
 
-            WP_Statistics_Mail::init()
-                ->setTo($to)
-                ->setSubject($subject)
-                ->setBody($content)
-                ->setTemplate($email_template, $arg)
-                ->send();
+            $noAttachments = '__return_empty_array';
+            if (!$isReport) {
+                add_filter('wp_statistics_mail_attachments', $noAttachments, PHP_INT_MAX);
+            }
 
-            return true;
+            try {
+                // wp_mail()'s own answer, so callers know when the email was not sent.
+                return (bool)WP_Statistics_Mail::init()
+                    ->setTo($to)
+                    ->setSubject($subject)
+                    ->setBody($content)
+                    ->setTemplate($email_template, $arg)
+                    ->send();
+            } finally {
+                if (!$isReport) {
+                    remove_filter('wp_statistics_mail_attachments', $noAttachments, PHP_INT_MAX);
+                }
+            }
 
         } catch (Exception $e) {
             \WP_Statistics::log($e->getMessage(), 'error');
@@ -2301,13 +2319,26 @@ class Helper
         return $array;
     }
 
-    public static function getNoDataMessage($date = '')
+    /**
+     * Message for an empty card or table.
+     *
+     * "Data coming soon!" is only shown when the whole range starts today or later (nothing could
+     * have been recorded yet). A range that merely ends today ("Last 30 days") had its chance, so it
+     * gets "No data found for this date range.".
+     *
+     * @param string $date End date of the range (Y-m-d). Defaults to the active range.
+     * @param string $from Start date of the range (Y-m-d). Defaults to the active range when $date is empty.
+     * @return string
+     */
+    public static function getNoDataMessage($date = '', $from = '')
     {
         if (empty($date)) {
-            $date = DateRange::get()['to'];
+            $range = DateRange::get();
+            $date  = $range['to'] ?? '';
+            $from  = empty($from) ? ($range['from'] ?? '') : $from;
         }
 
-        $isFutureDate = DateTime::isTodayOrFutureDate($date);
+        $isFutureDate = DateTime::isTodayOrFutureDate(!empty($from) ? $from : $date);
 
         $message = esc_html__('No data found for this date range.', 'wp-statistics');
 
@@ -2316,6 +2347,32 @@ class Helper
         }
 
         return $message;
+    }
+
+    /**
+     * Short label for a date range, e.g. "Oct 23 - Nov 21, 2026" or "Nov 21, 2026".
+     *
+     * @param string $from Y-m-d
+     * @param string $to   Y-m-d
+     * @return string Empty string when the dates are not valid.
+     */
+    public static function formatDateRangeLabel($from, $to)
+    {
+        if (!DateTime::isValidDate($from) || !DateTime::isValidDate($to)) {
+            return '';
+        }
+
+        if ($from === $to) {
+            return date_i18n('M j, Y', strtotime($to));
+        }
+
+        $sameYear = substr($from, 0, 4) === substr($to, 0, 4);
+
+        return sprintf(
+            '%s - %s',
+            date_i18n($sameYear ? 'M j' : 'M j, Y', strtotime($from)),
+            date_i18n('M j, Y', strtotime($to))
+        );
     }
 
     /**

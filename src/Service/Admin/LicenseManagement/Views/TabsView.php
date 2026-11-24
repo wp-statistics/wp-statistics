@@ -12,6 +12,7 @@ use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 
@@ -253,6 +254,12 @@ class TabsView extends BaseTabView
                 // The free Premium tour has its own heading, so no page title bar there.
                 Admin_Template::get_template(LicenseHelper::isFreeOnly() ? ['layout/header'] : ['layout/header', 'layout/title'], $args);
             } else {
+                // A licensed site with every add-on already installed has nothing to download,
+                // so the Add License step stands alone instead of leading to a dead "Download Add-ons" step.
+                if ($this->isTab('add-license') && LicenseHelper::isValidLicenseAvailable() && !PluginHelper::hasAddonsToDownload()) {
+                    $args['tabs'] = array_slice($args['tabs'], 0, 2);
+                }
+
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
 

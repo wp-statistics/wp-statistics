@@ -50,17 +50,11 @@ $pluginHandler     = new PluginHandler();
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Customization', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
-     'addon_title'        => __('Customization Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-customization',
-     'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Customize menus according to your preferences.', 'wp-statistics'),
-         __('Make WP Statistics white-label.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
-    ], true);
+if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Customization Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-customization',
+    'addon_campaign'     => 'customization',
+], true);
 
 // @todo, render the notice with \WP_Statistics\Service\Admin\NoticeHandler\Notice::renderNotice(); in future.
 if ($isCustomizationActive && !$isLicenseValid) {
@@ -118,26 +112,20 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <?php
-                $custom_header_logo = esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization')));
-                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
-                $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
-                $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
+                $custom_header_logo = stripslashes((string) WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'));
 
                 wp_enqueue_media();
                 ?>
-                <script>
-                    var wps_ar_vars = {
-                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
-                    }
-                </script>
                 <td>
-                    <div class='wps-img-preview-wrapper'>
-                        <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
-                    </div>
-                    <div class="wps-input-group wps-input-group__action">
-                        <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo $custom_header_logo; ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0; "/>
+                    <div class="wps-media-upload">
+                        <div class="wps-media-upload__preview"<?php echo empty($custom_header_logo) ? ' hidden' : ''; ?>>
+                            <img class="wps-media-upload__image" src="<?php echo esc_url($custom_header_logo); ?>" alt="<?php esc_attr_e('Header logo preview', 'wp-statistics'); ?>">
+                            <button type="button" class="wps-media-upload__remove wps_img_settings_clear_upload_button" aria-label="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>" title="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="wps-input-group wps-input-group__action wps-media-upload__field">
+                            <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field" value="<?php echo esc_attr($custom_header_logo); ?>"/>
+                            <button type="button" class="wps_img_settings_upload_button button wps-input-group__label"><?php esc_html_e('Upload File', 'wp-statistics'); ?></button>
+                        </div>
                     </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
@@ -192,8 +180,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     <?php endforeach; ?>
 
                     <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
-                    <br>
-                    <button type="button" class="wps-button wps-button--default" id="wps-btn-export-settings">
+                    <button type="button" class="wps-button wps-button--default wps-export__button" id="wps-btn-export-settings">
                         <?php esc_html_e('Download export file', 'wp-statistics'); ?>
                     </button>
                     <p class="description">
@@ -212,28 +199,32 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <td>
-                    <input
-                        type="file"
-                        accept=".json,.txt"
-                        id="wps-input-import-file"
-                        name="import_file"
-                        class="wps-import__file"
-                    >
+                    <div class="wps-file-input">
+                        <input
+                            type="file"
+                            accept=".json,.txt"
+                            id="wps-input-import-file"
+                            name="import_file"
+                            class="wps-import__file wps-file-input__native"
+                        >
+                        <label for="wps-input-import-file" class="wps-button wps-button--default wps-file-input__button"><?php esc_html_e('Choose file', 'wp-statistics'); ?></label>
+                        <span class="wps-file-input__name" data-empty="<?php esc_attr_e('No file chosen', 'wp-statistics'); ?>" aria-live="polite"><?php esc_html_e('No file chosen', 'wp-statistics'); ?></span>
+                    </div>
                     <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
-                    <br>
 
-                    <input
-                        id="wps-input-import-images"
-                        type="checkbox"
-                        name="import_images"
-                        value="1"
-                        class="wps-import__checkbox"
-                    >
-                    <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    <p class="wps-import__option">
+                        <input
+                            id="wps-input-import-images"
+                            type="checkbox"
+                            name="import_images"
+                            value="1"
+                            class="wps-import__checkbox"
+                        >
+                        <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    </p>
                     <p class="description"><?php esc_html_e('If the exported settings reference custom images, fetch them and add them to this site’s Media Library.', 'wp-statistics'); ?></p>
-                    <br>
 
-                    <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
+                    <button type="button" class="wps-button wps-button--primary wps-import__button" id="wps-btn-import-settings">
                         <?php esc_html_e('Start import', 'wp-statistics'); ?>
                     </button>
 

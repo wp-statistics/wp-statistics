@@ -2,197 +2,32 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter;
 
-$pluginHandler        = new PluginHandler();
-$showPreview          = !$pluginHandler->isPluginActive('wp-statistics-data-plus');
-$postType             = Request::get('pt', 'post');
-$postTypeNameSingular = Helper::getPostTypeName($postType, true);
-$postTypeNamePlural   = Helper::getPostTypeName($postType);
+$postType    = Request::get('pt', 'post');
+$leaderboard = isset($data['leaderboard']) ? $data['leaderboard'] : ['rows' => [], 'columns' => [], 'published_total' => 0, 'post_type' => $postType];
 ?>
 
-<div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html($title) ?>
-            <?php if ($tooltip) : ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>
-        </h2>
-    </div>
+<div class="wps-card wps-leaderboard-card">
+    <?php View::load('components/objects/card-header', [
+        'title'   => $title,
+        'tooltip' => $tooltip ?? '',
+        'context' => 'card',
+    ]); ?>
 
-    <div class="wps-flex-container">
-        <div class="wps-flex-half">
-            <div class="wps-tabs">
-                <input type="radio" name="tabs" id="author-views" checked>
-                <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-                    /** @var stdClass[] */
-                    $viewingAuthors = $data['top_viewing'];
-                    $counter        = 1;
+    <?php View::load('components/leaderboard', [
+        'rows'       => LeaderboardPresenter::authorRows($leaderboard['rows'], $postType),
+        'rankings'   => LeaderboardPresenter::authorRankings($leaderboard, $postType),
+        'columns'    => $leaderboard['columns'],
+        'name_label' => __('Author', 'wp-statistics'),
+        'caption'    => $title,
+        'media'      => 'avatar',
+        'note'       => LeaderboardPresenter::publishedNote($leaderboard['published_total'], $postType),
+    ]); ?>
 
-                    if ($viewingAuthors) {
-                        foreach ($viewingAuthors as $author) :
-                            View::load("components/author-box", [
-                                'show_preview'  => $showPreview,
-                                'author_id'     => $author->id,
-                                'author_name'   => $author->name,
-                                'count'         => $author->total_views,
-                                'counter'       => $counter,
-                                /* translators: %s: string value */
-                                'count_label'   => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
-                            ]);
-                            $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <input type="radio" name="tabs" id="author-publishing">
-                <label for="author-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-
-                    /** @var stdClass[] */
-                    $publishingAuthors = $data['top_publishing'];
-                    $counter           = 1;
-
-                    if ($publishingAuthors) {
-                        foreach ($publishingAuthors as $author) :
-                            View::load("components/author-box", [
-                                'show_preview'  => $showPreview,
-                                'author_id'     => $author->id,
-                                'author_name'   => $author->name,
-                                'count'         => $author->post_count,
-                                'counter'       => $counter,
-                                /* translators: %s: string value */
-                                'count_label'   => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
-                            ]);
-                            $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-        <div class="wps-flex-half">
-            <div class="wps-tabs">
-                <input type="radio" name="side-tabs" id="views-post" checked>
-                <label for="views-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-tabs__content">
-                    <?php
-                    /** @var stdClass[] */
-                    $topByViewsPerPost = $data['top_by_views'];
-                    $counter           = 1;
-
-                    if ($topByViewsPerPost) {
-                        foreach ($topByViewsPerPost as $author) :
-                            View::load("components/author-box", [
-                                'show_preview'  => $showPreview,
-                                'author_id'     => $author->id,
-                                'author_name'   => $author->name,
-                                'count'         => $author->average_views,
-                                'counter'       => $counter,
-                                /* translators: %s: string value */
-                                'count_label'   => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
-                            ]);
-                            $counter++;
-                        endforeach;
-                    } else {
-                        ?>
-                        <div class="o-wrap o-wrap--no-data">
-                            <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-
-                <?php if (post_type_supports($postType, 'comments')) : ?>
-                    <input type="radio" name="side-tabs" id="comments-post">
-                    <label for="comments-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                    <div class="wps-tabs__content">
-                        <?php
-                        /** @var stdClass[] */
-                        $topByCommentsPerPost = $data['top_by_comments'];
-                        $counter              = 1;
-
-                        if ($topByCommentsPerPost) {
-                            foreach ($topByCommentsPerPost as $author) :
-                                View::load("components/author-box", [
-                                    'show_preview'  => $showPreview,
-                                    'author_id'     => $author->id,
-                                    'author_name'   => $author->name,
-                                    'count'         => $author->average_comments,
-                                    'counter'       => $counter,
-                                    /* translators: %s: string value */
-                                    'count_label'   => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
-                                ]);
-                                $counter++;
-                            endforeach;
-                        } else {
-                            ?>
-                            <div class="o-wrap o-wrap--no-data">
-                                <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (WordCountService::isActive()) : ?>
-                    <input type="radio" name="side-tabs" id="words-post">
-                    <label for="words-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                    <div class="wps-tabs__content">
-                        <?php
-                        /** @var stdClass[] */
-                        $topByWordsPerPost = $data['top_by_words'];
-                        $counter           = 1;
-
-                        if ($topByWordsPerPost) {
-                            foreach ($topByWordsPerPost as $author) :
-                                View::load("components/author-box", [
-                                    'show_preview'  => $showPreview,
-                                    'author_id'     => $author->id,
-                                    'author_name'   => $author->name,
-                                    'count'         => $author->average_words,
-                                    'counter'       => $counter,
-                                    /* translators: %s: string value */
-                                    'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
-                                ]);
-                                $counter++;
-                            endforeach;
-                        } else {
-                            ?>
-                            <div class="o-wrap o-wrap--no-data">
-                                <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
     <?php
     View::load("components/objects/view-more", [
         'href'  => Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType]),

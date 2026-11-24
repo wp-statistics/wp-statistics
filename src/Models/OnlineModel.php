@@ -51,6 +51,17 @@ class OnlineModel extends BaseModel
 
 
     /**
+     * The online window: ['from' => 'Y-m-d H:i:s', 'to' => 'Y-m-d H:i:s'] in site time.
+     * A visitor is online when its row is from today and its last_view falls in this window.
+     *
+     * @return array
+     */
+    public function getTimeframe()
+    {
+        return $this->timeframe;
+    }
+
+    /**
      * Get the number of online visitors.
      *
      * @return int

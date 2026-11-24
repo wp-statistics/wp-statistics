@@ -38,6 +38,12 @@ class ReferralsManager
                 $data['referred']       = $visitorProfile->getReferrer();
                 $data['source_channel'] = $visitorProfile->getSource()->getChannel();
                 $data['source_name']    = $visitorProfile->getSource()->getName();
+            } elseif (strpos((string)$visitorProfile->getSource()->getChannel(), 'paid_') === 0) {
+                // A paid click can come without a referrer (ChatGPT ads, Microsoft Ads), so it is
+                // recognised by its landing URL alone. It still counts as the visitor's last touch.
+                // `referred` is left as it was: there is no new referrer to store.
+                $data['source_channel'] = $visitorProfile->getSource()->getChannel();
+                $data['source_name']    = $visitorProfile->getSource()->getName();
             }
         }
 

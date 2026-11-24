@@ -6,7 +6,7 @@
             <?php
             echo wp_kses_post(sprintf(
                 /* translators: %s: string value */
-                __('This add-on does not have an active license, which means it cannot receive updates, including important security updates. For uninterrupted access to updates and to keep your site secure, we strongly recommend activating a license. <a href="%s" aria-label="click here for WP Statistics Add-Ons">Activate your license here</a>.', 'wp-statistics'),
+                __('This add-on has no active license, so it won\'t get updates or security fixes. <a href="%s">Activate your license</a>.', 'wp-statistics'),
                 esc_url(admin_url('admin.php?page=wps_plugins_page'))
             ));
             ?>

@@ -13,5 +13,6 @@ test('license notices are limited to main-site license managers', () => {
 
 test('the bell card and the header badge check that gate before reading the add-on list', () => {
     assert.match(factory, /if \(!LicenseHelper::canManageLicenses\(\)\)\s*\{\s*return null;/);
-    assert.match(header, /LicenseHelper::canManageLicenses\(\) \? LicenseHelper::getLicenseSummary\(\)/);
+    assert.match(header, /LicenseHelper::getAddonsMenuState\(\)/);
+    assert.match(helper, /\$canManage && !\$freeOnly \? self::getLicenseSummary\(\)/);
 });

@@ -58,6 +58,93 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
         add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
+        add_action('wp_loaded', [$this, 'addVisitorCardToStandalonePages'], 9);
+    }
+
+    /**
+     * Month and weekday names for moment (the date-range button and picker), in the user's language.
+     *
+     * WordPress adds a moment.updateLocale() call itself, but other scripts (wp-date) reset moment's global locale
+     * to English afterwards, so the button showed "Oct 24 - Nov 22" in other languages. The button formats its
+     * dates with this locale explicitly (assets/dev/javascript/plugin/datepicker.js).
+     */
+    public static function localizeMoment()
+    {
+        global $wp_locale;
+
+        if (!($wp_locale instanceof \WP_Locale) || get_user_locale() === 'en_US') {
+            return;
+        }
+
+        $locale = [
+            'months'        => array_values($wp_locale->month),
+            'monthsShort'   => array_values($wp_locale->month_abbrev),
+            'weekdays'      => array_values($wp_locale->weekday),
+            'weekdaysShort' => array_values($wp_locale->weekday_abbrev),
+            'week'          => ['dow' => (int)get_option('start_of_week', 0)],
+        ];
+
+        // moment looks locales up as lowercase "fa-ir": a "fa_IR" name (what WordPress passes) is stored but never selected.
+        $name = strtolower(str_replace('_', '-', get_user_locale()));
+
+        // Registered under its own name and used explicitly by our date-range button (window.wpsMomentLocale),
+        // so another script resetting moment's global locale (wp-date does) cannot turn it back to English,
+        // and our call never changes the global locale for other scripts.
+        wp_add_inline_script('moment', sprintf(
+            "(function (m) { if (!m) return; var prev = m.locale(); m.updateLocale('%1\$s', %2\$s); m.locale(prev); window.wpsMomentLocale = '%1\$s'; })(window.moment);",
+            esc_js($name),
+            wp_json_encode($locale)
+        ));
+    }
+
+    /**
+     * Admin screens that print their own HTML document (no admin_enqueue_scripts, no admin.min.js) but show
+     * Visitor Information pills, such as the Real-Time add-on page.
+     *
+     * @return string[] `page` query values.
+     */
+    public static function getStandalonePages()
+    {
+        return (array)apply_filters('wp_statistics_standalone_visitor_card_pages', ['wp_statistics_realtime_stats']);
+    }
+
+    /**
+     * Visitor cards and title-cell tooltips on standalone pages: adds assets/js/visitor-card.min.js
+     * (visitor-card.js + title-cell.js, no jQuery) before </body>. Runs before the add-on renders
+     * (wp_loaded, priority 10) and only touches its HTML through an output buffer, so the add-on needs no change.
+     * The styles are already in admin.min.css, which those pages load.
+     */
+    public function addVisitorCardToStandalonePages()
+    {
+        if (!is_admin() || wp_doing_ajax() || !in_array(Request::get('page'), self::getStandalonePages(), true)) {
+            return;
+        }
+
+        // These pages never fire wp_print_footer_scripts, so an enqueued script would not print; build the tag with core's helper.
+        $tag = wp_get_script_tag(['src' => esc_url(add_query_arg('ver', self::version(), self::url('visitor-card.min.js')))]);
+
+        ob_start(function ($html) use ($tag) {
+            return self::insertBeforeBodyEnd($html, $tag);
+        });
+    }
+
+    /**
+     * Puts $tag right before the last </body> (or at the end when there is none). Only once.
+     *
+     * @param string $html
+     * @param string $tag
+     *
+     * @return string
+     */
+    public static function insertBeforeBodyEnd($html, $tag)
+    {
+        if (!is_string($html) || $html === '' || strpos($html, 'visitor-card.min.js') !== false) {
+            return $html;
+        }
+
+        $pos = strripos($html, '</body>');
+
+        return $pos === false ? $html . $tag : substr_replace($html, $tag, $pos, 0);
     }
 
 
@@ -265,6 +352,7 @@ class Admin_Assets
         // Add RangeDatePicker (moment is shipped by WordPress core; daterangepicker depends on it)
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
             wp_enqueue_script('moment');
+            self::localizeMoment();
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array('moment'), "1.13.2", ['in_footer' => true]);
         }
 
@@ -481,9 +569,26 @@ class Admin_Assets
             'confirm_hash_ips'             => __('This will replace all IP addresses in the database with hash values and cannot be undone, are you sure?', 'wp-statistics'),
             'no_data_this_range'           => __('No data found for this date range.', 'wp-statistics'),
             'coming_soon'                  => __('Data coming soon!', 'wp-statistics'),
+            'no_data_range'                => __('No data found for this date range.', 'wp-statistics'),
+            'other'                        => __('Other', 'wp-statistics'),
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
             'operation_completed'          => __('Operation completed.', 'wp-statistics'),
             'to_range'                     => __('to', 'wp-statistics'),
+            // Settings: (i) button that shows a field's help text (assets/dev/javascript/pages/settings-help.js).
+            'setting_help'                 => __('More info', 'wp-statistics'),
+            // Chart tooltip (assets/dev/javascript/chart.js, wpsTooltipStrings()).
+            'tooltip_now'                  => _x('Now', 'chart tooltip column: this period', 'wp-statistics'),
+            'tooltip_before'               => _x('Before', 'chart tooltip column: previous period', 'wp-statistics'),
+            'tooltip_change'               => _x('Change', 'chart tooltip column: change in percent', 'wp-statistics'),
+            /* translators: followed by the previous period, e.g. "Compared with Feb 2026". */
+            'compared_with'                => _x('Compared with', 'chart tooltip footer', 'wp-statistics'),
+            'compared_with_previous'       => __('Compared with the previous period', 'wp-statistics'),
+            'so_far'                       => _x('so far', 'chart tooltip tag: the period is not over yet', 'wp-statistics'),
+            'part_of_month'                => _x('part of month', 'chart tooltip tag: the range starts or ends inside this month', 'wp-statistics'),
+            'part_of_week'                 => _x('part of week', 'chart tooltip tag: the range starts or ends inside this week', 'wp-statistics'),
+            'new_value'                    => _x('New', 'chart tooltip change chip: the previous value was 0', 'wp-statistics'),
+            /* translators: followed by the previous period, e.g. "No data for Feb 2026". */
+            'no_data_for'                  => _x('No data for', 'chart tooltip footer', 'wp-statistics'),
             'are_you_sure'                 => __('Are you sure?', 'wp-statistics'),
         );
 

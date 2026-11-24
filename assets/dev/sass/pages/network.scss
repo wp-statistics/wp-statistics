@@ -1,0 +1,419 @@
+// Network Admin > Statistics: one table row per site (views/pages/network/overview.php).
+// Sort, search and pages: assets/dev/javascript/network-overview.js.
+// Narrow by its own width (container query on the card):
+//  - under 900px: no Top page column
+//  - under 700px: no Views and 7-day columns
+//  - under 460px: tighter cells, "Open" shows as the arrow only
+.wps-network-overview {
+  max-width: 1200px;
+
+  .wps-network-overview__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin: 0 0 16px;
+  }
+
+  .wps-network-overview__title {
+    padding: 9px 0 4px;
+  }
+
+  .wps-network-overview__intro {
+    color: $wps-text-muted;
+    margin: 0;
+  }
+
+  .wps-network-overview__search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 1 240px;
+    min-width: 0;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    background: #fff;
+    color: $wps-text-muted;
+    box-sizing: border-box;
+
+    &:focus-within {
+      border-color: $wps-brand;
+      box-shadow: 0 0 0 1px $wps-brand;
+    }
+
+    svg {
+      flex: none;
+    }
+
+    input[type="search"] {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      min-height: 0;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      background: none;
+      box-shadow: none;
+      outline: 0;
+      color: $wps-text-strong;
+    }
+
+    @media (max-width: 600px) {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.wps-network-table-wrap {
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+// #wpbody: older generic "table td a" rules (inline-block, no ellipsis) are more specific.
+#wpbody .wps-network-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 13px;
+  color: $wps-text;
+
+  th,
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid $wps-card-rule;
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  thead th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: $wps-text-muted;
+    white-space: nowrap;
+  }
+
+  .is-num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Column widths: the site column takes what is left.
+  .wps-network-table__h-visitors { width: 92px; }
+  .wps-network-table__h-views { width: 84px; }
+  .wps-network-table__h-change { width: 88px; }
+  .wps-network-table__h-spark { width: 96px; }
+  .wps-network-table__h-top { width: 22%; }
+  .wps-network-table__h-open { width: 72px; }
+
+  .wps-network-table__sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+      color: $wps-text-strong;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  .is-num .wps-network-table__sort {
+    flex-direction: row-reverse;
+  }
+
+  // Arrow next to the header: grey when the column is not sorted, brand when it is.
+  .wps-network-table__sort-icon {
+    width: 0;
+    height: 0;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 4px solid currentColor;
+    opacity: .35;
+  }
+
+  th[aria-sort] {
+    color: $wps-text-strong;
+    font-weight: 600;
+
+    .wps-network-table__sort-icon {
+      opacity: 1;
+      color: $wps-brand;
+    }
+  }
+
+  th[aria-sort="ascending"] .wps-network-table__sort-icon {
+    border-top: 0;
+    border-bottom: 4px solid currentColor;
+  }
+
+  .wps-network-table__site {
+    min-width: 0;
+  }
+
+  .wps-network-table__name,
+  .wps-network-table__url,
+  .wps-network-table__top-link {
+    position: relative; // keeps the screen-reader text inside the clipped box
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .wps-network-table__name-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+
+    .wps-network-table__name {
+      min-width: 0;
+    }
+
+    .wps-pill {
+      flex: none;
+    }
+  }
+
+  .wps-network-table__name {
+    font-weight: 600;
+    color: $wps-text-strong;
+  }
+
+  a.wps-network-table__name:hover,
+  a.wps-network-table__name:focus-visible {
+    color: $wps-brand;
+  }
+
+  // Names and titles take their direction from their own text, so an English name on a
+  // right-to-left screen still cuts at its end ("Department of Contin…").
+  .wps-network-table__name,
+  .wps-network-table__top-link {
+    unicode-bidi: plaintext;
+  }
+
+  // Addresses are always left-to-right; on RTL screens they stay on the right edge.
+  .wps-network-table__url {
+    direction: ltr;
+    text-align: left;
+
+    .rtl & {
+      text-align: right;
+    }
+
+    font-size: 12px;
+    line-height: 16px;
+    color: $wps-text-subtle;
+
+    &:hover,
+    &:focus-visible {
+      color: $wps-brand;
+      text-decoration: underline;
+    }
+  }
+
+  .wps-network-table__top-link {
+    color: $wps-text;
+
+    &:hover,
+    &:focus-visible {
+      color: $wps-brand;
+      text-decoration: underline;
+    }
+  }
+
+  .wps-network-table__spark {
+    display: block;
+    max-width: 100%;
+
+    polygon {
+      fill: $wps-brand;
+      opacity: .08;
+    }
+
+    polyline {
+      fill: none;
+      stroke: $wps-brand;
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    &.is-down {
+      polygon { fill: $wps-bad; }
+      polyline { stroke: $wps-bad; }
+    }
+  }
+
+  .wps-network-table__muted {
+    font-size: 12px;
+    color: $wps-text-subtle;
+  }
+
+  .wps-network-table__open {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    color: $wps-brand;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+
+  // Rows without visits and sites without the plugin: grey numbers.
+  .is-quiet {
+    .wps-network-table__visitors,
+    .wps-network-table__views {
+      color: $wps-text-subtle;
+    }
+  }
+
+  .is-inactive {
+    .wps-network-table__name {
+      color: $wps-text-muted;
+      font-weight: 500;
+    }
+
+    > td {
+      background: #FBFBFC;
+    }
+  }
+
+  .wps-change--new {
+    color: $wps-brand !important;
+    background: $wps-brand-tint !important;
+  }
+
+  tfoot {
+    th,
+    td {
+      border-bottom: 0;
+      background: #F9F9FA;
+      font-weight: 600;
+      color: $wps-text-strong;
+    }
+
+    th {
+      font-size: 13px;
+    }
+  }
+
+  .wps-network-table__no-match td {
+    padding: 0;
+  }
+
+  @container (max-width: 900px) {
+    .wps-network-table__h-top,
+    .wps-network-table__top {
+      display: none;
+    }
+  }
+
+  @container (max-width: 700px) {
+    .wps-network-table__h-views,
+    .wps-network-table__views,
+    .wps-network-table__h-spark,
+    .wps-network-table__spark-cell {
+      display: none;
+    }
+  }
+
+  @container (max-width: 460px) {
+    th,
+    td {
+      padding: 9px 8px;
+    }
+
+    .wps-network-table__h-visitors { width: 68px; }
+    .wps-network-table__h-change { width: 72px; }
+    .wps-network-table__h-open { width: 32px; }
+
+    .wps-network-table__open-text {
+      display: none;
+    }
+  }
+}
+
+.wps-network-table__pager {
+  display: flex;
+
+  .wps-network-table__pager-text {
+    unicode-bidi: plaintext;
+  }
+
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: $wps-text-muted;
+
+  .wps-network-table__pager-buttons {
+    display: inline-flex;
+    gap: 6px;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .wps-network-table__page-btn {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid $wps-card-border;
+    border-radius: 4px;
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    color: $wps-text-strong;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      border-color: $wps-brand;
+      color: $wps-brand;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 1px;
+    }
+
+    &:disabled {
+      opacity: .45;
+      cursor: default;
+    }
+  }
+}
+
+// RTL: the arrow points the reading way.
+.rtl .wps-network-table__arrow {
+  transform: scaleX(-1);
+}

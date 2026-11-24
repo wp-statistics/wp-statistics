@@ -7,7 +7,7 @@ use WP_Statistics\Components\View;
 
 ?>
 
-<div class="wps-modal wps-modal--premium js-wps-premiumModal js-wps-premiumModal-welcome" style="display: block">
+<div class="wps-modal wps-modal--premium js-wps-premiumModal js-wps-premiumModal-welcome" style="display: block" role="dialog" aria-modal="true" tabindex="-1" aria-label="<?php esc_attr_e('WP Statistics Premium', 'wp-statistics'); ?>">
     <div class="wps-modal__content wps-modal__content--welcome js-wps-premiumModalWelcomeContent">
         <span class="wps-modal__welcome-image"></span>
         <div class="wps-modal__welcome-description">
@@ -20,6 +20,6 @@ use WP_Statistics\Components\View;
         </div>
     </div>
     <div class="wps-modal__content wps-modal__content--premium-steps js-wps-premiumModalSteps">
-        <?php View::load("components/modals/introduce-premium/step-details"); ?>
+        <?php View::load("components/modals/introduce-premium/step-details", ['id_prefix' => 'wps-premium-welcome']); ?>
     </div>
 </div>

@@ -1,9 +1,9 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-$renewUrl   = 'https://wp-statistics.com/my-account/subscriptions/';
+$renewUrl   = \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/my-account/subscriptions/', 'notice', 'premium', 'renew');
 $licenseUrl = admin_url('admin.php?page=wps_plugins_page&tab=add-license');
-$supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon';
+$supportUrl = \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/contact-us/', 'notice', 'premium', 'support');
 ?>
 <div class="wps-licnotice wps-licnotice--danger" role="alert">
     <span class="wps-licnotice__icon" aria-hidden="true">!</span>

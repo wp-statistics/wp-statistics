@@ -61,21 +61,21 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by operating system.', 'wp-statistics'),
             'unique_id' => 'category_operating_systems'
         ];
         View::load("components/charts/horizontal-bar", $operatingSystems);
 
         $browsers = [
             'title'     => esc_html__('Browsers', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by browser.', 'wp-statistics'),
             'unique_id' => 'category_browsers'
         ];
         View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceModels = [
             'title'     => esc_html__('Device Models', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device model.', 'wp-statistics'),
             'unique_id' => 'category_device_models'
         ];
         View::load("components/charts/horizontal-bar", $deviceModels);
@@ -83,7 +83,7 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device type.', 'wp-statistics'),
             'unique_id' => 'category_device_usage'
         ];
         View::load("components/charts/horizontal-bar", $deviceUsage);
@@ -101,7 +101,7 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
         $topCategories = [
             'title'   => esc_html__('Top Categories', 'wp-statistics'),
-            'tooltip' => esc_html__('Lists the top categories by views and published contents within each category.', 'wp-statistics'),
+            'tooltip' => esc_html__('Terms ranked by views of their posts. Click a column to sort.', 'wp-statistics'),
             'data'    => $data['categories']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-category'], $topCategories);
@@ -109,20 +109,20 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
 
         $topPick = [
             'title'   => esc_html__('Top Contents', 'wp-statistics'),
-            'tooltip' => esc_html__('Shows the most popular, most commented, and most recent content with this taxonomy.', 'wp-statistics'),
+            'tooltip' => esc_html__('Most viewed, most commented or newest content. Switch with "Rank by".', 'wp-statistics'),
             'data'    => $data['posts']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-picks'], $topPick);
 
         $topAuthors = [
             'title'   => esc_html__('Top Authors', 'wp-statistics'),
-            'tooltip' => esc_html__('Lists the top authors by the number of views their content has received and the number of content items they have published.', 'wp-statistics'),
+            'tooltip' => esc_html__('Authors ranked by views of posts in this taxonomy. Click a column to sort.', 'wp-statistics'),
             'data'    => $data['authors']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-authors'], $topAuthors);
 
         $topCountries = [
-            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
+            'tooltip' => esc_html__('Countries with the most visitors.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
         View::load("components/tables/top-countries", $topCountries);
@@ -135,7 +135,7 @@ use WP_Statistics\Service\Admin\Posts\WordCountService;
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
+            'tooltip' => esc_html__('Sites that sent the most visitors.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
         View::load("components/tables/top-referring", $topReferring);

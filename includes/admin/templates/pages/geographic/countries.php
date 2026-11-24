@@ -4,11 +4,8 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Components\View;
 
-$pluginHandler = new PluginHandler();
-$isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -24,14 +21,14 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                     <th scope="col" class="wps-pd-l">
                                         <?php esc_html_e('Country', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l wps-col-num">
                                         <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l wps-col-num">
                                         <?php esc_html_e('Views', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col">
-                                        <span class="screen-reader-text"><?php esc_html_e('Details', 'wp-statistics'); ?></span>
+                                    <th scope="col" class="wps-pd-l wps-col-share">
+                                        <?php esc_html_e('Share', 'wp-statistics') ?>
                                     </th>
                                 </tr>
                                 </thead>
@@ -41,37 +38,25 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                 <?php foreach ($data['countries'] as $item) : ?>
                                     <tr>
                                         <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
-                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" class="log-tools wps-flag"/>
+                                            <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
+                                                <img alt="" src="<?php echo esc_url(Country::flag($item->country)) ?>" class="log-tools wps-flag"/>
+                                                <?php if (empty($item->country) || $item->country === Country::$unknown_location) : ?>
+                                                    <?php /* No report for visitors with an unknown country */ ?>
                                                     <?php echo esc_html(Country::getName($item->country)) ?>
-                                                </span>
+                                                <?php else : ?>
+                                                    <?php /* The name opens the country report (Data Plus; without it, the page explains the add-on) */ ?>
+                                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php echo esc_html(Country::getName($item->country)) ?></a>
+                                                <?php endif; ?>
+                                            </span>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format($item->visitors)) ?>
+                                        <td class="wps-pd-l wps-col-num">
+                                            <?php echo esc_html(number_format_i18n($item->visitors)) ?>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format($item->views)) ?>
+                                        <td class="wps-pd-l wps-col-num">
+                                            <?php echo esc_html(number_format_i18n($item->views)) ?>
                                         </td>
-                                        <td class="-table__cell o-table__cell--right view-more">
-                                            <?php if ($isActive): ?>
-                                                <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
-                                                    <?php esc_html_e('View Details', 'wp-statistics'); ?>
-                                                </a>
-                                            <?php else: ?>
-                                                <div>
-                                                    <button class="disabled wps-tooltip-premium">
-                                                        <a class="wps-tooltip-premium__link" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
-                                                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
-                                                                <span id="tooltip_realtime">
-                                                                    <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                                                                    <span>
-                                                                         <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                                                                    </span>
-                                                                </span>
-                                                            </span>
-                                                    </button>
-                                                </div>
-                                            <?php endif; ?>
+                                        <td class="wps-pd-l wps-col-share">
+                                            <?php View::load('components/objects/percent-bar', ['count' => $item->visitors, 'total' => $data['visitors'] ?? 0, 'label' => __('Share of all visitors', 'wp-statistics')]); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -79,9 +64,7 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                        </div>
+                        <?php View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
                 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

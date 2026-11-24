@@ -12,25 +12,11 @@ $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('REST API', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=rest-api'),
-     'addon_title'               => __('Rest API Add-on', 'wp-statistics'),
-     'addon_modal_target'        => 'wp-statistics-rest-api',
-     'addon_description'         => __('The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:', 'wp-statistics'),
-     'addon_features'            => [
-         __('Browsers', 'wp-statistics'),
-         __('Hits', 'wp-statistics'),
-         __('Referrers', 'wp-statistics'),
-         __('Search Engines', 'wp-statistics'),
-         __('Summary', 'wp-statistics'),
-         __('Visitors', 'wp-statistics'),
-         __('Pages', 'wp-statistics'),
-     ],
-     'addon_info'                => __('For more information about the API and endpoints, please refer to the', 'wp-statistics'),
-     'addon_documentation_title' => __('API documentation', 'wp-statistics'),
-     'addon_documentation_slug'  => esc_url('https://documenter.getpostman.com/view/3239688/2s8Z6vZER4'),
-
-    ], true);
+if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Rest API Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-rest-api',
+    'addon_campaign'     => 'rest-api',
+], true);
 
 if ($isRestApiActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
@@ -76,6 +62,36 @@ if ($isRestApiActive && !$isLicenseValid) {
     </div>
 
 <?php
+/**
+ * The REST API add-on prints its "AI agents (MCP)" section here, inside the settings form.
+ */
+if ($isRestApiActive && has_action('wp_statistics_settings_rest_api_mcp')) {
+    do_action('wp_statistics_settings_rest_api_mcp');
+} elseif (!$isRestApiActive) {
+    ?>
+    <div class="postbox">
+        <table class="form-table form-table--preview">
+            <tbody>
+            <tr class="wps-settings-box_head">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('AI agents (MCP)', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('AI Agent Access', 'wp-statistics'); ?></span>
+                </th>
+                <td>
+                    <input id="wps-mcp-preview-status" type="checkbox" disabled>
+                    <label for="wps-mcp-preview-status"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Connect ChatGPT, Claude and other AI agents with MCP, and ask them about your visitors, top pages, referrers and countries. Read only, and you can cut off any agent at any time.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
+
 if ($isRestApiActive) {
     submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'rest_api_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
 }

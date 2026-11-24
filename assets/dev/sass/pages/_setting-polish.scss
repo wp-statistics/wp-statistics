@@ -1,0 +1,628 @@
+// ---------------------------------------------------------------------------
+// Settings pages polish: add-on tabs only (div.tab-content.wps-addon-tab in settings.php).
+// Core tabs (General, Advanced, Privacy, Display, Notifications, Access, Exclusions) keep their
+// original look, so every rule here is scoped to .wps-addon-tab.
+// CSS only on the classes the templates already print, so older and newer add-ons that
+// add their own rows (Data Plus, Marketing, REST API MCP section, ...) get the same look
+// without any change on their side. Nothing here renames or hides a field.
+// ---------------------------------------------------------------------------
+
+$wps-set-label-width: 260px;
+$wps-set-field-width: 320px;
+$wps-set-field-height: 40px;
+$wps-set-row-rule: #F1F2F4;
+
+#wp-statistics-settings-form .wps-addon-tab {
+
+  // Section cards: one border, one radius, even space between them.
+  .postbox {
+    border: 1px solid $wps-card-border;
+    border-radius: $wps-card-radius;
+    box-shadow: none;
+    margin-bottom: 16px;
+  }
+
+  .form-table {
+    > tbody > tr {
+      // A light rule between rows, never under the card title or above the first row.
+      &:not(.wps-settings-box_head) + tr:not(.wps-settings-box_head) > th,
+      &:not(.wps-settings-box_head) + tr:not(.wps-settings-box_head) > td {
+        border-top: 1px solid $wps-set-row-rule;
+      }
+
+      > th {
+        vertical-align: top;
+        line-height: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        color: $wps-text-strong;
+      }
+
+      > td {
+        vertical-align: top;
+        line-height: 20px;
+      }
+    }
+
+    // Same label column in every card (a card title with a status chip made it wider).
+    @media (min-width: 786px) {
+      > tbody > tr:not(.wps-settings-box_head) > th[scope="row"]:not([colspan]),
+      > tbody > tr.wps-settings-box_head > th[scope="row"]:not([colspan]) {
+        width: $wps-set-label-width;
+        min-width: $wps-set-label-width;
+        max-width: $wps-set-label-width;
+        box-sizing: border-box;
+      }
+    }
+
+    // Labels line up with the first line of the field (40px fields, 20px text).
+    > tbody > tr:not(.wps-settings-box_head) > th[scope="row"] {
+      @media (min-width: 786px) {
+        padding-top: 26px !important;
+      }
+
+      label,
+      .wps-setting-label,
+      .wps-setting-label > span {
+        align-items: center;
+        line-height: 20px;
+        column-gap: 6px;
+      }
+
+      @media (min-width: 786px) {
+        padding-inline-end: 12px !important;
+      }
+    }
+
+    // Help text: muted, one comfortable line length, small gap under the field.
+    td > p.description,
+    td > .description {
+      margin: 8px 0 0;
+      max-width: 640px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: $wps-text-muted;
+    }
+
+    td > p.description + p.description {
+      margin-top: 4px;
+    }
+
+    // Text fields, numbers and native selects: one width, one height.
+    > tbody > tr:not(.wps-settings-box_head) > td {
+      // Direct children only: fields an add-on wraps in its own layout keep their size.
+      > input[type=text]:not(.wps-input-group__field):not(.wp-color-picker),
+      > input[type=url]:not(.wps-input-group__field),
+      > input[type=email]:not(.wps-input-group__field),
+      > input[type=number]:not(.wps-input-group__field),
+      > input[type=password],
+      > select:not([multiple]):not(.wps-input-group__field) {
+        width: $wps-set-field-width;
+        max-width: 100%;
+        min-height: $wps-set-field-height;
+        box-sizing: border-box;
+      }
+
+      > select:not([multiple]):not(.wps-input-group__field) {
+        height: $wps-set-field-height;
+        padding: 0 32px 0 12px !important;
+        line-height: 38px;
+        background: #fff url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.25 7.5L9 11.25L12.75 7.5' stroke='%2356585A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center !important;
+        background-size: 18px !important;
+        cursor: pointer;
+
+        .rtl & {
+          padding: 0 12px 0 32px !important;
+          background-position: left 10px center !important;
+        }
+      }
+
+      // Date, time, URL and email fields had the browser's black border.
+      > input[type=date],
+      > input[type=time],
+      > input[type=datetime-local],
+      > input[type=url]:not(.wps-input-group__field),
+      > input[type=email]:not(.wps-input-group__field) {
+        width: $wps-set-field-width;
+        max-width: 100%;
+        height: $wps-set-field-height;
+        padding: 0 12px !important;
+        border: 1px solid #DADCE0 !important;
+        border-radius: 4px;
+        background: #fff;
+        color: $wps-text-strong;
+        font-size: 13px;
+        box-shadow: none;
+
+        &:focus {
+          border-color: $wps-brand !important;
+        }
+      }
+
+      > .select2-container {
+        width: $wps-set-field-width !important;
+        max-width: 100%;
+
+        .select2-selection {
+          width: 100% !important;
+          box-sizing: border-box;
+        }
+      }
+
+      > .wps-input-group {
+        width: $wps-set-field-width;
+        min-height: $wps-set-field-height;
+        box-sizing: border-box;
+
+        &:focus-within {
+          border-color: $wps-brand;
+          box-shadow: 0 0 0 1px $wps-brand;
+        }
+
+        .wps-input-group__field:focus {
+          box-shadow: none !important;
+          outline: none !important;
+        }
+      }
+
+      .wps-input-group__small {
+        width: 200px;
+      }
+
+      textarea {
+        width: 100%;
+        max-width: 520px !important;
+      }
+
+      input[type=text],
+      input[type=url],
+      input[type=email],
+      input[type=number],
+      input[type=password],
+      select,
+      textarea {
+        &:focus {
+          box-shadow: 0 0 0 1px $wps-brand !important;
+        }
+      }
+
+      // Checkbox / radio and its "Enable" label on one line, centred.
+      > input[type=checkbox],
+      > input[type=radio],
+      > p > input[type=checkbox],
+      > div > input[type=checkbox] {
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+      }
+
+      > input[type=checkbox] + label,
+      > input[type=radio] + label,
+      > p > input[type=checkbox] + label {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 20px;
+      }
+
+      // Buttons inside rows (Open Debugger, Update Now, Reset to Default, ...) match the fields.
+      > .wps-button,
+      > a.wps-button,
+      > p > .wps-button {
+        min-height: $wps-set-field-height;
+        box-sizing: border-box;
+        padding: 0 16px;
+        line-height: 38px;
+        text-decoration: none;
+      }
+    }
+
+    // A row that starts with a checkbox: its first line sits level with the label.
+    @media (min-width: 786px) {
+      > tbody > tr:not(.wps-settings-box_head) > td:has(> input[type=checkbox]):not(:has(> select, > textarea, > input[type=text], > input[type=number], > .wps-input-group, > .select2-container)),
+      > tbody > tr:not(.wps-settings-box_head) > td:has(> p:first-child > input[type=checkbox]:first-child) {
+        padding-top: 26px !important;
+      }
+    }
+  }
+
+  @media (max-width: 785px) {
+    .form-table > tbody > tr:not(.wps-settings-box_head) > th[scope="row"] {
+      padding-bottom: 4px !important;
+    }
+
+    // Label above the field even when the field is narrow (help text moved into the (i) button).
+    .form-table > tbody > tr:not(.wps-settings-box_head) > th[scope="row"],
+    .form-table > tbody > tr:not(.wps-settings-box_head) > td {
+      flex: 0 0 100%;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .form-table > tbody > tr:not(.wps-settings-box_head) + tr:not(.wps-settings-box_head) > td {
+      border-top: 0;
+    }
+
+    .form-table > tbody > tr > td {
+      > input[type=text]:not(.wps-input-group__field):not(.wp-color-picker),
+      > input[type=url]:not(.wps-input-group__field),
+      > input[type=email]:not(.wps-input-group__field),
+      > input[type=number]:not(.wps-input-group__field),
+      > input[type=date],
+      > input[type=password],
+      > select:not([multiple]):not(.wps-input-group__field),
+      > .select2-container,
+      > .wps-input-group {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// (i) help button next to a label (added by pages/settings-help.js).
+// ---------------------------------------------------------------------------
+// The label text and the (i) button flow as one line of text, so a long label that wraps
+// keeps the button at the end of its last line (not alone on a new line).
+#wp-statistics-settings-form .wps-addon-tab .form-table th {
+  .wps-setting-help__label,
+  .wps-setting-label:has(.wps-setting-help),
+  .wps-setting-label > span:has(> .wps-setting-help) {
+    display: block !important;
+  }
+
+  .wps-setting-help__label > label {
+    display: inline !important;
+
+    > span {
+      display: inline !important;
+    }
+  }
+
+  .wps-setting-label:has(.wps-setting-help) .wps-tooltip,
+  .wps-setting-help__label .wps-badge {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-inline-start: 4px;
+  }
+
+  .wps-setting-help {
+    margin-inline-start: 4px;
+    vertical-align: -5px;
+  }
+}
+
+.wps-setting-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: $wps-text-subtle;
+  cursor: pointer;
+  vertical-align: middle;
+
+  &__icon {
+    width: 14px;
+    height: 14px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M7 .34a6.67 6.67 0 1 0 0 13.33A6.67 6.67 0 0 0 7 .34Zm0 1.33a5.33 5.33 0 1 1 0 10.67A5.33 5.33 0 0 1 7 1.67Zm0 2a.67.67 0 1 0 0 1.34.67.67 0 0 0 0-1.34Zm-.67 2a.67.67 0 0 0-.12 1.3l-.4 1.91c-.15.78.4 1.46 1.19 1.46h.67a.67.67 0 0 0 0-1.33h-.52l.5-2.54a.67.67 0 0 0-.65-.8h-.67Z'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M7 .34a6.67 6.67 0 1 0 0 13.33A6.67 6.67 0 0 0 7 .34Zm0 1.33a5.33 5.33 0 1 1 0 10.67A5.33 5.33 0 0 1 7 1.67Zm0 2a.67.67 0 1 0 0 1.34.67.67 0 0 0 0-1.34Zm-.67 2a.67.67 0 0 0-.12 1.3l-.4 1.91c-.15.78.4 1.46 1.19 1.46h.67a.67.67 0 0 0 0-1.33h-.52l.5-2.54a.67.67 0 0 0-.65-.8h-.67Z'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+  }
+
+  &:hover,
+  &[aria-expanded="true"] {
+    color: $wps-brand;
+    background: $wps-brand-tint;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $wps-brand;
+    outline-offset: 1px;
+  }
+}
+
+// Help text shown in place (click on the (i) button): a soft note under the field.
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description.wps-setting-help__text:not([hidden]) {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #F7F8FA;
+  border-inline-start: 3px solid $wps-brand-soft;
+}
+
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description.wps-setting-help__text[hidden] {
+  display: none !important;
+}
+
+// Tooltip body: the moved help text (links stay clickable).
+.wps-setting-help__tip {
+  font-size: 13px;
+  line-height: 1.5;
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+
+    + p {
+      margin-top: 8px;
+    }
+  }
+
+  code {
+    font-size: 11px;
+    padding: 1px 4px;
+    word-break: break-word;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Colour field (Mini Chart > Primary Color, any wpColorPicker on the settings page).
+// Swatch (shows the colour) + hex field as one 40px group with one focus ring;
+// the picker opens as a card under the group.
+// ---------------------------------------------------------------------------
+#wp-statistics-settings-form .wps-addon-tab .wp-picker-container,
+#wp-statistics-settings-form #mini-chart-settings .wp-picker-container {
+  position: relative;
+  display: inline-flex !important;
+  flex-wrap: wrap;
+  align-items: stretch;
+  vertical-align: top;
+  border-radius: 6px;
+
+  // One ring around swatch + hex while either is focused.
+  &:has(.wp-color-result:focus-visible),
+  &:has(.wp-color-picker:focus) {
+    box-shadow: 0 0 0 2px rgba(64, 75, 242, .35);
+  }
+
+  .wp-color-result,
+  .wp-color-result.button {
+    position: relative;
+    box-sizing: border-box;
+    width: 40px !important;
+    min-width: 40px;
+    height: 40px !important;
+    min-height: 40px;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #DADCE0 !important;
+    border-inline-end: 0 !important;
+    border-radius: 6px 0 0 6px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    outline: none !important;
+    overflow: hidden;
+    display: inline-block !important;
+    cursor: pointer;
+
+    .rtl & {
+      border-radius: 0 6px 6px 0 !important;
+    }
+
+    // The colour fills the swatch, with a thin white inset so light colours still show an edge.
+    &::before {
+      content: '' !important;
+      position: absolute;
+      inset: 4px;
+      width: auto !important;
+      height: auto !important;
+      border-radius: 4px !important;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12);
+      margin: 0 !important;
+    }
+
+    &:hover {
+      border-color: #BCC2CD !important;
+    }
+
+    .wp-color-result-text,
+    span:not(.wp-color-result-text) {
+      display: none !important;
+    }
+  }
+
+  &.wp-picker-active .wp-color-result {
+    border-radius: 6px 0 0 6px !important;
+
+    .rtl & {
+      border-radius: 0 6px 6px 0 !important;
+    }
+  }
+
+  // The hex field is always there (WordPress hides it until the picker opens).
+  .wp-picker-input-wrap,
+  .wp-picker-input-wrap.hidden {
+    display: inline-flex !important;
+    align-items: stretch;
+    margin: 0 !important;
+    vertical-align: top;
+
+    label {
+      display: inline-flex;
+      margin: 0 !important;
+    }
+
+    input.wp-color-picker,
+    label input {
+      box-sizing: border-box;
+      width: 96px !important;
+      min-width: 0;
+      height: 40px !important;
+      min-height: 40px;
+      margin: 0 !important;
+      padding: 0 12px !important;
+      border: 1px solid #DADCE0 !important;
+      border-radius: 0 6px 6px 0 !important;
+      background: #fff;
+      color: $wps-text-strong !important;
+      font-family: Menlo, Consolas, monospace;
+      font-size: 13px !important;
+      line-height: 38px;
+      text-transform: uppercase;
+      box-shadow: none !important;
+      outline: none !important;
+
+      .rtl & {
+        border-radius: 6px 0 0 6px !important;
+      }
+
+      &:focus {
+        border-color: $wps-brand !important;
+      }
+    }
+
+    // "Default"/"Clear" button: not used on these fields.
+    input[type=button],
+    .wp-picker-default,
+    .wp-picker-clear {
+      display: none !important;
+    }
+  }
+
+  // Picker card, under the group, start-aligned.
+  .wp-picker-holder {
+    position: absolute;
+    top: calc(100% + 6px);
+    inset-inline-start: 0;
+    z-index: 100;
+  }
+
+  .iris-picker {
+    box-sizing: content-box;
+    border: 1px solid #DADCE0 !important;
+    border-radius: 8px !important;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(12, 12, 13, .12);
+    padding-bottom: 4px;
+
+    .iris-square,
+    .iris-slider {
+      border-radius: 4px;
+    }
+
+    .iris-strip {
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+    }
+
+    // Preset colours: one tidy row of round-cornered chips.
+    .iris-palette-container {
+      display: flex;
+      gap: 6px;
+      bottom: 10px;
+    }
+
+    .iris-palette {
+      margin: 0 !important;
+      float: none;
+      border-radius: 4px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15);
+
+      &:focus {
+        box-shadow: 0 0 0 2px $wps-brand;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Customization > Import & Export Settings.
+// ---------------------------------------------------------------------------
+#wp-statistics-settings-form .wps-addon-tab {
+  .wps-export__table,
+  .wps-import__table {
+    .wps-export__item {
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .wps-export__button,
+    .wps-import__button,
+    #wps-btn-export-settings,
+    #wps-btn-import-settings {
+      margin-top: 16px;
+    }
+  }
+
+  .wps-import__option {
+    margin: 16px 0 0;
+    display: flex;
+    align-items: center;
+  }
+
+  // File field: the native input stays (keyboard, screen readers, the add-on reads it)
+  // but is drawn as a secondary button with the file name next to it.
+  .wps-file-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 100%;
+
+    &__native {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    &__button.wps-button {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    &__native:focus-visible + .wps-file-input__button {
+      outline: 2px solid $wps-brand;
+      outline-offset: 2px;
+    }
+
+    &__name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 260px;
+      font-size: 13px;
+      color: $wps-text-subtle;
+    }
+
+    &--chosen &__name {
+      color: $wps-text-strong;
+      font-weight: 500;
+    }
+  }
+
+  // Import table continues the export card: no second card edge between them.
+  .wps-import__table {
+    border-top: 1px solid $wps-set-row-rule;
+  }
+}
+
+// The colour picker card opens over the rows below; the settings card must not clip it.
+#wp-statistics-settings-form .wps-addon-tab .postbox:has(.wp-picker-container) {
+  overflow: visible !important;
+}
+
+// An empty help paragraph (some rows print one) takes no space.
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description:empty {
+  display: none;
+}

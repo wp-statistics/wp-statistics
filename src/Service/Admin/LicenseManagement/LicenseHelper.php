@@ -7,6 +7,7 @@ use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class LicenseHelper
 {
@@ -233,10 +234,10 @@ class LicenseHelper
     }
 
     /**
-     * One summary of the add-ons and their licenses, shared by the header badge and the Add-ons screen.
-     * Built once per request.
+     * One summary of the add-ons and their licenses, shared by the header badge, the sidebar menu,
+     * the bell card and the Add-ons screen. Built once per request.
      *
-     * @return array total, licensed, installed, missing, expired, inactive, not_installed, attention
+     * @return array total, licensed, installed, missing, active_missing, expired, inactive, not_installed, attention
      */
     public static function getLicenseSummary()
     {
@@ -246,42 +247,201 @@ class LicenseHelper
             return $summary;
         }
 
-        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
-
         try {
-            foreach (PluginHelper::getRemotePlugins() as $plugin) {
-                $result['total']++;
-
-                $installed = $plugin->isInstalled();
-                $valid     = $plugin->isLicenseValid();
-
-                if ($valid) {
-                    $result['licensed']++;
-                }
-
-                if (!$installed) {
-                    $result['not_installed']++;
-                    continue;
-                }
-
-                $result['installed']++;
-
-                if ($plugin->isLicenseExpired()) {
-                    $result['expired']++;
-                } elseif (!$valid) {
-                    $result['missing']++;
-                } elseif (!$plugin->isActivated()) {
-                    $result['inactive']++;
-                }
-            }
+            $summary = self::summarizeAddons(PluginHelper::getRemotePlugins());
         } catch (\Throwable $e) {
-            return $result;
+            return self::summarizeAddons([]);
         }
 
-        $result['attention'] = $result['missing'] + $result['expired'] + $result['inactive'];
-        $summary             = $result;
-
         return $summary;
+    }
+
+    /**
+     * Counts add-on states. `attention` is the number shown on the Add-ons link:
+     * active add-ons without a valid license plus expired licenses. Switched-off add-ons
+     * without a license do not count; they do nothing until someone turns them on.
+     *
+     * @param iterable $plugins Objects with isInstalled(), isActivated(), isLicenseValid() and isLicenseExpired().
+     *
+     * @return array
+     */
+    public static function summarizeAddons($plugins)
+    {
+        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'active_missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
+
+        foreach ($plugins as $plugin) {
+            $result['total']++;
+
+            $valid = $plugin->isLicenseValid();
+
+            if ($valid) {
+                $result['licensed']++;
+            }
+
+            if (!$plugin->isInstalled()) {
+                $result['not_installed']++;
+                continue;
+            }
+
+            $result['installed']++;
+
+            if ($plugin->isLicenseExpired()) {
+                $result['expired']++;
+            } elseif (!$valid) {
+                $result['missing']++;
+                if ($plugin->isActivated()) {
+                    $result['active_missing']++;
+                }
+            } elseif (!$plugin->isActivated()) {
+                $result['inactive']++;
+            }
+        }
+
+        $result['attention'] = $result['active_missing'] + $result['expired'];
+
+        return $result;
+    }
+
+    /**
+     * What the header "Add-ons" link and the sidebar menu entry show. Both read this, so they always match.
+     *
+     * @return array visible (bool), label (string), count (int, 0 = no number), warning (bool, orange in the sidebar)
+     */
+    public static function getAddonsMenuState()
+    {
+        $canManage = self::canManageLicenses();
+        $freeOnly  = $canManage && self::isFreeOnly();
+        $summary   = $canManage && !$freeOnly ? self::getLicenseSummary() : null;
+
+        return self::resolveAddonsMenuState($freeOnly, self::areAddonPromptsHidden(), $summary);
+    }
+
+    /**
+     * The menu rules on their own:
+     *  - white label: hidden;
+     *  - no add-on installed: "Go Premium", orange, no number;
+     *  - otherwise "Add-ons", with a number and orange only when something needs fixing
+     *    (an active add-on without a license, or an expired license).
+     *
+     * @param bool       $freeOnly      No add-on installed and no license.
+     * @param bool       $promptsHidden White label.
+     * @param array|null $summary       {@see summarizeAddons()}; null when the user cannot see license state.
+     *
+     * @return array
+     */
+    public static function resolveAddonsMenuState($freeOnly, $promptsHidden, $summary = null)
+    {
+        if ($promptsHidden) {
+            return ['visible' => false, 'label' => __('Add-ons', 'wp-statistics'), 'count' => 0, 'warning' => false];
+        }
+
+        if ($freeOnly) {
+            return ['visible' => true, 'label' => __('Go Premium', 'wp-statistics'), 'count' => 0, 'warning' => true];
+        }
+
+        $count = is_array($summary) ? (int)($summary['attention'] ?? 0) : 0;
+
+        return ['visible' => true, 'label' => __('Add-ons', 'wp-statistics'), 'count' => $count, 'warning' => $count > 0];
+    }
+
+    /**
+     * Add-on situations returned by {@see getAddonSituation()}.
+     */
+    const SITUATION_ACTIVE        = 'active';
+    const SITUATION_INACTIVE      = 'inactive';
+    const SITUATION_IN_PLAN       = 'in_plan';
+    const SITUATION_NOT_INSTALLED = 'not_installed';
+    const SITUATION_HIDDEN        = 'hidden';
+
+    /**
+     * Where the site stands with one add-on, for the small "this needs <add-on>" teasers inside core pages.
+     *
+     * - `active`:        the add-on runs. Its data shows, so no teaser, whatever the license says
+     *                    (an expired license only stops updates; the license notices already say so).
+     * - `hidden`:        add-on prompts are switched off (Customization white label or a hidden Add-ons menu).
+     * - `inactive`:      installed but turned off.
+     * - `in_plan`:       not installed, but a valid license on this site includes it.
+     * - `not_installed`: not installed and not licensed.
+     *
+     * @param string $slug Add-on slug, e.g. `wp-statistics-data-plus`.
+     * @param PluginHandler|null $pluginHandler
+     *
+     * @return string One of the SITUATION_* constants.
+     */
+    public static function getAddonSituation($slug, $pluginHandler = null)
+    {
+        $pluginHandler = $pluginHandler ?: new PluginHandler();
+
+        if ($pluginHandler->isPluginActive($slug)) {
+            $situation = self::SITUATION_ACTIVE;
+        } elseif (self::areAddonPromptsHidden()) {
+            $situation = self::SITUATION_HIDDEN;
+        } elseif ($pluginHandler->isPluginInstalled($slug)) {
+            $situation = self::SITUATION_INACTIVE;
+        } elseif (self::isPluginLicenseValid($slug)) {
+            $situation = self::SITUATION_IN_PLAN;
+        } else {
+            $situation = self::SITUATION_NOT_INSTALLED;
+        }
+
+        /**
+         * Filters the add-on situation used by the inline teasers.
+         *
+         * @param string $situation One of the LicenseHelper::SITUATION_* constants.
+         * @param string $slug Add-on slug.
+         */
+        return (string)apply_filters('wp_statistics_addon_situation', $situation, $slug);
+    }
+
+    /**
+     * True when the site owner turned add-on prompts off: Customization's white label, or the Add-ons menu
+     * hidden through Customization's "Disable Menus". Teasers then render nothing.
+     *
+     * @return bool
+     */
+    public static function areAddonPromptsHidden()
+    {
+        $hidden = false;
+
+        if (\WP_STATISTICS\Helper::isAddOnActive('customization')) {
+            $hidden = Option::getByAddon('wps_white_label', 'customization') == '1'
+                || in_array('plugins', (array)Option::getByAddon('disable_menus', 'customization', []), true);
+        }
+
+        /**
+         * Filters whether add-on prompts (inline teasers) are hidden.
+         *
+         * @param bool $hidden
+         */
+        return (bool)apply_filters('wp_statistics_hide_addon_prompts', $hidden);
+    }
+
+    /**
+     * WordPress Plugins screen narrowed to one installed-but-off add-on, where the site admin turns it on.
+     * Our links never activate a plugin themselves.
+     *
+     * @param string $slug Add-on slug, e.g. `wp-statistics-data-plus`.
+     *
+     * @return string
+     */
+    public static function getAddonPluginsPageUrl($slug)
+    {
+        return add_query_arg(['plugin_status' => 'inactive', 's' => rawurlencode($slug)], admin_url('plugins.php'));
+    }
+
+    /**
+     * Add-ons screen step that installs the add-ons of a valid license: the download step of the license
+     * that includes this add-on, or the license step when there is none.
+     *
+     * @param string $slug
+     *
+     * @return string
+     */
+    public static function getAddonInstallUrl($slug)
+    {
+        $key = self::isPluginLicenseValid($slug) ? self::getPluginLicense($slug) : null;
+
+        return \WP_STATISTICS\Menus::admin_url('plugins', $key ? ['tab' => 'downloads', 'license_key' => $key] : ['tab' => 'add-license']);
     }
 
     /**
@@ -325,7 +485,7 @@ class LicenseHelper
      */
     public static function renderLicenseStatusLink($isPremium, $promoBanner, $isMobile = false)
     {
-        $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
+        $baseUrl = esc_url(UpsellLink::pricing('header'));
 
         if ($promoBanner && Option::get('display_notifications', false)) {
             $banner = [
@@ -359,9 +519,9 @@ class LicenseHelper
 
         if (!$isPremium && !self::isValidLicenseAvailable()) {
             return sprintf(
-                '<a href="%s" target="_blank" class="wps-license-status wps-license-status--free">%s</a>',
+                '<a href="%s" target="_blank" rel="noopener" class="wps-license-status wps-license-status--free">%s</a>',
                 $baseUrl,
-                esc_html__('Upgrade To Premium', 'wp-statistics')
+                esc_html__('Upgrade to Premium', 'wp-statistics')
             );
         }
 
@@ -372,7 +532,7 @@ class LicenseHelper
             count(PluginHelper::$plugins)
         );
         return sprintf(
-            '<a href="%s" target="_blank" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
+            '<a href="%s" target="_blank" rel="noopener" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
             $baseUrl,
             $licenseText,
             esc_html__('Upgrade', 'wp-statistics')

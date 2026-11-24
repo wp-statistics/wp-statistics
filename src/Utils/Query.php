@@ -305,7 +305,7 @@ class Query
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->whereClauses[] = "{$field} IS NULL OR {$field} = ''";
+                $this->whereClauses[] = "({$field} IS NULL OR {$field} = '')";
             }
         }
 
@@ -348,7 +348,8 @@ class Query
             case 'IN':
             case 'NOT IN':
                 if (is_string($value)) {
-                    $value = explode(',', $value);
+                    // Trim each item, so 'post, page' matches like 'post,page'.
+                    $value = array_map('trim', explode(',', $value));
                 }
 
                 if (!empty($value) && is_array($value) && count($value) == 1) {
@@ -803,13 +804,32 @@ class Query
 
     protected function unionQuery()
     {
-        $query = '';
+        // Join the parts as "SELECT ... UNION SELECT ...", without parentheses.
+        // SQLite (e.g. WordPress Playground) rejects "(SELECT ...) UNION (SELECT ...)".
+        // A part with its own ORDER BY or LIMIT is wrapped as a derived table, since
+        // neither engine accepts those on a bare part of a compound query.
+        // Built into a local array so building the query twice gives the same SQL.
+        $parts = [];
+        $index = 0;
+        foreach (array_values($this->queries) as $part) {
+            if ($part instanceof self) {
+                // Query part: wrap only when orderBy() or perPage() was called on it
+                $wrap = $part->hasOrderOrLimit();
+                $part = trim($part->getQuery());
+            } else {
+                $part = trim((string)$part);
+                $wrap = self::sqlHasOwnOrderOrLimit($part);
+            }
 
-        foreach ($this->queries as $key => $value) {
-            $this->queries[$key] = "($value)";
+            if ($wrap) {
+                $part = "SELECT * FROM ($part) AS union_part_$index";
+            }
+
+            $parts[] = $part;
+            $index++;
         }
 
-        $query = implode(' UNION ', $this->queries);
+        $query = implode(' UNION ', $parts);
 
         // Append ORDER clauses
         if (!empty($this->orderClause)) {
@@ -822,6 +842,68 @@ class Query
         }
 
         return $query;
+    }
+
+    /**
+     * Whether orderBy() or perPage() set an ORDER BY or LIMIT on this query.
+     *
+     * @return bool
+     */
+    public function hasOrderOrLimit()
+    {
+        return !empty($this->orderClause) || !empty($this->limitClause);
+    }
+
+    /**
+     * Whether a SQL string has its own ORDER BY or LIMIT at the top level.
+     * Text inside parentheses (sub queries, functions) and quoted strings is ignored,
+     * so "ORDER BY" in a sub query or a literal does not count.
+     *
+     * @param string $sql
+     * @return bool
+     */
+    protected static function sqlHasOwnOrderOrLimit($sql)
+    {
+        $topLevel = '';
+        $depth    = 0;
+        $quote    = null;
+        $length   = strlen($sql);
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $sql[$i];
+
+            if ($quote !== null) {
+                if ($char === '\\') {
+                    $i++;
+                } elseif ($char === $quote) {
+                    $quote = null;
+                }
+                continue;
+            }
+
+            if ($char === "'" || $char === '"' || $char === '`') {
+                $quote     = $char;
+                $topLevel .= ' ';
+                continue;
+            }
+
+            if ($char === '(') {
+                $depth++;
+                continue;
+            }
+
+            if ($char === ')') {
+                $depth = max(0, $depth - 1);
+                $topLevel .= ' ';
+                continue;
+            }
+
+            if ($depth === 0) {
+                $topLevel .= $char;
+            }
+        }
+
+        return (bool)preg_match('/\b(ORDER\s+BY|LIMIT)\b/i', $topLevel);
     }
 
     /**
@@ -852,10 +934,31 @@ class Query
         return $this;
     }
 
+    /**
+     * Returns the table name without its database prefix, for use as an alias.
+     *
+     * On a multisite sub-site, plugin tables use the site prefix (wp_2_) but global
+     * tables such as users and usermeta keep the network base prefix (wp_), so the
+     * longest matching prefix is removed, never a fixed number of characters.
+     *
+     * @param string $table Full table name.
+     * @return string
+     */
     public function removeTablePrefix($table)
     {
-        $prefixLength   = strlen($this->db->prefix);
-        $table          = substr($table, $prefixLength);
+        $prefixes = array_unique(array_filter([$this->db->prefix, $this->db->base_prefix ?? '']));
+
+        // Try the longer prefix first (wp_2_ before wp_).
+        usort($prefixes, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
+
+        foreach ($prefixes as $prefix) {
+            if (strpos($table, $prefix) === 0) {
+                $table = substr($table, strlen($prefix));
+                break;
+            }
+        }
 
         return str_replace('statistics_', '', $table);
     }

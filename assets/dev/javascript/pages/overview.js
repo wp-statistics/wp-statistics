@@ -72,8 +72,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 return '';
             }
 
-            const start = moment(startDate);
-            const end = moment(endDate);
+            // Month names in the admin language (Admin_Assets::localizeMoment()).
+            const start = moment(startDate).locale(window.wpsMomentLocale || moment.locale());
+            const end = moment(endDate).locale(window.wpsMomentLocale || moment.locale());
 
             if (start.isSame(end, 'day')) {
                 return start.format('MMM D, YYYY');
@@ -213,9 +214,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
         handleDateSelection(metaboxId, dates, picker, isHide = false) {
             const $metabox = jQuery('#' + metaboxId);
+            const loc = window.wpsMomentLocale || moment.locale();
             const dateRangeText = dates.startDate === dates.endDate ?
-                picker.startDate.format('MMM D, YYYY') :
-                picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY');
+                picker.startDate.clone().locale(loc).format('MMM D, YYYY') :
+                picker.startDate.clone().locale(loc).format('MMM D, YYYY') + ' - ' + picker.endDate.clone().locale(loc).format('MMM D, YYYY');
 
             this.updateUIElements($metabox, dateRangeText, isHide);
             this.loadMetaBoxData(metaboxId, dates);
@@ -286,6 +288,12 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 data.to = endDate;
             }
 
+            // Cards with a segment switch (Visitors) load the segment that is selected.
+            const box = document.getElementById(metaBoxKey);
+            if (box && box.dataset.wpsSegment) {
+                data.segment = box.dataset.wpsSegment;
+            }
+
             const successHandler = `${metaBoxKey}_success`;
             const errorHandler = `${metaBoxKey}_error`;
 
@@ -310,9 +318,150 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         });
     }
 
+    /*
+     * Visitors card: Latest | Most active | Online now (views/metabox/visitors.php).
+     *
+     * The switch (components/visitors-switch.js) sits in the card header, outside the title,
+     * so clicking it never drags or folds the card. The first list comes with the page load
+     * (the user's last choice, kept in user meta); the others load on their first click and
+     * are kept for a minute, so switching back is instant. Reload fetches the shown list again.
+     * The "Online now" badge takes the count of every fresh answer.
+     */
+    const VISITORS_KEY = 'wp-statistics-visitors-widget';
+    const VISITORS_CACHE_MS = 60000;
+    let visitorsCache = {};
+    let visitorsOnline = null;
+    let visitorsRequest = 0;
+
+    function clearVisitorsCache() {
+        visitorsCache = {};
+    }
+
+    function drawVisitorsSwitch(options, segment) {
+        const box = document.getElementById(VISITORS_KEY);
+        const header = box ? box.querySelector('.postbox-header') : null;
+        if (!header || !window.wpsVisitorsSwitch || !Array.isArray(options.segments)) return;
+
+        let wrap = header.querySelector('.wps-visitors-switch-wrap');
+        const hadFocus = !!(wrap && wrap.contains(document.activeElement));
+
+        if (!wrap) {
+            wrap = document.createElement('div');
+            wrap.className = 'wps-visitors-switch-wrap';
+            const title = header.querySelector('.hndle');
+            if (title) title.insertAdjacentElement('afterend', wrap);
+            else header.prepend(wrap);
+            header.classList.add('wps-visitors-header');
+        }
+
+        wrap.innerHTML = window.wpsVisitorsSwitch.render({
+            segments: options.segments,
+            selected: segment,
+            online: visitorsOnline,
+            label: options.switch && options.switch.label ? options.switch.label : '',
+            idPrefix: 'wps-visitors-tab'
+        });
+
+        if (hadFocus) {
+            const selected = wrap.querySelector('[aria-selected="true"]');
+            if (selected) selected.focus();
+        }
+    }
+
+    wps_js.render_wp_statistics_visitors_widget = function (response, key) {
+        const options = (response && response.options) || {};
+        const segment = options.segment || 'latest';
+        const box = document.getElementById(key);
+
+        if (!response.wpsFromCache) {
+            visitorsCache[segment] = {response: response, time: Date.now()};
+            if (Object.prototype.hasOwnProperty.call(options, 'online')) visitorsOnline = options.online;
+        }
+
+        if (box) box.dataset.wpsSegment = segment;
+        wps_js.set_content(response, key);
+        drawVisitorsSwitch(options, segment);
+    };
+
+    function saveVisitorsSegment(segment) {
+        jQuery.post(wps_js.global.admin_url + 'admin-ajax.php', {
+            action: 'wp_statistics_visitors_segment_save',
+            wps_nonce: wps_js.global.rest_api_nonce,
+            current_page: wps_js.global.page,
+            segment: segment
+        });
+    }
+
+    function selectVisitorsSegment(segment, focus) {
+        const box = document.getElementById(VISITORS_KEY);
+        if (!box || box.dataset.wpsSegment === segment) return;
+
+        box.dataset.wpsSegment = segment;
+
+        // Show the choice at once; the list follows.
+        box.querySelectorAll('.wps-visitors-switch [role="tab"]').forEach(tab => {
+            const isSelected = tab.dataset.segment === segment;
+            tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+            tab.tabIndex = isSelected ? 0 : -1;
+            if (isSelected && focus) tab.focus();
+        });
+
+        const cached = visitorsCache[segment];
+        if (cached && Date.now() - cached.time < VISITORS_CACHE_MS) {
+            wps_js.handleMetaBoxRender(Object.assign({}, cached.response, {wpsFromCache: true}), VISITORS_KEY);
+            saveVisitorsSegment(segment);
+            return;
+        }
+
+        const request = ++visitorsRequest;
+        wps_js.showLoadingSkeleton(VISITORS_KEY);
+
+        jQuery.ajax({
+            url: wps_js.global.admin_url + 'admin-ajax.php',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                action: 'wp_statistics_visitors_metabox_get_data',
+                wps_nonce: wps_js.global.rest_api_nonce,
+                current_page: wps_js.global.page,
+                segment: segment
+            }
+        }).done(response => {
+            // A late answer for a list the user already left: keep it, do not show it.
+            if (request !== visitorsRequest || box.dataset.wpsSegment !== segment) {
+                if (response && response.options && response.options.segment) {
+                    visitorsCache[response.options.segment] = {response: response, time: Date.now()};
+                }
+                return;
+            }
+            wps_js.handleMetaBoxRender(response, VISITORS_KEY);
+        }).fail(error => console.error('Error loading the Visitors card:', error));
+    }
+
+    jQuery(document).on('click', '.wps-visitors-switch [role="tab"]', function (e) {
+        e.preventDefault();
+        selectVisitorsSegment(this.dataset.segment, false);
+    });
+
+    jQuery(document).on('keydown', '.wps-visitors-switch [role="tab"]', function (e) {
+        const list = this.closest('[role="tablist"]');
+        if (!list || !window.wpsVisitorsSwitch) return;
+
+        const keys = Array.prototype.map.call(list.querySelectorAll('[role="tab"]'), tab => tab.dataset.segment);
+        const rtl = getComputedStyle(list).direction === 'rtl';
+        const next = window.wpsVisitorsSwitch.nextSegment(keys, this.dataset.segment, e.key, rtl);
+
+        if (!next) return;
+        e.preventDefault();
+
+        if (next === this.dataset.segment) return;
+        selectVisitorsSegment(next, true);
+    });
+
     wps_js.handleGoogleSearchButton = function(key, link, title) {
         const $container = jQuery(`#${key}`);
-        const $actionButtons = $container.find('.handle-actions button:first');
+        const $actionButtons = wps_js.metaBoxActionsAnchor(`#${key}`);
         const $googleLink = $container.find('.wps-google-link');
         if ($googleLink.length) $googleLink.remove();
         const linkAttributes = {
@@ -443,6 +592,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     function bindRefreshEvents(metaList) {
         metaList.forEach((metaBoxKey) => {
             jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
+                // Reload brings fresh rows: forget the other Visitors lists too.
+                if (metaBoxKey === VISITORS_KEY) clearVisitorsCache();
                 wps_js.showLoadingSkeleton(metaBoxKey);
                 refreshMetaBox(metaBoxKey);
             });
@@ -466,7 +617,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     };
 
     wps_js.handelReloadButton = key => {
-        const selector = "#" + key + " .handle-actions button:first";
+        // No reload button on the post edit screen: the box loads fresh with the page,
+        // and an extra button there pushes the core header buttons out of line.
+        if (wps_js.isPostEditScreen()) return;
+        const selector = wps_js.metaBoxActionsAnchor("#" + key);
         if (!jQuery('#' + key + ' .wps-refresh').length) {
             jQuery(`<button class="handlediv wps-refresh" aria-label="reload button" type="button" title="${wps_js._('reload')}"></button>`).insertBefore(selector);
         }
@@ -532,26 +686,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         html += `</div></div>`;
         let selector = jQuery("#" + key + " h2.hndle");
 
-        if (key === 'wp-statistics-useronline-widget') {
-            const current_online = jQuery(".wps-currently-online");
-            if (current_online.length && current_online.text() >= 0) {
-                const container = selector.find('.wps-wps-currently-online__container');
-
-                if (container.length) {
-                    container.find('.wps-wps-currently-online__text').text(current_online.text());
-                } else {
-                    const online = `<span class="wps-wps-currently-online__container">
-                                <span class="wps-wps-currently-online__dot"></span>
-                                <span class="wps-wps-currently-online__text">${current_online.text()}</span>
-                            </span>`;
-                    selector.append(online);
-                }
-            } else {
-                selector.find('.wps-wps-currently-online__container').remove()
-            }
-        }
-
-
         if (key === 'wp-statistics-quickstats-widget') {
             const selector = jQuery("#" + key + " div.handle-actions");
             if (selector.length && !selector.find('.wps-overview-btn').length) {
@@ -576,7 +710,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
             }
         }
 
-        wps_js.metaBoxInner(key).append(html);
+        // No date filter and no button (Traffic Summary): no footer, so no empty rule under the card.
+        const hasFooterContent = (response.options && response.options.datepicker) || (response.options && response.options.button);
+        if (hasFooterContent) {
+            wps_js.metaBoxInner(key).append(html);
+        }
     }
 
     document.addEventListener('click', function (event) {

@@ -48,18 +48,7 @@ class ViewsModel extends BaseModel
                 ->join('posts', ['pages.id', 'posts.ID'])
                 ->where('post_author', '=', $args['author_id']);
 
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         $total = $query->getVar();
@@ -151,18 +140,7 @@ class ViewsModel extends BaseModel
                 ->where('posts.ID', '=', $args['post_id'])
                 ->where('post_type', 'IN', $args['post_type']);
 
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         $result = $query->getAll();
@@ -347,15 +325,13 @@ class ViewsModel extends BaseModel
                 ->from('pages')
                 ->where('id', '!=', '0')
                 ->whereDate('date', $args['date'])
-                ->groupBy('id')
-                ->getQuery();
+                ->groupBy('id');
 
             $queries[] = Query::select($args['fields'])
                 ->from('pages')
                 ->where('id', '=', '0')
                 ->whereDate('date', $args['date'])
-                ->groupBy(['uri', 'type'])
-                ->getQuery();
+                ->groupBy(['uri', 'type']);
 
             $results = Query::union($queries)
                 ->perPage($args['page'], $args['per_page'])

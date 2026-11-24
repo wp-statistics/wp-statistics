@@ -8,9 +8,17 @@ use WP_Statistics\Components\View;
 $taxonomy = Request::get('tx', 'category');
 
 if ($showLockedPage) :
-    View::load("components/locked-page", [
-        'campaign' => 'pages',
-        'src'      => 'assets/images/locked/category-pages.jpg',
+    // Custom taxonomy without Data Plus: the standard lock page (Upgrade to Premium / Learn more, new tab).
+    View::load("pages/lock-page", [
+        'page_title' => __('See traffic for every custom taxonomy', 'wp-statistics'),
+        'benefits'   => [
+            __('Views and visitors for custom taxonomies', 'wp-statistics'),
+            __('Custom post types in every report', 'wp-statistics'),
+            __('Link clicks and file downloads', 'wp-statistics'),
+        ],
+        'addon_name' => esc_html__('Data Plus', 'wp-statistics'),
+        'addon_slug' => 'wp-statistics-data-plus',
+        'images'     => ['category-pages.jpg', 'data-plus-category.png'],
     ]);
 else: ?>
     <div class="postbox-container wps-postbox-full">

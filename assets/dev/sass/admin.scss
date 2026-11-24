@@ -55,6 +55,7 @@ $image_path: "../images";
 @import "pages/lock-page";
 @import "pages/tracker";
 @import "pages/help-center";
+@import "pages/network";
 
 // Load WordPress Meta Box
 @import "meta-box/about";
@@ -66,5 +67,31 @@ $image_path: "../images";
 // UI styles
 @import "component/ui.admin";
 
+// Shared design components (14.17 restyle). Loaded after ui.admin so they win the cascade.
+@import "component/tokens";
+@import "component/card";
+@import "component/percent";
+@import "component/change-chip";
+@import "component/empty-state";
+@import "component/new-tab-link";
+@import "component/pill";
+@import "component/page-header";
+@import "component/visitor-journey";
+@import "component/inline-teaser";
+@import "component/upsell";
+@import "component/visitors-card";
+@import "component/chart-legend";
+@import "component/activity-feed";
+@import "component/title-cell";
+@import "component/widget-columns";
+@import "component/dashboard-widgets";
+@import "component/visitor-table";
+@import "component/visitor-card";
+@import "component/leaderboard";
+@import "component/content-links";
+
 // PLugins
 @import "plugin/tooltipster.bundle.css";
+
+// Settings pages polish (last, so it wins over the older settings rules)
+@import "pages/setting-polish";

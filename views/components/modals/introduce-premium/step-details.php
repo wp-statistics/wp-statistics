@@ -1,214 +1,159 @@
 <?php
+/**
+ * Premium popup body: close button, add-on switcher ({@see switcher.php}, kept separate so it can be swapped)
+ * and one step per add-on plus the intro step. Each step: picture left, headline + 3 short benefits +
+ * buttons + guarantee right. Copy: {@see AddonCatalog}.
+ *
+ * Args:
+ *  - id_prefix (string) Prefix for element ids, so two popups on one page don't clash. Default "wps-premium".
+ */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
+$idPrefix      = !empty($id_prefix) ? sanitize_html_class($id_prefix) : 'wps-premium';
 $pluginHandler = new PluginHandler();
+$hasAnyLicense = LicenseHelper::isValidLicenseAvailable();
+$isPremium     = LicenseHelper::isPremiumLicenseAvailable();
+$addonsPageUrl = admin_url('admin.php?page=wps_plugins_page');
 
-$installedPlugins = $pluginHandler->getInstalledPlugins();
-$hasLicense       = LicenseHelper::isValidLicenseAvailable();
-$isPremium        = LicenseHelper::isPremiumLicenseAvailable();
+// Intro step, by license.
+if ($isPremium) {
+    $intro = [
+        'title'    => __('You\'re all set with WP Statistics Premium', 'wp-statistics'),
+        'benefits' => [
+            __('Every add-on is included in your plan', 'wp-statistics'),
+            __('Thanks for supporting WP Statistics', 'wp-statistics'),
+            __('Pick an add-on above to see what it does', 'wp-statistics'),
+        ],
+        'state'    => 'premium',
+    ];
+} elseif ($hasAnyLicense) {
+    $intro = [
+        'title'    => __('You already have some Premium add-ons', 'wp-statistics'),
+        'benefits' => [
+            __('Upgrade to get all 8 add-ons in one plan', 'wp-statistics'),
+            __('Clicks, campaigns, live visitors and more', 'wp-statistics'),
+            __('Pick an add-on above to see what it does', 'wp-statistics'),
+        ],
+        'state'    => 'upgrade',
+    ];
+} else {
+    $intro = [
+        'title'    => __('Unlock WP Statistics Premium', 'wp-statistics'),
+        'benefits' => [
+            __('All 8 add-ons in one plan', 'wp-statistics'),
+            __('Clicks, campaigns, live visitors and more', 'wp-statistics'),
+            __('Pick an add-on above to see what it does', 'wp-statistics'),
+        ],
+        'state'    => 'upgrade',
+    ];
+}
+
+$steps = [
+    array_merge($intro, [
+        'slug'      => 'first-step',
+        'name'      => __('WP Statistics Premium', 'wp-statistics'),
+        'image'     => WP_STATISTICS_URL . 'assets/images/premium-widget.svg',
+        'notice'    => '',
+    ]),
+];
+
+$switcher = [];
+
+foreach (AddonCatalog::SLUGS as $slug) {
+    $copy        = AddonCatalog::get($slug);
+    $isActive    = $pluginHandler->isPluginActive($slug);
+    $isInstalled = $pluginHandler->isPluginInstalled($slug);
+    $hasLicense  = LicenseHelper::isPluginLicenseValid($slug);
+    $notice      = '';
+    $badge       = '';
+    $activateUrl = '';
+
+    // Same reading as the inline teasers and the lock page, so every surface agrees on "installed but turned off".
+    $situation = LicenseHelper::getAddonSituation($slug, $pluginHandler);
+
+    if ($situation === LicenseHelper::SITUATION_INACTIVE) {
+        $state  = 'activate';
+        $badge  = __('Turned off', 'wp-statistics');
+        $notice = sprintf(
+            /* translators: %s: Add-on name. */
+            __('The %s add-on isn\'t activated.', 'wp-statistics'),
+            esc_html($copy['name'])
+        );
+
+        if (current_user_can('activate_plugins')) {
+            $activateUrl = LicenseHelper::getAddonPluginsPageUrl($slug);
+        } else {
+            $notice .= ' ' . esc_html(sprintf(
+                /* translators: %s: Add-on name. */
+                __('Ask a site admin to turn on %s.', 'wp-statistics'),
+                $copy['name']
+            ));
+        }
+    } elseif ($hasLicense && $isActive) {
+        $state = 'active';
+    } elseif (($hasLicense && !$isActive) || (!$hasLicense && $isInstalled)) {
+        $state = 'addons-page';
+    } else {
+        $state = 'upgrade';
+    }
+
+    if ($state === 'activate') {
+        // Notice and badge set above.
+    } elseif ($hasLicense && !$isActive) {
+        $notice = sprintf(
+            /* translators: %s: Add-on name. */
+            __('Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
+            esc_html($copy['name'])
+        );
+        $badge = $isInstalled ? __('Not activated', 'wp-statistics') : __('Not Installed', 'wp-statistics');
+    } elseif (!$hasLicense && $isInstalled) {
+        $notice = sprintf(
+            /* translators: %s: Add-ons page URL. */
+            __('This add-on has <b>no active license</b>, so it won\'t get updates or security fixes. <a href="%s">Activate your license</a>.', 'wp-statistics'),
+            esc_url($addonsPageUrl)
+        );
+    } elseif ($state === 'active') {
+        $badge = __('Active', 'wp-statistics');
+    }
+
+    $steps[] = [
+        'slug'      => $slug,
+        'name'      => $copy['name'],
+        'title'     => $copy['headline'],
+        'benefits'  => $copy['benefits'],
+        'image'     => WP_STATISTICS_URL . 'assets/images/premium-modal/' . $slug . '.png',
+        'state'     => $state,
+        'notice'    => $notice,
+        'notice_warning' => $state === 'activate' || (!$hasLicense && $isInstalled),
+        'activate_url' => $activateUrl,
+    ];
+
+    $switcher[$slug] = ['name' => $copy['name'], 'state' => $state, 'badge' => $badge];
+}
 ?>
-<div class="wps-premium-step">
-    <div class="wps-premium-step__header">
-        <span class="wps-premium-step__skip js-wps-premiumModalClose"></span>
-        <span><?php esc_html_e('WP Statistics Premium', 'wp-statistics'); ?></span>
-        <div class="wps-premium-step__title js-wps-dynamic-title" id="dynamic-title"></div>
-    </div>
-    <div class="wps-premium-step__body">
-        <div class="wps-premium-step__content">
-            <?php
-            $defaultDescription = __('<p>Get access to all advanced features in one package. With WP Statistics Premium, you can explore powerful add-ons that enhance your analytics experience and provide deeper insights into your site’s performance.</p>
-            <p>Curious about what each feature offers?</p><p>Simply click on any add-on to learn more and see how WP Statistics Premium can power your site’s growth.</p>', 'wp-statistics');
+<div class="wps-premium-popup">
+    <button type="button" class="wps-premium-popup__close js-wps-premiumModalClose" aria-label="<?php esc_attr_e('Close', 'wp-statistics'); ?>">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <p class="wps-premium-popup__eyebrow"><?php
+        /* translators: %d: number of add-ons. */
+        echo esc_html(sprintf(__('WP Statistics Premium · %d add-ons', 'wp-statistics'), count(AddonCatalog::SLUGS))); ?></p>
 
-            $premiumDescription = __('<p><b>Thank you for supporting us by being a Premium user! Since you previously had the Bundle, you now have access to all the Premium features. There’s nothing more you need to do—just enjoy the full range of advanced tools and insights.</b></p>
-            <p>We truly appreciate your continued support. With your help, we’re able to keep improving and providing even better analytics for your site.</p>', 'wp-statistics');
+    <?php View::load('components/modals/introduce-premium/switcher', ['items' => $switcher, 'id_prefix' => $idPrefix]); ?>
 
-            $licenseDescription = __('<p>It looks like you’ve unlocked some of our great add-ons. Awesome! To get the most out of WP Statistics, upgrade to Premium and get access to all our advanced features and add-ons. Unlock deeper insights and powerful analytics with the full package at your fingertips.</p>', 'wp-statistics');
-
-            $data = [
-                'description' => $defaultDescription,
-                'step_name'   => 'first-step',
-                'step_title'  => $isPremium ? esc_html__('You\'re All Set with WP Statistics Premium', 'wp-statistics') : ($hasLicense && !$isPremium ? esc_html__('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics') : esc_html__('Unlock WP Statistics Premium.', 'wp-statistics')),
-                'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-            ];
-
-            if ($isPremium) {
-                $data['description'] = $premiumDescription;
-            } elseif ($hasLicense && !$isPremium) {
-                $data['description'] = $licenseDescription;
-            }
-
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Data Plus supercharges WP Statistics by unlocking advanced analytics features. Get deeper insights into your site\'s performance with tools that help you understand visitor behavior, optimize your content, and track engagement like never before. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-data-plus',
-                'step'        => 'Data Plus',
-                'step_title'  => esc_html__('See more data.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-marketing',
-                'step'        => 'Marketing',
-                'step_title'  => esc_html__('Set goals, measure conversions, and optimize your reach for real results.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-mini-chart',
-                'step'        => 'Mini Chart',
-                'step_title'  => esc_html__('View real‐time metrics at a glance.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website\'s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, and export your data to CSV or PDF for offline analysis and sharing. Stay up-to-date on your website\'s performance with clear, graphical insights. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-advanced-reporting',
-                'step'        => 'Advanced Reporting',
-                'step_title'  => esc_html__('Schedule reports and export to CSV & PDF.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>You can monitor your website\'s traffic in real-time with the Real-Time add-on. Watch live data flow in, track online users, and analyze their activity without page refreshes. Stay connected with real-time insights to make informed decisions about your site’s performance, right when it matters most. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-realtime-stats',
-                'step'        => 'Real-Time Stats',
-                'step_title'  => esc_html__('See who’s on your site right now and watch engagement as it happens.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Advanced Widgets improve your website by providing a flexible way to showcase key statistical insights. Whether through Gutenberg blocks or theme widgets, this add-on makes it easy to present vital stats like traffic, top pages, and browsers to your visitors, offering a richer, data-driven user experience. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-widgets',
-                'step'        => 'Widgets',
-                'step_title'  => esc_html__('Display detailed stats anywhere you want on your website.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>The Customization add-on is designed to help you white-label key areas of your dashboard. Easily replace the WP Statistics branding with your own, giving you full control over how the plugin looks and feels. Create a fully branded experience by customizing menus, headers, and even the Overview page with your own widgets. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-customization',
-                'step'        => 'Customization',
-                'step_title'  => esc_html__('Tailor everything from layout to branding to suit your style.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-
-            $data = [
-                'description' => sprintf(
-                    /* translators: %s: string value */
-                    __('<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
-                ),
-                'step_name'   => 'wp-statistics-rest-api',
-                'step'        => 'REST API',
-                'step_title'  => esc_html__('Connect your site’s stats anywhere.', 'wp-statistics'),
-            ];
-            View::load("components/modals/introduce-premium/step-content", $data);
-            ?>
-        </div>
-        <div class="wps-premium-step__sidebar">
-            <div>
-                <p><?php esc_html_e('WP Statistics Premium Includes', 'wp-statistics'); ?>:</p>
-                <ul class="wps-premium-step__features-list">
-                    <?php foreach (PluginHelper::$plugins as $slug => $title) :
-                        $class = '';
-
-                        $isActive    = $pluginHandler->isPluginActive($slug);
-                        $isInstalled = $pluginHandler->isPluginInstalled($slug);
-                        $hasLicense  = LicenseHelper::isPluginLicenseValid($slug);
-
-                        if ($hasLicense && $isActive) {
-                            $class = 'activated';
-                        } elseif ($hasLicense && $isInstalled && !$isActive) {
-                            $class = 'not-active';
-                        } elseif (!$hasLicense && ($isInstalled || $isActive)) {
-                            $class = 'no-license';
-                        }
-                        ?>
-                        <li class="<?php echo esc_attr($class); ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
-                            <?php echo esc_html($title); ?>
-
-                            <?php if ($hasLicense && !$isInstalled) : ?>
-                                <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span>
-                            <?php elseif ($hasLicense && !$isActive) : ?>
-                                <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not activated', 'wp-statistics'); ?></span>
-                            <?php endif; ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div class="wps-premium-step__actions">
-                <div class="js-wps-premium-first-step__head">
-                    <p><?php esc_html_e('WP Statistics Premium Includes', 'wp-statistics'); ?>:</p>
-                    <?php if ($isPremium) : ?>
-                        <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
-                    <?php elseif ($hasLicense && !$isPremium) : ?>
-                        <a target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
-                    <?php else : ?>
-                        <a target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
-                    <?php endif; ?>
-
-                    <?php if (!$isPremium) : ?>
-                        <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
-                    <?php endif; ?>
-                </div>
-                <div class="js-wps-premium-steps__head js-wps-premium-steps__side-buttons">
-                    <?php foreach (PluginHelper::$plugins as $slug => $title) :
-                        $isActive = $pluginHandler->isPluginActive($slug);
-                        $isInstalled = $pluginHandler->isPluginInstalled($slug);
-                        $hasLicense = LicenseHelper::isPluginLicenseValid($slug);
-                        ?>
-
-                        <div class="wps-premium-step__action-container">
-                            <?php if (!$hasLicense && !$isInstalled) : ?>
-                                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
-                                <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
-                            <?php elseif (($hasLicense && !$isActive) || (!$hasLicense && $isInstalled)) : ?>
-                                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-ons Page', 'wp-statistics'); ?></a>
-                            <?php elseif ($hasLicense && $isActive) : ?>
-                                <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Add-on Activated', 'wp-statistics'); ?></a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
+    <div class="wps-premium-popup__steps">
+        <?php foreach ($steps as $step) {
+            View::load('components/modals/introduce-premium/step-content', array_merge($step, [
+                'id_prefix'  => $idPrefix,
+                'is_premium' => $isPremium,
+                'addons_url' => $addonsPageUrl,
+            ]));
+        } ?>
     </div>
 </div>

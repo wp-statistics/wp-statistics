@@ -36,11 +36,11 @@ use WP_STATISTICS\Menus;
                                 <th scope="col" class="wps-pd-l">
                                     <span><?php esc_html_e('Source Category', 'wp-statistics') ?></span>
                                 </th>
-                                <th scope="col" class="wps-pd-l start">
+                                <th scope="col" class="wps-pd-l wps-col-num">
                                     <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
                                 </th>
-                                <th scope="col">
-                                    <span class="screen-reader-text"><?php esc_html_e('Percentage', 'wp-statistics'); ?></span>
+                                <th scope="col" class="wps-pd-l wps-col-share">
+                                    <?php esc_html_e('Share', 'wp-statistics'); ?>
                                 </th>
                             </tr>
                             </thead>
@@ -49,22 +49,31 @@ use WP_STATISTICS\Menus;
                             <?php foreach ($data['categories'] as $referral) : ?>
                                 <?php /** @var ReferralDecorator $referral */ ?>
                                 <tr>
-                                    <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
-
-                                    <td class="wps-pd-l start">
-                                        <a href="<?php echo esc_url(Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()])) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                    <td class="wps-pd-l">
+                                        <span class="wps-source-channel">
+                                            <?php View::load('components/objects/source-channel-icon', ['key' => $referral->getRawSourceChannel()]); ?>
+                                            <span class="wps-source-channel__name"><?php echo esc_html($referral->getSourceChannel()) ?></span>
+                                        </span>
                                     </td>
 
-                                    <td class=" wps-pd-l"><?php echo esc_html(Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) . '%') ?></td>
+                                    <td class="wps-pd-l wps-col-num">
+                                        <?php
+                                        // Direct visits are not referrals: their count opens the visitors list filtered to Direct.
+                                        $countUrl = $referral->getRawSourceChannel() === 'direct'
+                                            ? Menus::admin_url('visitors', ['tab' => 'visitors', 'source_channel' => 'direct'])
+                                            : Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()]);
+                                        ?>
+                                        <a href="<?php echo esc_url($countUrl) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                    </td>
+
+                                    <td class="wps-pd-l wps-col-share"><?php View::load('components/objects/percent-bar', ['count' => $referral->getTotalReferrals(true), 'total' => $data['total']]); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                 <?php else : ?>
-                    <div class="o-wrap o-wrap--no-data wps-center">
-                        <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                    </div>
+                    <?php View::load('components/objects/empty-state'); ?>
                 <?php endif; ?>
             </div>
         </div>

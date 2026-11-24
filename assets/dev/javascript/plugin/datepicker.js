@@ -248,8 +248,9 @@ jQuery(document).ready(function () {
                         }
                     }
                     // If requestFromDate is not in any range, update it to post_creation_date
+                    // (only when the range ends on or after it, so the label never runs backwards).
                     if (!isInRange) {
-                        requestFromDate = wps_js.global.post_creation_date;
+                        requestFromDate = wpsClampRangeStart(requestFromDate, wps_js.global.request_params.to, wps_js.global.post_creation_date);
                     }
                 }
             }
@@ -258,8 +259,9 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').chosenLabel;
-            const startMoment = moment(requestFromDate).utcOffset(validTimezone, true);
-            const endMoment = moment(requestToDate).utcOffset(validTimezone, true);
+            // Month names in the admin language (see Admin_Assets::localizeMoment()).
+            const startMoment = moment(requestFromDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
+            const endMoment = moment(requestToDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
             let activeRangeText;
             if (startMoment.year() === endMoment.year()) {
                 const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
@@ -277,8 +279,8 @@ jQuery(document).ready(function () {
             }
             datePickerBtn.find('span').html(activeRangeText);
         } else {
-            const defaultStartMoment = moment(defaultStartDate).utcOffset(validTimezone, true);
-            const defaultEndMoment = moment(defaultEndDate).utcOffset(validTimezone, true);
+            const defaultStartMoment = moment(defaultStartDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
+            const defaultEndMoment = moment(defaultEndDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
             datePickerElement.data('daterangepicker').setStartDate(moment(defaultStartDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(defaultEndDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
@@ -370,6 +372,35 @@ jQuery(document).ready(function () {
         });
     }
 });
+
+/**
+ * Start date to show for a range on a single content page.
+ *
+ * The start moves up to the publish date when the range starts before it. When the
+ * whole range ends before the publish date, the range is kept as chosen: moving only
+ * the start would put it after the end and the label would read backwards.
+ *
+ * @param {string} from     Range start, YYYY-MM-DD.
+ * @param {string} to       Range end, YYYY-MM-DD.
+ * @param {string} creation Publish date, YYYY-MM-DD (time is ignored).
+ * @returns {string}
+ */
+function wpsClampRangeStart(from, to, creation) {
+    const day = (value) => String(value || '').slice(0, 10);
+    const start = day(from);
+    const end = day(to);
+    const created = day(creation);
+
+    if (!start || !created || start >= created) {
+        return from;
+    }
+
+    if (end && end < created) {
+        return from;
+    }
+
+    return created;
+}
 
 function fixDatePickerA11y() {
     const datePickers = document.querySelectorAll('.drp-calendar');

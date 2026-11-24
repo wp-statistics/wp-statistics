@@ -1,0 +1,259 @@
+// Visitors card (Overview page and WP Dashboard): one card for Latest, Most active and Online now.
+// The segmented switch sits on the right of the card header (components/visitors-switch.js):
+// grey track, the chosen part is a white raised pill with bold text. When the card is narrower
+// than 600px the switch drops to its own full-width row under the title.
+
+$wps-online-green: #00a32a;
+$wps-online-badge: #006b1c;
+$wps-online-badge-bg: #e6f4ea;
+$wps-switch-track: #f0f1f2;
+
+#wp-statistics-visitors-widget {
+  container: wps-visitors / inline-size;
+
+  .postbox-header.wps-visitors-header {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 12px;
+
+    .hndle {
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    .handle-actions {
+      flex: none;
+    }
+  }
+
+  .wps-visitors-switch-wrap {
+    min-width: 0;
+    margin-inline-start: auto;
+  }
+
+  &.closed .wps-visitors-switch-wrap {
+    display: none;
+  }
+
+  .wps-visitors-panel {
+    min-width: 0;
+  }
+}
+
+.wps-visitors-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 3px;
+  border-radius: 8px;
+  background: $wps-switch-track;
+  box-sizing: border-box;
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 5px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: $wps-text-muted;
+    font: inherit;
+    font-size: 13px;
+    line-height: 18px;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: none;
+
+    &:hover {
+      color: $wps-text-strong;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 1px;
+    }
+
+    &[aria-selected="true"] {
+      background: #fff;
+      color: $wps-text-strong;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .14), 0 0 0 .5px rgba(16, 24, 40, .08);
+
+      &:focus-visible {
+        box-shadow: 0 1px 2px rgba(16, 24, 40, .14), 0 0 0 .5px rgba(16, 24, 40, .08);
+      }
+    }
+  }
+
+  // Bold text would make the selected part wider: reserve the bold width up front.
+  &__label {
+    display: inline-flex;
+    flex-direction: column;
+
+    &::after {
+      content: attr(data-text);
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      font-weight: 600;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+
+  &__badge {
+    padding: 0 6px;
+    border-radius: 99px;
+    background: $wps-online-badge-bg;
+    color: $wps-online-badge;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    font-variant-numeric: tabular-nums;
+
+    &.is-zero {
+      background: #e6e7ea;
+      color: $wps-text-muted;
+    }
+  }
+}
+
+// Live dot: solid green dot with two soft rings growing out of it (2s loop).
+.wps-pulse-dot {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $wps-online-green;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: $wps-online-green;
+    opacity: 0;
+    pointer-events: none;
+    animation: wps-pulse-ring 2s cubic-bezier(.2, .6, .4, 1) infinite;
+  }
+
+  &::after {
+    animation-delay: 1s;
+  }
+
+  // Nobody online: grey and still.
+  &.is-off {
+    background: #a7aaad;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before,
+    &::after {
+      display: none;
+      animation: none;
+    }
+
+    &:not(.is-off) {
+      box-shadow: 0 0 0 3px rgba(0, 163, 42, .22);
+    }
+  }
+}
+
+@keyframes wps-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: .45;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+// Under 600px: the switch gets its own full-width row, equal parts.
+@container wps-visitors (max-width: 600px) {
+  #wp-statistics-visitors-widget {
+    .wps-visitors-switch-wrap {
+      order: 3;
+      flex: 1 0 100%;
+      margin: 0;
+    }
+
+    // WP Dashboard: the header has no side padding of its own (the title brings 12px).
+    #dashboard-widgets & .wps-visitors-switch-wrap {
+      box-sizing: border-box;
+      padding: 0 12px 4px;
+    }
+
+    .postbox-header.wps-visitors-header .hndle {
+      flex: 1 1 auto;
+    }
+
+    .wps-visitors-switch {
+      display: flex;
+      width: 100%;
+    }
+
+    .wps-visitors-switch__tab {
+      flex: 1 1 auto;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+
+// Most active on a narrow card: Last view hides, so Views is the end column and needs the
+// end padding the last column gets (objects/_table.scss), else the number sits on the edge.
+// Overview page only: the WP Dashboard column has its own tighter cells.
+@container wps-vtable (max-width: 470px) {
+  #wpbody .wps-wrap #wp-statistics-visitors-widget table.wps-visitor-table--sort-views {
+    > thead > tr > th.wps-visitor-table__views,
+    > tbody > tr > td.wps-visitor-table__views {
+      padding-right: 24px !important;
+    }
+  }
+
+  .rtl #wpbody .wps-wrap #wp-statistics-visitors-widget table.wps-visitor-table--sort-views {
+    > thead > tr > th.wps-visitor-table__views,
+    > tbody > tr > td.wps-visitor-table__views {
+      padding-right: 10px !important;
+      padding-left: 24px !important;
+    }
+  }
+}
+
+@container wps-vtable (max-width: 380px) {
+  #wpbody .wps-wrap #wp-statistics-visitors-widget table.wps-visitor-table--sort-views {
+    > thead > tr > th.wps-visitor-table__views,
+    > tbody > tr > td.wps-visitor-table__views {
+      padding-right: 12px !important;
+    }
+  }
+
+  .rtl #wpbody .wps-wrap #wp-statistics-visitors-widget table.wps-visitor-table--sort-views {
+    > thead > tr > th.wps-visitor-table__views,
+    > tbody > tr > td.wps-visitor-table__views {
+      padding-right: 10px !important;
+      padding-left: 12px !important;
+    }
+  }
+}

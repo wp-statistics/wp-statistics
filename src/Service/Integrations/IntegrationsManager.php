@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Integrations;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Option;
 
 class IntegrationsManager
 {
@@ -14,7 +13,6 @@ class IntegrationsManager
     public function __construct()
     {
         add_action('init', [$this, 'registerIntegrations']);
-        add_action('update_option_active_plugins', [$this, 'unsetIntegrationUponDeactivation'], 10, 2);
     }
 
     /**
@@ -29,24 +27,6 @@ class IntegrationsManager
             if (!$integration->isActive()) continue;
 
             $integration->register();
-        }
-    }
-
-    /**
-     * When integration is deactivated, reset the integration option.
-     */
-    public function unsetIntegrationUponDeactivation($oldPlugins, $newPlugins)
-    {
-        $activeIntegration = Option::get('consent_integration');
-        $activeIntegration = IntegrationHelper::getIntegration($activeIntegration);
-
-        if (!$activeIntegration) return;
-
-        $plugin              = $activeIntegration->getPath();
-        $isPluginDeactivated = in_array($plugin, $oldPlugins) && !in_array($plugin, $newPlugins);
-
-        if ($isPluginDeactivated) {
-            Option::update('consent_integration', '');
         }
     }
 }

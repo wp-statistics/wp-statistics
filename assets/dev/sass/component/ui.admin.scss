@@ -524,16 +524,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   color: #ED7A34 !important;
 }
 
-.wp-has-submenu.menu-top.toplevel_page_wps_overview_page .wps-addons-menu {
-  color: #5FAE62 !important;
-}
-
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a.addon-menu {
   margin-top: 10px !important;
 }
 
-// The Add-ons item keeps its state color (orange: needs attention, green: all good), so on its own
-// page "selected" is shown by bold text instead of WordPress's white.
+// The Add-ons item is orange when it needs attention and the normal menu color otherwise
+// (.wps-addons-menu has no color of its own). On its own page "selected" is shown by bold text.
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li.current a.addon-menu :is(.wps-text-warning, .wps-addons-menu) {
   font-weight: 700;
 }
@@ -748,6 +744,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     @media screen and (min-width: 1280px) {
       flex: 1 1 auto;
       min-width: 0;
+    }
+
+    // Under 1280px the side group (privacy + Menu button) is positioned at the end of this
+    // row: keep that space free so a menu item or its badge never runs under the Menu button
+    // (the Online Visitors badge sat on top of it at 360px). Items wrap instead.
+    @media screen and (max-width: 1279px) {
+      box-sizing: border-box;
+      max-width: 100%;
+      padding-inline-end: 104px;
     }
 
     a {
@@ -3022,6 +3027,25 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+// Sideways-scrolling tab strips and tables (components/tab-strip.js): a fade on the side where
+// more is hidden, so phones show there is something to scroll to.
+#wpbody .wps-hscroll {
+  &.wps-hscroll--right {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  }
+
+  &.wps-hscroll--left {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent);
+  }
+
+  &.wps-hscroll--left.wps-hscroll--right {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  }
+}
+
 @media (max-width: 669px) {
   .statistics_page_wps_visitors_page, .statistics_page_wps_pages_page {
     .wps-tabs {
@@ -3051,9 +3075,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     a {
       position: relative;
 
+      // The live dot: a 10px box right after the label (6px gap), no extra padding.
       .wps-dot {
         position: relative;
-        padding-right: 27px !important;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        padding: 0 !important;
+        margin-inline-start: 6px;
+        vertical-align: middle;
 
         &:after {
           content: "";
@@ -3062,7 +3092,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           border-radius: 50%;
           background-color: #196140;
           position: absolute;
-          right: 12px;
+          right: 2.5px;
           top: 50%;
           display: inline-block;
           transform: translateY(-50%);
@@ -3076,7 +3106,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           width: 10px;
           height: 10px;
           box-sizing: border-box;
-          right: 10px;
+          right: 0;
           border-radius: 50%;
           transform-origin: center center;
           background-color: rgba(25, 97, 64, .1);
@@ -3105,17 +3135,16 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     .rtl & {
       a .wps-dot {
-        padding-right: 10px !important;
-        padding-left: 27px !important;
+        padding: 0 !important;
 
         &:before {
           right: unset;
-          left: 10px;
+          left: 0;
         }
 
         &:after {
           right: unset;
-          left: 12.75px;
+          left: 2.5px;
         }
       }
     }
@@ -3133,9 +3162,29 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   gap: 2px;
   align-items: center;
   margin-bottom: -1px;
+  border-radius: 4px 4px 0 0;
+  // The underline is an inset shadow, so hover and current take no extra space (no 2px jump).
+  box-shadow: inset 0 -2px 0 transparent;
+  transition: color .12s, box-shadow .12s, background-color .12s;
 
+  // Hover changes the text color only; the underline belongs to the current tab.
   &:hover {
-    border-bottom: 2px solid #404BF2 !important;
+    color: $wps-text-strong;
+    box-shadow: inset 0 -2px 0 transparent;
+  }
+
+  // Mouse focus: no WordPress core ring and no outline box.
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 -2px 0 transparent;
+  }
+
+  // Keyboard focus only.
+  &:focus-visible {
+    outline: none !important;
+    color: $wps-text-strong;
+    background: $wps-brand-tint;
+    box-shadow: inset 0 -2px 0 $wps-brand;
   }
 
   @media (max-width: 360px) {
@@ -3180,9 +3229,17 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.wps-tab-link.current a {
-  color: #0C0C0D;
-  border-bottom: 2px solid #404bf2;
+// Doubled class beats the global ".wps-wrap :is(a, ...):focus-visible" outline: the tab shows
+// its own tint + underline for the keyboard instead of a box.
+.wps-wrap .wps-tab-link.wps-tab-link a:focus-visible {
+  outline: none !important;
+}
+
+.wps-tab-link.current a,
+.wps-tab-link.current a:hover,
+.wps-tab-link.current a:focus {
+  color: $wps-text-strong;
+  box-shadow: inset 0 -2px 0 $wps-brand;
 }
 
 .wps-tab-link.wps-locked a {
@@ -3953,10 +4010,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       height: 11px;
       display: inline-block;
       background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCA4IDEwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMC4yNSA4Ljc1Njk5VjEuMjQ0MjJDMC4yNSAwLjg4NDIzNCAwLjY0NTk3NyAwLjY2NDc2MSAwLjk1MTI1IDAuODU1NTU2TDYuOTYxNDYgNC42MTE5NkM3LjI0ODcgNC43OTE0NCA3LjI0ODcgNS4yMDk3NiA2Ljk2MTQ2IDUuMzg5MjlMMC45NTEyNSA5LjE0NTY1QzAuNjQ1OTc3IDkuMzM2NDYgMC4yNSA5LjExNzAxIDAuMjUgOC43NTY5OVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=") center center no-repeat;
-
-      .rtl & {
-        transform: rotate(180deg);
-      }
+      // A play icon points right in every language (media controls are not mirrored in RTL).
     }
 
   }
@@ -4004,9 +4058,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   cursor: pointer;
   align-items: center;
 
+  // No underline on hover (only the current tab has one).
   &:hover {
     color: #717375fa !important;
-    border-bottom: 2px solid #ADB4C1 !important;
 
     .wps-tooltip-icon.info {
       background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuMDAwMTcgMC43MDcwMzFDMy4wNzMyOCAwLjcwNzAzMSAwLjcwNjA1NSAzLjA3NDI2IDAuNzA2MDU1IDYuMDAxMTVDMC43MDYwNTUgNy4wOTc3OSAxLjAzMTI2IDguMTAzNjcgMS41OTA5MyA4Ljk0MzE3QzIuNDA3NzQgMTAuMTUzMiAzLjcwMTAxIDExLjAwNzkgNS4yMDYwNSAxMS4yMjcyQzUuNDYzMiAxMS4yNzI2IDUuNzI3OSAxMS4yOTUzIDYuMDAwMTcgMTEuMjk1M0M2LjI3MjQ0IDExLjI5NTMgNi41MzcxNSAxMS4yNzI2IDYuNzk0MjkgMTEuMjI3MkM4LjI5OTMzIDExLjAwNzkgOS41OTI2MSAxMC4xNTMyIDEwLjQwOTQgOC45NDMxN0MxMC45NjkxIDguMTAzNjcgMTEuMjk0MyA3LjA5Nzc5IDExLjI5NDMgNi4wMDExNUMxMS4yOTQzIDMuMDc0MjYgOC45MjcwNiAwLjcwNzAzMSA2LjAwMDE3IDAuNzA3MDMxWk04LjMxNDQ2IDUuODM0NzZMNy42ODY3MyA2LjQ2MjQ5QzcuNTgwODQgNi41NjgzOCA3LjUyMDM0IDYuNzcyNTggNy41NTgxNiA2LjkyMzg0TDcuNzM5NjcgNy43MDI4M0M3Ljg4MzM3IDguMzE1NDMgNy41NTgxNiA4LjU1NzQ1IDcuMDEzNjIgOC4yMzIyNEw2LjI1NzMyIDcuNzg2MDJDNi4xMjExOCA3LjcwMjgzIDUuODk0MjkgNy43MDI4MyA1Ljc1ODE2IDcuNzg2MDJMNS4wMDE4NSA4LjIzMjI0QzQuNDU3MzIgOC41NDk4OSA0LjEzMjExIDguMzE1NDMgNC4yNzU4IDcuNzAyODNMNC40NTczMiA2LjkyMzg0QzQuNDg3NTcgNi43ODAxNCA0LjQzNDYzIDYuNTY4MzggNC4zMjg3NCA2LjQ2MjQ5TDMuNjg1ODkgNS44MzQ3NkMzLjMxNTMgNS40NjQxNyAzLjQzNjMxIDUuMDkzNTkgMy45NTA1OSA1LjAxMDM5TDQuNzU5ODQgNC44NzQyNkM0Ljg5NTk3IDQuODUxNTcgNS4wNTQ3OSA0LjczMDU2IDUuMTE1MyA0LjYwOTU1TDUuNTYxNTIgMy43MTcxMkM1LjgwMzUzIDMuMjMzMDggNi4xOTY4MSAzLjIzMzA4IDYuNDM4ODMgMy43MTcxMkw2Ljg4NTA1IDQuNjA5NTVDNi45NDU1NSA0LjczMDU2IDcuMTA0MzcgNC44NTE1NyA3LjI0ODA3IDQuODc0MjZMOC4wNTczMiA1LjAxMDM5QzguNTY0MDQgNS4wOTM1OSA4LjY4NTA1IDUuNDY0MTcgOC4zMTQ0NiA1LjgzNDc2WiIgZmlsbD0iI0FEQjRDMSIvPgo8L3N2Zz4K") !important;
@@ -4039,12 +4093,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.wps_page {
-  .tooltipster-base {
-    max-width: 98%;
-    @media (min-width: 500px) {
-      max-width: 398px;
-    }
+// Info tooltips (ⓘ on cards, columns, tabs, settings): one width everywhere, wraps, never wider
+// than the screen. helper.js sets the same 280px cap so tooltipster measures the wrapped size;
+// this rule covers add-ons that call tooltipster directly (Real-Time) and the WP Dashboard.
+.tooltipster-base.tooltipster-shadow {
+  max-width: min(280px, calc(100vw - 16px));
+
+  .tooltipster-content {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -4544,14 +4600,71 @@ body.wps_page #screen-meta-links {
   }
 }
 
-// Keyboard focus: many controls drop the browser outline, so keyboard users saw nothing.
-// :focus-visible only shows for the keyboard, so mouse clicks stay clean.
+// Focus rings, plugin-wide (our pages, our WP Dashboard widgets, add-on pages inside .wps-wrap).
+// - Mouse click: no ring. WordPress core puts `box-shadow: 0 0 0 2px` on a:focus and .button:focus,
+//   which showed as a heavy blue box after every click on "View ..." links and buttons.
+// - Keyboard (:focus-visible): one 2px ring, nothing else (the core shadow used to stack on top).
+// - Text fields keep the WordPress field focus (brand border + 1px ring), never an extra outline,
+//   so inputs such as the select2 search box show one clean ring instead of two borders.
+// :where() keeps these rules light, so a component with its own focus look still wins.
 .wps-wrap,
-.wps-notification-sidebar {
-  :is(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
-    outline: 2px solid #404BF2 !important;
-    outline-offset: 2px;
+.wps-notification-sidebar,
+#dashboard-widgets .postbox[id^="wp-statistics-"] {
+  :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
   }
+
+  :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"]), input[type="checkbox"], input[type="radio"]):focus-visible {
+    outline: 2px solid $wps-brand !important;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  // Core's `.wp-core-ui .button:focus` is (0,3,0): doubled class to beat it.
+  .button.button:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+
+  .button.button:focus-visible {
+    box-shadow: none;
+  }
+}
+
+// Text fields and selects: one ring (border + 1px of the same color), no outline on top.
+.wps-wrap,
+.wps-notification-sidebar,
+.select2-container,
+#dashboard-widgets .postbox[id^="wp-statistics-"] {
+  :where(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]), select, textarea):focus {
+    outline: none;
+    border-color: $wps-brand;
+    box-shadow: 0 0 0 1px $wps-brand;
+  }
+}
+
+// select2 search box: its own border is the ring; the dropdown wrapper adds none.
+.select2-container .select2-search--dropdown .select2-search__field:focus {
+  outline: none !important;
+  border-color: $wps-brand !important;
+  box-shadow: 0 0 0 1px $wps-brand !important;
+}
+
+// select2 multi-select: the inline search field after the chips draws nothing on focus
+// (it used to show its own small oval ring); the whole box carries the one ring instead.
+.select2-container .select2-search--inline .select2-search__field,
+.select2-container .select2-search--inline .select2-search__field:focus,
+.select2-container .select2-search--inline .select2-search__field:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.select2-container--focus .select2-selection--multiple,
+.select2-container--open .select2-selection--multiple {
+  border-color: $wps-brand !important;
+  box-shadow: 0 0 0 1px $wps-brand !important;
+  outline: none !important;
 }
 
 // Wizard steps: a soft gray ring for the keyboard instead of the blue one.
