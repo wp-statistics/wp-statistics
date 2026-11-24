@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
+
 /**
  * Short, translatable sales copy for the 8 Premium add-ons, kept in one place so every upsell surface
  * says the same thing: the Premium popup, the settings card on each add-on tab, the add-on level lock
@@ -136,36 +138,32 @@ class AddonCatalog
     }
 
     /**
-     * Add-on page on wp-statistics.com.
+     * Add-on page on wp-statistics.com ("Learn more").
      *
-     * @param string $slug     Add-on slug.
-     * @param string $campaign utm_campaign value.
+     * @deprecated Use {@see UpsellLink::addon()}, which also tags the surface and the button.
+     *
+     * @param string $slug    Add-on slug.
+     * @param string $surface utm_medium.
      *
      * @return string
      */
-    public static function getProductUrl($slug, $campaign = 'pop-up-premium')
+    public static function getProductUrl($slug, $surface = 'link')
     {
-        return add_query_arg([
-            'utm_source'   => 'wp-statistics',
-            'utm_medium'   => 'link',
-            'utm_campaign' => $campaign,
-        ], WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/');
+        return UpsellLink::addon($slug, $surface);
     }
 
     /**
-     * Pricing page on wp-statistics.com.
+     * Pricing page on wp-statistics.com ("Upgrade to Premium").
      *
-     * @param string $campaign utm_campaign value.
+     * @deprecated Use {@see UpsellLink::pricing()}, which also tags the surface and the add-on.
+     *
+     * @param string $surface utm_medium.
      *
      * @return string
      */
-    public static function getPricingUrl($campaign = 'pop-up-premium')
+    public static function getPricingUrl($surface = 'link')
     {
-        return add_query_arg([
-            'utm_source'   => 'wp-statistics',
-            'utm_medium'   => 'link',
-            'utm_campaign' => $campaign,
-        ], WP_STATISTICS_SITE_URL . '/pricing/');
+        return UpsellLink::pricing($surface);
     }
 
     /**

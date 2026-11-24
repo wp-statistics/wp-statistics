@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-$supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon';
+$supportUrl = \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag(WP_STATISTICS_SITE_URL . '/contact-us/', 'notice', 'premium', 'support');
 ?>
 <div class="wps-licnotice wps-licnotice--warning" role="status">
     <span class="wps-licnotice__icon" aria-hidden="true">!</span>
@@ -11,7 +11,7 @@ $supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&ut
         <ul class="wps-licnotice__list">
             <?php foreach ($data['missing_add_ons'] as $addOn) : ?>
                 <li>
-                    <a href="<?php echo esc_url($addOn->getProductUrl() . '?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . rawurlencode($addOn->getUtmCampaign())); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'notice', $addOn->getSlug(), 'learn-more')); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($addOn->getName()); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

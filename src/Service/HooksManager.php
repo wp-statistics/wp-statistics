@@ -9,6 +9,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Globals\Context;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
 
 class HooksManager
 {
@@ -76,8 +77,9 @@ class HooksManager
             '<a target="_blank" href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Docs', 'wp-statistics') . '</a>',
         ];
 
-        if (!$isPremium) {
-            $premiumLink = '<a class="wps-premium-link-btn" target="_blank" href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Get Premium', 'wp-statistics') . '</a>';
+        // Not under white label (or a hidden Add-ons menu).
+        if (!$isPremium && !LicenseHelper::areAddonPromptsHidden()) {
+            $premiumLink = '<a class="wps-premium-link-btn" target="_blank" rel="noopener" href="' . esc_url(UpsellLink::pricing('plugins-list')) . '">' . esc_html__('Upgrade to Premium', 'wp-statistics') . '</a>';
             array_unshift($customLinks, $premiumLink);
         }
 

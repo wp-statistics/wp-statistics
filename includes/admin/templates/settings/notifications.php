@@ -5,6 +5,8 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
 
 ?>
 <h2 class="wps-settings-box__title">
@@ -174,14 +176,20 @@ use WP_STATISTICS\Schedule;
         </tr>
         <?php endif; ?>
 
+        <?php // Pointer to Advanced Reporting: opens the Premium popup. Not under white label or when the add-on runs. ?>
+        <?php if (!LicenseHelper::areAddonPromptsHidden() && !Helper::isAddOnActive('advanced-reporting')) : ?>
         <tr>
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
+                <span class="wps-setting-label"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <div><?php _e('For graphical representations of your data, explore our <a class="js-wps-openPremiumModal"  data-target="wp-statistics-advanced-reporting" href="https://wp-statistics.com/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" >Advanced Reporting Add-on</a> for additional chart and graph options.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	  ?></div>
+                <div>
+                    <?php esc_html_e('Charts and graphs in your email reports come with the Advanced Reporting add-on.', 'wp-statistics'); ?>
+                    <a class="js-wps-openPremiumModal" href="<?php echo esc_url(UpsellLink::addon('wp-statistics-advanced-reporting', 'settings-notifications')); ?>"<?php echo UpsellLink::popupAttributes('wp-statistics-advanced-reporting', 'settings-notifications'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper ?>><?php esc_html_e("See what's included", 'wp-statistics'); ?></a>
+                </div>
             </td>
         </tr>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>

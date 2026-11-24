@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\FilterHandler;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\ViewsModel;
@@ -379,11 +380,18 @@ class FilterManager
         $args = [];
 
         foreach ($postTypes as $postType) {
+            $isPremium = Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus');
+
+            // White label: a Premium post type is an upsell (it opens the Premium popup), so it is left out.
+            if ($isPremium && LicenseHelper::areAddonPromptsHidden()) {
+                continue;
+            }
+
             $args[] = [
                 'slug' => esc_html($postType),
                 'name' => esc_html(Helper::getPostTypeName($postType)),
                 'url' => esc_url_raw(add_query_arg([$queryKey => $postType], $baseUrl)),
-                'premium' => Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus')
+                'premium' => $isPremium
             ];
         }
 

@@ -30,12 +30,17 @@ function load() {
     const steps = ['first-step', 'wp-statistics-data-plus', 'wp-statistics-rest-api'].map((s) => el({'data-step': s}));
     const items = ['wp-statistics-data-plus', 'wp-statistics-rest-api'].map((s) => el({'data-modal': s}));
     const images = [el({'data-src': 'a.png'}), el({'data-src': 'b.png'})];
+    const popupLinks = [
+        el({href: 'https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=popup&utm_campaign=data-plus&utm_content=upgrade'}),
+        el({href: 'https://wp-statistics.com/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=popup&utm_campaign=data-plus&utm_content=learn-more'}),
+    ];
     const closeBtn = el();
     const modal = el({}, ['js-wps-premiumModal']);
     modal.querySelectorAll = (sel) => ({
         '.js-wps-premiumModalStep': steps,
         '.js-wps-premiumStepFeature': items,
         '.js-wps-premiumModalImage': images,
+        '.js-wps-premiumModalLink': popupLinks,
     }[sel] || []);
     modal.querySelector = (sel) => (sel === '.wps-premium-popup__close' ? closeBtn : null);
     const body = {style: {}};
@@ -49,7 +54,7 @@ function load() {
         },
     };
     vm.runInNewContext(fs.readFileSync('assets/dev/javascript/components/premium-modal.js', 'utf8'), context);
-    return {window, listeners, modal, steps, items, images, closeBtn, body};
+    return {window, listeners, modal, steps, items, images, closeBtn, body, popupLinks};
 }
 
 test('opens on the add-on named in data-target', () => {
@@ -79,9 +84,9 @@ test('unknown target falls back to the intro step', () => {
     assert.equal(items[0].getAttribute('tabindex'), '0');
 });
 
-test('click on a Go Premium link opens the popup and blocks navigation', () => {
+test('click on a See what\'s included link opens the popup and blocks navigation', () => {
     const {listeners, modal, steps} = load();
-    const link = el({'data-target': 'first-step', href: 'https://wp-statistics.com/pricing/'});
+    const link = el({'data-target': 'first-step', href: 'https://wp-statistics.com/add-ons/'});
     let prevented = false;
     listeners.click({
         target: {closest: (sel) => (sel === '.js-wps-openPremiumModal' ? link : null)},
@@ -142,4 +147,33 @@ test('arrow keys move between switcher tabs and show the add-on', () => {
 
     listeners.keydown({key: 'End', target: items[0], preventDefault: () => {}});
     assert.equal(items[1].getAttribute('aria-selected'), 'true');
+});
+
+test('popup links carry the surface that opened the popup as utm_term', () => {
+    const {listeners, popupLinks, window} = load();
+    const trigger = el({'data-target': 'wp-statistics-data-plus', 'data-surface': 'locked-button'});
+    listeners.click({
+        target: {closest: (sel) => (sel === '.js-wps-openPremiumModal' ? trigger : null)},
+        preventDefault: () => {},
+        stopPropagation: () => {},
+    });
+    assert.equal(popupLinks[0].getAttribute('href'), 'https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=popup&utm_campaign=data-plus&utm_content=upgrade&utm_term=locked-button');
+    assert.ok(popupLinks[1].getAttribute('href').endsWith('&utm_content=learn-more&utm_term=locked-button'));
+
+    // Opened again from another surface: the term is replaced, not added twice.
+    window.wpsPremiumModal.open('first-step', el({'data-surface': 'teaser'}));
+    assert.ok(popupLinks[0].getAttribute('href').endsWith('&utm_content=upgrade&utm_term=teaser'));
+    assert.equal(popupLinks[0].getAttribute('href').split('utm_term').length, 2);
+
+    // No surface: no utm_term.
+    window.wpsPremiumModal.open('first-step');
+    assert.ok(popupLinks[0].getAttribute('href').endsWith('&utm_content=upgrade'));
+});
+
+test('withTerm keeps other parameters and the hash', () => {
+    const {window} = load();
+    const withTerm = window.wpsPremiumModal.withTerm;
+    assert.equal(withTerm('https://x.test/p/?utm_term=a&b=1#top', 'c'), 'https://x.test/p/?b=1&utm_term=c#top');
+    assert.equal(withTerm('https://x.test/p/', 'c'), 'https://x.test/p/?utm_term=c');
+    assert.equal(withTerm('https://x.test/p/?a=1&utm_term=b', ''), 'https://x.test/p/?a=1');
 });

@@ -47,13 +47,13 @@ if (empty($addOn)) {
                     <li><a class="wps-addon--submenu wps-addon--submenu__settings wps-addon--submenu--disabled" aria-disabled="true" data-settings-url="<?php echo esc_url($addOn->getSettingsUrl()); ?>" title="<?php esc_attr_e('Activate the add-on to open its settings', 'wp-statistics'); ?>"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getProductUrl(), 'add-ons-page', $addOn->getSlug(), 'learn-more')); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>&?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>&releases=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url(add_query_arg('releases', rawurlencode($addOn->getUtmCampaign()), \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getChangelogUrl(), 'add-ons-page', $addOn->getSlug(), 'changelog'))); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getDocumentationUrl())) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::tag($addOn->getDocumentationUrl(), 'add-ons-page', $addOn->getSlug(), 'docs')); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
             </ul>
         </div>

@@ -1,12 +1,12 @@
 <?php
 /**
- * Go Premium box on the Overview ("Picture first"): the sketch, the title, one line, a solid button that opens
- * the Premium popup (the pricing page stays the href for no-JS), the guarantee and ×.
+ * Go Premium box on the Overview ("Picture first"): the sketch, the title, one line, a solid "See what's included"
+ * button that opens the Premium popup (the add-ons list on wp-statistics.com stays the href for no-JS), the guarantee and ×.
  * Who sees it: {@see \WP_Statistics\Service\Admin\Metabox\MetaboxHelper::shouldHideGoPremium()}.
  */
 
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 ?>
@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
     <div class="wps-go-premium__body">
         <h2 class="wps-go-premium__title hndle ui-sortable-handle"><?php esc_html_e('Get More with Premium Analytics', 'wp-statistics'); ?></h2>
         <p class="wps-go-premium__text"><?php esc_html_e('Upgrade to see clicks, downloads, live visitors and goals.', 'wp-statistics'); ?></p>
-        <a class="wps-upsell-btn wps-upsell-btn--primary wps-go-premium__button js-wps-openPremiumModal" data-target="first-step" href="<?php echo esc_url(AddonCatalog::getPricingUrl('premium')); ?>" target="_blank" rel="noopener"><?php esc_html_e('See what Premium adds', 'wp-statistics'); ?></a>
+        <a class="wps-upsell-btn wps-upsell-btn--primary wps-go-premium__button js-wps-openPremiumModal" href="<?php echo esc_url(UpsellLink::addons('go-premium-box')); ?>"<?php echo UpsellLink::popupAttributes('first-step', 'go-premium-box'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper ?>><?php esc_html_e("See what's included", 'wp-statistics'); ?></a>
         <?php View::load('components/upsell/guarantee', ['class' => 'wps-go-premium__guarantee']); ?>
     </div>
 </div>

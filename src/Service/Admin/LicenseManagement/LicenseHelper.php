@@ -426,7 +426,7 @@ class LicenseHelper
      */
     public static function renderLicenseStatusLink($isPremium, $promoBanner, $isMobile = false)
     {
-        $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
+        $baseUrl = esc_url(UpsellLink::pricing('header'));
 
         if ($promoBanner && Option::get('display_notifications', false)) {
             $banner = [
@@ -460,9 +460,9 @@ class LicenseHelper
 
         if (!$isPremium && !self::isValidLicenseAvailable()) {
             return sprintf(
-                '<a href="%s" target="_blank" class="wps-license-status wps-license-status--free">%s</a>',
+                '<a href="%s" target="_blank" rel="noopener" class="wps-license-status wps-license-status--free">%s</a>',
                 $baseUrl,
-                esc_html__('Upgrade To Premium', 'wp-statistics')
+                esc_html__('Upgrade to Premium', 'wp-statistics')
             );
         }
 
@@ -473,7 +473,7 @@ class LicenseHelper
             count(PluginHelper::$plugins)
         );
         return sprintf(
-            '<a href="%s" target="_blank" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
+            '<a href="%s" target="_blank" rel="noopener" class="wps-license-status wps-license-status--valid"><span>%s</span> <span>%s</span></a>',
             $baseUrl,
             $licenseText,
             esc_html__('Upgrade', 'wp-statistics')

@@ -17,7 +17,7 @@ class LockedRealTimeStatView extends BaseView
             'benefits'   => $copy['benefits'],
             'addon_name'         => esc_html__('Real-Time Stats', 'wp-statistics'),
             'addon_slug'         => 'wp-statistics-realtime-stats',
-            'campaign'           => 'real-time-stats',
+            'campaign'           => 'realtime-stats',
             'images'             => ['realtime-stats.png'],
         ];
 

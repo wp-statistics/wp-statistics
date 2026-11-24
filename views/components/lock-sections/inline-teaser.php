@@ -5,8 +5,8 @@
  * mini icons (or, when a caller passes one, a static greyed "Example" preview) that follows the site's situation:
  *
  *  - add-on active or prompts off (Customization white label): nothing is printed;
- *  - not installed: the value line and "Learn about <add-on>", which opens the premium modal on that add-on
- *    (the add-on page on wp-statistics.com stays the href for no-JS);
+ *  - not installed: the value line and "See what's included", which opens the Premium popup on that add-on
+ *    (the add-on page on wp-statistics.com stays the href for no-JS; data-surface "teaser");
  *  - installed but turned off: "<add-on> is installed but turned off." and "Activate", a link to the Plugins screen
  *    narrowed to the add-on (users who can activate plugins; the link never activates anything itself);
  *  - in the site's plan but not installed: "Included in your plan." and "Install" (license managers);
@@ -21,7 +21,7 @@
  *  - addon      (string) Required. Add-on slug, e.g. "wp-statistics-data-plus".
  *  - addon_name (string) Required. Add-on name, e.g. "Data Plus".
  *  - message    (string) Value line for sites without the add-on.
- *  - campaign   (string) utm_campaign of the "Learn about" link. Default: the id.
+ *  - campaign   (string) Kept for callers; utm_campaign comes from the add-on ({@see UpsellLink}).
  *  - preview    (string) Static example markup (trusted HTML from the calling template). Optional.
  *  - icons      (string[]) Mini icons before the line instead of the lock: "download", "click". Optional.
  *  - class      (string) Extra classes.
@@ -30,6 +30,7 @@
 use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\InlineTeaser;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
@@ -81,15 +82,10 @@ switch ($situation) {
 
         if ($canManage) {
             $action = [
-                'url'      => add_query_arg([
-                    'utm_source'   => 'wp-statistics',
-                    'utm_medium'   => 'link',
-                    'utm_campaign' => !empty($campaign) ? $campaign : $teaserId,
-                ], WP_STATISTICS_SITE_URL . '/add-ons/' . $addon . '/'),
-                /* translators: %s: Add-on name. */
-                'label'    => sprintf(__('Learn about %s', 'wp-statistics'), $addon_name),
-                'external' => true,
-                'modal'    => $addon,
+                // "See what's included" opens the Premium popup on the add-on; the add-on page stays the href for no-JS.
+                'url'   => UpsellLink::addon($addon, 'teaser'),
+                'label' => __("See what's included", 'wp-statistics'),
+                'modal' => $addon,
             ];
         }
 }
@@ -127,7 +123,7 @@ $classes = trim('wps-inline-teaser js-wps-inline-teaser' . (empty($preview) ? ' 
         <span class="wps-inline-teaser__text">
             <span class="wps-inline-teaser__line"><?php echo esc_html(trim($line)); ?></span>
             <?php if ($action) : ?>
-            <a class="wps-inline-teaser__link<?php echo !empty($action['modal']) ? ' js-wps-openPremiumModal' : ''; ?>" href="<?php echo esc_url($action['url']); ?>"<?php echo !empty($action['modal']) ? ' data-target="' . esc_attr($action['modal']) . '"' : ''; ?><?php echo !empty($action['external']) ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($action['label']); ?></a>
+            <a class="wps-inline-teaser__link<?php echo !empty($action['modal']) ? ' js-wps-openPremiumModal' : ''; ?>" href="<?php echo esc_url($action['url']); ?>"<?php echo !empty($action['modal']) ? UpsellLink::popupAttributes($action['modal'], 'teaser') : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper ?>><?php echo esc_html($action['label']); ?></a>
             <?php endif; ?>
         </span>
         <button type="button" class="wps-inline-teaser__close js-wps-inline-teaser-close" aria-label="<?php esc_attr_e('Hide this tip', 'wp-statistics'); ?>" title="<?php esc_attr_e('Hide this tip', 'wp-statistics'); ?>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>

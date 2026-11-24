@@ -3,9 +3,15 @@ namespace WP_Statistics\Service\Admin\ModalHandler;
 
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class Modal {
     const MODAL_OPTION_KEY = 'user_modals';
+
+    /**
+     * Popups that sell Premium; hidden under white label.
+     */
+    const PREMIUM_MODALS = ['introduce-premium', 'welcome-premium'];
 
     /**
      * Returns the relative path to the modals directory.
@@ -58,6 +64,11 @@ class Modal {
      */
     public static function render($modalId, $args = [], $baseDir = null)
     {
+        // White label (or a hidden Add-ons menu): no Premium popup markup at all, so no trigger can open it.
+        if (in_array($modalId, self::PREMIUM_MODALS, true) && LicenseHelper::areAddonPromptsHidden()) {
+            return;
+        }
+
         View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal", $args, false, $baseDir);
     }
 

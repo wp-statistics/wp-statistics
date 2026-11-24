@@ -7,9 +7,36 @@
  *
  * The Overview's one-time welcome popup (.js-wps-premiumModal-welcome) holds the same steps behind its
  * "Discover Premium Features" button.
+ *
+ * Tracking: the popup's "Upgrade to Premium" / "Learn more" links (.js-wps-premiumModalLink, already tagged
+ * utm_medium=popup by UpsellLink) get utm_term = the data-surface of the trigger that opened the popup
+ * (tooltip, locked-tab, teaser, go-premium-box, showcase, ...), so a purchase shows where it started.
  */
 (function () {
     var lastTrigger = null;
+
+    // Sets (or, with an empty value, removes) utm_term on a URL; keeps every other parameter and the #hash.
+    function withTerm(href, term) {
+        href = href || '';
+        var hash = '';
+        var at = href.indexOf('#');
+        if (at > -1) {
+            hash = href.slice(at);
+            href = href.slice(0, at);
+        }
+        href = href.replace(/([?&])utm_term=[^&]*(&|$)/, function (match, before, after) {
+            return after ? before : '';
+        });
+        if (term) href += (href.indexOf('?') > -1 ? '&' : '?') + 'utm_term=' + encodeURIComponent(term);
+        return href + hash;
+    }
+
+    function setOpener(modal, surface) {
+        var links = modal.querySelectorAll('.js-wps-premiumModalLink');
+        for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute('href', withTerm(links[i].getAttribute('href'), surface || ''));
+        }
+    }
 
     function getModal(preferWelcome) {
         var modals = document.querySelectorAll('.js-wps-premiumModal');
@@ -59,11 +86,13 @@
         return target;
     }
 
-    function open(target, trigger, modal) {
+    function open(target, trigger, modal, surface) {
         modal = modal || getModal(false);
         if (!modal) return null;
 
         lastTrigger = trigger || null;
+        if (!surface && trigger && trigger.getAttribute) surface = trigger.getAttribute('data-surface');
+        setOpener(modal, surface || '');
 
         var welcome = modal.querySelector('.js-wps-premiumModalWelcomeContent');
         if (welcome) welcome.style.display = 'none';
@@ -130,7 +159,7 @@
 
         var explore = closest(event.target, '.js-wps-premiumModalExploreBtn');
         if (explore) {
-            open('first-step', null, closest(explore, '.js-wps-premiumModal'));
+            open('first-step', null, closest(explore, '.js-wps-premiumModal'), 'welcome-popup');
             return;
         }
 
@@ -212,6 +241,6 @@
     });
 
     if (typeof window !== 'undefined') {
-        window.wpsPremiumModal = {open: open, close: close, showStep: showStep};
+        window.wpsPremiumModal = {open: open, close: close, showStep: showStep, withTerm: withTerm};
     }
 })();

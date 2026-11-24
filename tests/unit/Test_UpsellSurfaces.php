@@ -78,11 +78,13 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         $this->assertStringContainsString('Included in Premium with all 8 add-ons', $html);
         $this->assertStringContainsString('14-day money-back guarantee', $html);
         $this->assertStringContainsString('utm_campaign=rest-api', $html);
+        // Guarantee first, then "Included in Premium" (owner change).
+        $this->assertLessThan(strpos($html, 'Included in Premium with all 8 add-ons'), strpos($html, '14-day money-back guarantee'));
 
-        // "Upgrade to Premium" opens the popup on this add-on, pricing page as href; "Learn more" is the add-on page.
-        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--primary js-wps-openPremiumModal" href="[^"]*/pricing/[^"]*" data-target="wp-statistics-rest-api">Upgrade to Premium</a>#', $html);
-        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--secondary" href="[^"]*/add-ons/wp-statistics-rest-api/[^"]*" target="_blank" rel="noopener">Learn more</a>#', $html);
-        $this->assertSame(1, substr_count($html, 'js-wps-openPremiumModal'));
+        // "Upgrade to Premium" = pricing page, "Learn more" = add-on page, both new tab; no popup on a settings card.
+        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--primary" href="https://wp-statistics.com/pricing/\?utm_source=wp-statistics&\#038;utm_medium=settings-card&\#038;utm_campaign=rest-api&\#038;utm_content=upgrade" target="_blank" rel="noopener">Upgrade to Premium</a>#', $html);
+        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--secondary" href="https://wp-statistics.com/add-ons/wp-statistics-rest-api/\?utm_source=wp-statistics&\#038;utm_medium=settings-card&\#038;utm_campaign=rest-api&\#038;utm_content=learn-more" target="_blank" rel="noopener">Learn more</a>#', $html);
+        $this->assertSame(0, substr_count($html, 'js-wps-openPremiumModal'));
 
         // The soft banner and the old box are gone.
         $this->assertStringNotContainsString('wps-upsell-banner', $html);
@@ -100,7 +102,8 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
             foreach ($copy['benefits'] as $benefit) {
                 $this->assertStringContainsString(esc_html($benefit), $html, $slug);
             }
-            $this->assertStringContainsString('data-target="' . $slug . '"', $html, $slug);
+            $this->assertStringContainsString('/add-ons/' . $slug . '/', $html, $slug);
+            $this->assertStringNotContainsString('js-wps-openPremiumModal', $html, $slug);
         }
     }
 
@@ -153,6 +156,7 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         $this->assertSame(1, substr_count($html, '>Learn more<'));
         $this->assertSame(1, substr_count($html, 'Included in Premium with all 8 add-ons'));
         $this->assertSame(1, substr_count($html, '14-day money-back guarantee'));
+        $this->assertLessThan(strpos($html, 'Included in Premium with all 8 add-ons'), strpos($html, '14-day money-back guarantee'));
         $this->assertSame(2, substr_count($html, 'wps-slider__slide'));
         $this->assertStringNotContainsString('wps-lock-page__head--second', $html);
     }
@@ -192,12 +196,13 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
 
     // Go Premium box --------------------------------------------------------------
 
-    public function test_go_premium_button_opens_the_popup_and_keeps_pricing_href()
+    public function test_go_premium_button_opens_the_popup()
     {
         $html = (string)View::load('metabox/go-premium', ['widget_id' => 'go-premium'], true);
 
         $this->assertStringContainsString('Get More with Premium Analytics', $html);
-        $this->assertMatchesRegularExpression('/<a class="[^"]*js-wps-openPremiumModal[^"]*" data-target="first-step" href="[^"]*\/pricing\//', $html);
+        $this->assertMatchesRegularExpression('#<a class="[^"]*js-wps-openPremiumModal[^"]*" href="https://wp-statistics.com/add-ons/\?[^"]*utm_medium=go-premium-box[^"]*" data-target="first-step" data-surface="go-premium-box">See what&\#039;s included</a>#', $html);
+        $this->assertStringNotContainsString('target="_blank"', $html);
         $this->assertStringContainsString('14-day money-back guarantee', $html);
         $this->assertStringContainsString('wp_statistics_dismiss_widget', $html);
     }
@@ -284,8 +289,12 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         $html = (string)View::load('pages/license-manager/add-license', [], true);
 
         $this->assertStringContainsString('Unlock Premium Features', $html);
-        $this->assertStringContainsString('Buy Premium Now', $html);
+        $this->assertStringContainsString('>Upgrade to Premium</a>', $html);
+        $this->assertStringNotContainsString('Buy Premium Now', $html);
         $this->assertStringNotContainsString('Download your add-ons', $html);
+        // The contact link used to have two "?" (…?step=purchasing/?utm_source=…).
+        $this->assertStringContainsString('/contact-us/?step=purchasing&#038;utm_source=wp-statistics', $html);
+        $this->assertSame(0, preg_match('#href="[^"]*\?[^"]*\?#', $html));
     }
 
     public function test_add_ons_menu_entry_is_hidden_under_white_label_but_the_page_stays_registered()

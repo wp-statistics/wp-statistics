@@ -69,17 +69,36 @@ a.wps-upsell-btn--secondary,
   }
 }
 
+// Guarantee first, then (optional) "· Included in Premium with all 8 add-ons" in a muted colour.
 .wps-upsell-guarantee {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px 8px;
   margin: 10px 0 0;
-  color: $wps-good;
+  color: $wps-text-muted;
   font-size: 12px;
   line-height: 18px;
 
+  &__main {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: $wps-good;
+  }
+
   &__icon {
     flex: none;
+  }
+
+  @media (max-width: 480px) {
+    &__sep {
+      display: none;
+    }
+
+    &__extra {
+      flex-basis: 100%;
+    }
   }
 }
 
@@ -142,38 +161,10 @@ a.wps-upsell-btn--secondary,
   }
 
   .wps-upsell-card__footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px 8px;
     margin: 14px 0 0;
-    padding: 0;
-    color: $wps-text-muted;
-    font-size: 12px;
-    line-height: 18px;
-  }
-
-  .wps-upsell-card__guarantee {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: $wps-good;
-
-    svg {
-      flex: none;
-    }
   }
 
   @media (max-width: 480px) {
-    .wps-upsell-card__sep {
-      display: none;
-    }
-
-    .wps-upsell-card__footer {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
     .wps-upsell-card__actions .wps-upsell-btn {
       flex: 1 1 auto;
     }

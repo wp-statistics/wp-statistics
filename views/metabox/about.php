@@ -12,7 +12,7 @@ $wpsAboutLinks = [
         'key'   => 'add-ons',
         'label' => __('Add-ons', 'wp-statistics'),
         'title' => __('Add-ons', 'wp-statistics'),
-        'url'   => WP_STATISTICS_SITE_URL . '/add-ons/?utm_source=wp-statistics&utm_medium=link&utm_campaign=add-ons',
+        'url'   => \WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::addons('about-widget'),
         'icon'  => '<path d="M10 3.5a2 2 0 0 1 4 0V5h3a1 1 0 0 1 1 1v3h1.5a2 2 0 0 1 0 4H18v4a1 1 0 0 1-1 1h-3.5v-1.5a2 2 0 0 0-4 0V19H6a1 1 0 0 1-1-1v-4h1.5a2 2 0 0 0 0-4H5V6a1 1 0 0 1 1-1h4z"/>',
     ],
     [
@@ -73,7 +73,7 @@ $wpsAboutReleaseUrl = WP_STATISTICS_SITE_URL . '/changelog/?utm_source=wp-statis
         <div class="c-about__row c-about__footer">
             <?php if (!is_plugin_active('wp-statistics-customization/wp-statistics-customization.php')) { ?>
                 <div class="c-about__customization">
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'); ?>" target="_blank">
+                    <a href="<?php echo esc_url(\WP_Statistics\Service\Admin\LicenseManagement\UpsellLink::addon('wp-statistics-customization', 'about-widget')); ?>" target="_blank">
                         <?php esc_html_e('How to Customize This Widget', 'wp-statistics'); ?>
                     </a>
                 </div>
