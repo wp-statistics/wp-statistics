@@ -1,18 +1,19 @@
 14.17.0 - 2026-11-24
+Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
+- **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
+- **New:** Visitors card on the Overview, a visitor card and a visitor journey page.
+- **New:** WP Statistics panel in the block editor sidebar.
+- **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP.
 - **New:** Email alert and notice when visits stop being recorded.
 - **New:** OpenAI Ads, Microsoft Ads and Facebook Ads show as their own sources.
-- **New:** Visitor card, visitor journey page, and a WP Statistics panel in the block editor sidebar.
-- **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP, from Settings → REST API.
-- **Enhancement:** Refreshed admin design: cards, share bars, compact tables, Dashboard widgets and new Premium pages.
-- **Enhancement:** Overview: Latest, Most Active and Online visitors in one Visitors card.
-- **Enhancement:** Visitor tables show the visit journey, Top Posts show featured images, and chart tooltips are clearer.
-- **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.
-- **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)), and ad clicks without a referrer (gclid, fbclid) get a source.
-- **Fix:** Multisite: every site is set up on network activation, new and deleted sites keep their tables in step, and a new Network Admin overview: one sortable, searchable table of all sites with visitors, views, change, a 7-day line and the top page.
-- **Fix:** Emails no longer fail when two are sent at once, and they fit phone screens.
-- **Fix:** CSV exports hide raw IPs while IP hashing is on, the `[wpstatistics stat=referrer]` shortcode counts again, and white label details stay hidden.
-- **Fix:** Geographic tables list "(not set)" once and their shares add up under filters, the visits stopped email skips small and long-quiet sites, the visitor journey keeps older visits, "Filter by IP" matches only that IP, and download names with `%` are read correctly.
-- **Fix:** One device opening the site in several tabs at the start of a day counts as one online visitor, and Top Authors and Top Categories rank by Views, Posts, Per post or Comments on the server, high to low or low to high, with the same numbers as the full reports.
+- **Enhancement:** Network Admin lists all sites in one sortable, searchable table.
+- **Enhancement:** Clearer chart tooltips, sortable leaderboards and Top Posts thumbnails.
+- **Fix:** More accurate totals, filters and online counts; Top Pages works on SQLite.
+- **Fix:** Multisite sets up every site on activation and keeps site tables in step.
+- **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
+- **Fix:** Emails no longer fail when sent together, and they fit phone screens.
+- **Fix:** CSV exports hide raw IPs with IP hashing on; the referrer shortcode counts again.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
