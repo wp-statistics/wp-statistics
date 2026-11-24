@@ -43,8 +43,8 @@ if (document.readyState === 'loading') {
     wpStatisticsBootTracker();
 }
 
-function wpStatisticsStartTracking() {
-    WpStatisticsUserTracker.init();
+function wpStatisticsStartTracking(options) {
+    WpStatisticsUserTracker.init(options);
     WpStatisticsEventTracker.init();
 }
 
@@ -79,6 +79,47 @@ function handleWpConsentApiIntegration() {
     // allows everything, even before the visitor has seen the banner.
     const typeKnown = () => typeof window.wp_consent_type !== 'undefined' || (!window.waitfor_consent_hook && !!window.wp_fallback_consent_type);
 
+    // Some banners (Complianz, for example) reload the page when the visitor withdraws consent but keep
+    // statistics-anonymous allowed. The page was already counted with full consent, so the reload must not
+    // count it again under a new, anonymous visitor. Later pages are counted anonymously.
+    const downgradeKey = 'wp_statistics_consent_downgrade';
+    const currentPath = () => window.location.pathname;
+
+    const rememberDowngrade = () => {
+        try {
+            window.sessionStorage.setItem(downgradeKey, JSON.stringify({path: currentPath(), at: Date.now()}));
+        } catch (e) {
+            // No session storage: the reload is counted as before.
+        }
+    };
+
+    const isReloadAfterDowngrade = () => {
+        let saved = null;
+        try {
+            saved = JSON.parse(window.sessionStorage.getItem(downgradeKey) || 'null');
+            window.sessionStorage.removeItem(downgradeKey);
+        } catch (e) {
+            return false;
+        }
+
+        if (!saved || saved.path !== currentPath() || Date.now() - saved.at > 30000) {
+            return false;
+        }
+
+        // A reload, or a navigation to the same page (Firefox gets a new URL with a cache-busting parameter).
+        const navigation = window.performance && typeof window.performance.getEntriesByType === 'function'
+            ? window.performance.getEntriesByType('navigation')[0]
+            : null;
+        let referrerPath = '';
+        try {
+            referrerPath = document.referrer ? new URL(document.referrer).pathname : '';
+        } catch (e) {
+            referrerPath = '';
+        }
+
+        return !navigation || navigation.type === 'reload' || referrerPath === currentPath();
+    };
+
     let decided = false;
     const decide = () => {
         if (decided) {
@@ -87,7 +128,7 @@ function handleWpConsentApiIntegration() {
 
         decided = true;
         if (hasStatisticsConsent()) {
-            wpStatisticsStartTracking();
+            wpStatisticsStartTracking({skipCurrentPage: isReloadAfterDowngrade()});
         }
     };
 
@@ -114,6 +155,10 @@ function handleWpConsentApiIntegration() {
                     // A consent change means the banner is running, so the decision is made from here on.
                     decided = true;
                     if (hasStatisticsConsent()) {
+                        // Full consent withdrawn, anonymous still allowed: this page is already counted.
+                        if (key === 'statistics' && changedConsentCategory[key] === 'deny' && WpStatisticsUserTracker.isTrackingEnabled) {
+                            rememberDowngrade();
+                        }
                         wpStatisticsStartTracking();
                     } else {
                         wpStatisticsStopTracking();
@@ -156,16 +201,22 @@ function handleRealCookieBannerIntegration() {
 }
 
 function handleBorlabsCookieIntegration() {
-    // Borlabs only releases this script after the WP Statistics service is accepted.
-    wpStatisticsStartTracking();
+    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
 
-    window.addEventListener('borlabs-cookie-consent-saved', function () {
+    // Borlabs normally releases this script only after the WP Statistics service is accepted, but the
+    // script can also run without that (blocker not set up, a cached page, an optimisation plugin moving
+    // the script). So ask Borlabs for the visitor's answer instead of assuming it.
+    const updateTracking = () => {
+        // With Anonymous Tracking on, the site owner chose to keep counting visitors without consent.
+        if (consentStatus.anonymous_tracking === true) {
+            wpStatisticsStartTracking();
+            return;
+        }
+
         const consents = window.BorlabsCookie && window.BorlabsCookie.Consents;
 
-        const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
-
-        // With Anonymous Tracking on, the site owner chose to keep counting visitors without consent.
-        if (consentStatus.anonymous_tracking === true || !consents || typeof consents.hasConsent !== 'function') {
+        // Borlabs is not ready yet: wait for its init or consent event.
+        if (!consents || typeof consents.hasConsent !== 'function') {
             return;
         }
 
@@ -174,7 +225,12 @@ function handleBorlabsCookieIntegration() {
         } else {
             wpStatisticsStopTracking();
         }
-    });
+    };
+
+    updateTracking();
+
+    window.addEventListener('borlabs-cookie-after-init', updateTracking);
+    window.addEventListener('borlabs-cookie-consent-saved', updateTracking);
 }
 
 function handleCookieYesIntegration() {

@@ -110,6 +110,18 @@ function loadTracker(files, integration, options = {}) {
             isLegacyEventLoaded: Boolean(options.legacyEventLoaded),
         },
     };
+    if (options.noBorlabs) {
+        delete context.BorlabsCookie;
+    }
+    if (options.sessionStorage) {
+        context.sessionStorage = options.sessionStorage;
+    }
+    if (options.performance) {
+        context.performance = options.performance;
+    }
+    if (options.cookie) {
+        context.document.cookie = options.cookie;
+    }
     context.window = context;
 
     vm.createContext(context);
@@ -402,4 +414,108 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
             assert.equal(tracker.getHits(), 1, 'no second hit');
         });
     }
+}
+
+function memoryStorage() {
+    const items = {};
+    return {
+        getItem(key) { return Object.prototype.hasOwnProperty.call(items, key) ? items[key] : null; },
+        setItem(key, value) { items[key] = String(value); },
+        removeItem(key) { delete items[key]; },
+    };
+}
+
+for (const [bundle, files] of Object.entries(trackerBundles)) {
+    // Complianz keeps statistics-anonymous allowed when the visitor withdraws, then reloads the page.
+    test(`${bundle} tracker does not count the same page again after Complianz withdraws to anonymous`, async () => {
+        const storage = memoryStorage();
+        const accepted = 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow';
+        const first = loadTracker(files, 'wp_consent_api', {sessionStorage: storage, cookie: accepted});
+
+        first.dispatchDocument('DOMContentLoaded');
+        assert.equal(first.getHits(), 1, 'the page is counted with full consent');
+
+        first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
+        first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        assert.equal(first.getHits(), 1, 'no hit on the withdrawal itself');
+
+        // The reload Complianz does after the withdrawal.
+        const reloaded = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage,
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'reload'}]; }},
+        });
+        reloaded.dispatchDocument('DOMContentLoaded');
+        assert.equal(reloaded.getHits(), 0, 'the reloaded page is not counted a second time');
+
+        reloaded.context.location.href = 'https://example.test/next';
+        reloaded.context.location.pathname = '/next';
+        reloaded.context.history.pushState({}, '', '/next');
+        assert.equal(reloaded.getHits(), 1, 'later pages are counted anonymously');
+
+        // A later visit to the same page is counted again.
+        const later = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage,
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'reload'}]; }},
+        });
+        later.dispatchDocument('DOMContentLoaded');
+        assert.equal(later.getHits(), 1, 'the marker is used once');
+    });
+
+    test(`${bundle} tracker sends nothing more when both statistics categories are denied`, async () => {
+        const storage = memoryStorage();
+        const tracker = loadTracker(files, 'wp_consent_api', {sessionStorage: storage, cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow'});
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        tracker.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=deny';
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        tracker.dispatchDocument('wp_listen_for_consent_change', {'statistics-anonymous': 'deny'});
+        tracker.context.location.href = 'https://example.test/next';
+        tracker.context.location.pathname = '/next';
+        tracker.context.history.pushState({}, '', '/next');
+
+        assert.equal(tracker.getHits(), 1, 'only the page counted before the deny');
+    });
+
+    test(`${bundle} tracker does not start on Borlabs when the visitor declined and the script was not blocked`, () => {
+        const tracker = loadTracker(files, 'borlabs_cookie');
+
+        tracker.withdraw();
+        tracker.dispatchDocument('DOMContentLoaded');
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
+        tracker.context.location.href = 'https://example.test/next';
+        tracker.context.location.pathname = '/next';
+        tracker.context.history.pushState({}, '', '/next');
+
+        assert.equal(tracker.getHits(), 0, 'a declined visitor is not counted');
+
+        tracker.grant();
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
+        assert.equal(tracker.getHits(), 1, 'accepting later counts the current page once');
+    });
+
+    test(`${bundle} tracker waits for Borlabs to initialise before deciding`, () => {
+        const tracker = loadTracker(files, 'borlabs_cookie', {noBorlabs: true});
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        assert.equal(tracker.getHits(), 0, 'nothing is sent before Borlabs answers');
+
+        let consent = false;
+        tracker.context.BorlabsCookie = {Consents: {hasConsent: service => consent && service === 'wp-statistics'}};
+        tracker.dispatchWindow('borlabs-cookie-after-init');
+        assert.equal(tracker.getHits(), 0, 'no consent after init, no hit');
+
+        consent = true;
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
+        assert.equal(tracker.getHits(), 1, 'one hit once the visitor accepts');
+    });
+
+    test(`${bundle} tracker released by Borlabs after consent counts the page once`, () => {
+        // Borlabs fires consent-saved before it unblocks the script, so the tracker loads late with consent given.
+        const tracker = loadTracker(files, 'borlabs_cookie', {readyState: 'complete'});
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
+        assert.equal(tracker.getHits(), 1);
+    });
 }
