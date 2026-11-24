@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-23T17:59:20+00:00\n"
+"POT-Creation-Date: 2026-11-24T07:04:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -112,11 +112,11 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:429
 #: includes/admin/class-wp-statistics-admin-assets.php:470
 #: src/Decorators/VisitorDecorator.php:442
-#: src/Models/ViewsModel.php:253
-#: src/Models/VisitorsModel.php:512
-#: src/Models/VisitorsModel.php:556
-#: src/Models/VisitorsModel.php:600
-#: src/Models/VisitorsModel.php:654
+#: src/Models/ViewsModel.php:231
+#: src/Models/VisitorsModel.php:493
+#: src/Models/VisitorsModel.php:537
+#: src/Models/VisitorsModel.php:581
+#: src/Models/VisitorsModel.php:635
 #: src/Service/Charts/DataProvider/SummaryChartDataProvider.php:146
 msgid "Today"
 msgstr ""
@@ -139,7 +139,7 @@ msgstr ""
 #: includes/class-wp-statistics-widget.php:42
 #: includes/class-wp-statistics-widget.php:265
 #: src/Service/Admin/PageHeader/SingleHeaders.php:131
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:131
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:133
 #: views/components/traffic-summary.php:24
 #: views/metabox/traffic-overview.php:19
 #: views/metabox/traffic-summary.php:17
@@ -185,7 +185,7 @@ msgstr ""
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/PageHeader/SingleHeaders.php:129
 #: src/Service/Admin/PageHeader/SingleHeaders.php:140
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:117
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:119
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:65
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:108
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:50
@@ -230,7 +230,7 @@ msgstr ""
 #: includes/class-wp-statistics-shortcode.php:296
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/PageHeader/SingleHeaders.php:130
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:124
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:126
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:71
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:114
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:51
@@ -259,11 +259,11 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:430
 #: includes/admin/class-wp-statistics-admin-assets.php:471
 #: src/Decorators/VisitorDecorator.php:446
-#: src/Models/ViewsModel.php:257
-#: src/Models/VisitorsModel.php:513
-#: src/Models/VisitorsModel.php:557
-#: src/Models/VisitorsModel.php:601
-#: src/Models/VisitorsModel.php:655
+#: src/Models/ViewsModel.php:235
+#: src/Models/VisitorsModel.php:494
+#: src/Models/VisitorsModel.php:538
+#: src/Models/VisitorsModel.php:582
+#: src/Models/VisitorsModel.php:636
 #: src/Service/Charts/DataProvider/SummaryChartDataProvider.php:152
 msgid "Yesterday"
 msgstr ""
@@ -271,63 +271,63 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:431
 #: includes/admin/class-wp-statistics-admin-assets.php:437
 #: includes/admin/class-wp-statistics-admin-assets.php:476
-#: src/Models/ViewsModel.php:277
-#: src/Models/VisitorsModel.php:518
-#: src/Models/VisitorsModel.php:562
-#: src/Models/VisitorsModel.php:606
-#: src/Models/VisitorsModel.php:660
+#: src/Models/ViewsModel.php:255
+#: src/Models/VisitorsModel.php:499
+#: src/Models/VisitorsModel.php:543
+#: src/Models/VisitorsModel.php:587
+#: src/Models/VisitorsModel.php:641
 #: src/Service/Charts/DataProvider/SummaryChartDataProvider.php:158
 msgid "Last 7 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:432
 #: includes/admin/class-wp-statistics-admin-assets.php:472
-#: src/Models/ViewsModel.php:261
-#: src/Models/VisitorsModel.php:514
-#: src/Models/VisitorsModel.php:558
-#: src/Models/VisitorsModel.php:602
-#: src/Models/VisitorsModel.php:656
+#: src/Models/ViewsModel.php:239
+#: src/Models/VisitorsModel.php:495
+#: src/Models/VisitorsModel.php:539
+#: src/Models/VisitorsModel.php:583
+#: src/Models/VisitorsModel.php:637
 msgid "This week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:433
 #: includes/admin/class-wp-statistics-admin-assets.php:473
-#: src/Models/ViewsModel.php:265
-#: src/Models/VisitorsModel.php:515
-#: src/Models/VisitorsModel.php:559
-#: src/Models/VisitorsModel.php:603
-#: src/Models/VisitorsModel.php:657
+#: src/Models/ViewsModel.php:243
+#: src/Models/VisitorsModel.php:496
+#: src/Models/VisitorsModel.php:540
+#: src/Models/VisitorsModel.php:584
+#: src/Models/VisitorsModel.php:638
 msgid "Last week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:434
 #: includes/admin/class-wp-statistics-admin-assets.php:438
 #: includes/admin/class-wp-statistics-admin-assets.php:478
-#: src/Models/ViewsModel.php:281
-#: src/Models/VisitorsModel.php:519
-#: src/Models/VisitorsModel.php:563
-#: src/Models/VisitorsModel.php:607
-#: src/Models/VisitorsModel.php:661
+#: src/Models/ViewsModel.php:259
+#: src/Models/VisitorsModel.php:500
+#: src/Models/VisitorsModel.php:544
+#: src/Models/VisitorsModel.php:588
+#: src/Models/VisitorsModel.php:642
 msgid "Last 30 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:435
 #: includes/admin/class-wp-statistics-admin-assets.php:474
-#: src/Models/ViewsModel.php:269
-#: src/Models/VisitorsModel.php:516
-#: src/Models/VisitorsModel.php:560
-#: src/Models/VisitorsModel.php:604
-#: src/Models/VisitorsModel.php:658
+#: src/Models/ViewsModel.php:247
+#: src/Models/VisitorsModel.php:497
+#: src/Models/VisitorsModel.php:541
+#: src/Models/VisitorsModel.php:585
+#: src/Models/VisitorsModel.php:639
 msgid "This month"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:436
 #: includes/admin/class-wp-statistics-admin-assets.php:475
-#: src/Models/ViewsModel.php:273
-#: src/Models/VisitorsModel.php:517
-#: src/Models/VisitorsModel.php:561
-#: src/Models/VisitorsModel.php:605
-#: src/Models/VisitorsModel.php:659
+#: src/Models/ViewsModel.php:251
+#: src/Models/VisitorsModel.php:498
+#: src/Models/VisitorsModel.php:542
+#: src/Models/VisitorsModel.php:586
+#: src/Models/VisitorsModel.php:640
 msgid "Last month"
 msgstr ""
 
@@ -337,21 +337,21 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:440
 #: includes/admin/class-wp-statistics-admin-assets.php:479
-#: src/Models/ViewsModel.php:285
-#: src/Models/VisitorsModel.php:520
-#: src/Models/VisitorsModel.php:564
-#: src/Models/VisitorsModel.php:608
-#: src/Models/VisitorsModel.php:662
+#: src/Models/ViewsModel.php:263
+#: src/Models/VisitorsModel.php:501
+#: src/Models/VisitorsModel.php:545
+#: src/Models/VisitorsModel.php:589
+#: src/Models/VisitorsModel.php:643
 msgid "Last 90 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:441
 #: includes/admin/class-wp-statistics-admin-assets.php:480
-#: src/Models/ViewsModel.php:289
-#: src/Models/VisitorsModel.php:521
-#: src/Models/VisitorsModel.php:565
-#: src/Models/VisitorsModel.php:609
-#: src/Models/VisitorsModel.php:663
+#: src/Models/ViewsModel.php:267
+#: src/Models/VisitorsModel.php:502
+#: src/Models/VisitorsModel.php:546
+#: src/Models/VisitorsModel.php:590
+#: src/Models/VisitorsModel.php:644
 msgid "Last 6 months"
 msgstr ""
 
@@ -360,11 +360,11 @@ msgid "Last 12 months"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:443
-#: src/Models/ViewsModel.php:293
-#: src/Models/VisitorsModel.php:522
-#: src/Models/VisitorsModel.php:566
-#: src/Models/VisitorsModel.php:610
-#: src/Models/VisitorsModel.php:664
+#: src/Models/ViewsModel.php:271
+#: src/Models/VisitorsModel.php:503
+#: src/Models/VisitorsModel.php:547
+#: src/Models/VisitorsModel.php:591
+#: src/Models/VisitorsModel.php:645
 msgid "This year (Jan-Today)"
 msgstr ""
 
@@ -374,11 +374,11 @@ msgid "Last year"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:445
-#: src/Models/ViewsModel.php:300
-#: src/Models/VisitorsModel.php:542
-#: src/Models/VisitorsModel.php:586
-#: src/Models/VisitorsModel.php:635
-#: src/Models/VisitorsModel.php:684
+#: src/Models/ViewsModel.php:278
+#: src/Models/VisitorsModel.php:523
+#: src/Models/VisitorsModel.php:567
+#: src/Models/VisitorsModel.php:616
+#: src/Models/VisitorsModel.php:665
 #: src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php:92
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:98
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:125
@@ -1063,7 +1063,7 @@ msgstr ""
 #: src/Service/Admin/Overview/OverviewPage.php:28
 #: src/Service/Admin/PageInsights/Views/TabsView.php:128
 #: src/Service/Admin/Referrals/Views/TabsView.php:117
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:110
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:112
 msgid "Overview"
 msgstr ""
 
@@ -1699,7 +1699,7 @@ msgstr ""
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:97
 #: src/Service/Admin/Geographic/Views/SingleCountryView.php:33
 #: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:42
-#: views/components/visitor-journey.php:242
+#: views/components/visitor-journey.php:248
 #: views/pages/page-insights/entry-pages.php:17
 #: views/pages/page-insights/exit-pages.php:17
 #: views/pages/visitor-insights/search-terms.php:17
@@ -5260,47 +5260,47 @@ msgstr ""
 msgid "Invalid hit/online request (%s)."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:218
-#: src/Core/Operations/Loader.php:141
+#: includes/class-wp-statistics-install.php:209
+#: src/Core/Operations/Loader.php:152
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:218
-#: src/Core/Operations/Loader.php:141
+#: includes/class-wp-statistics-install.php:209
+#: src/Core/Operations/Loader.php:152
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:220
-#: src/Core/Operations/Loader.php:143
+#: includes/class-wp-statistics-install.php:211
+#: src/Core/Operations/Loader.php:154
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:220
-#: src/Core/Operations/Loader.php:143
+#: includes/class-wp-statistics-install.php:211
+#: src/Core/Operations/Loader.php:154
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:236
+#: includes/class-wp-statistics-install.php:227
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:239
+#: includes/class-wp-statistics-install.php:230
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:263
+#: includes/class-wp-statistics-install.php:254
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:302
+#: includes/class-wp-statistics-install.php:293
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:313
+#: includes/class-wp-statistics-install.php:304
 msgid "Please don't close the browser window until the database operation was completed."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:315
+#: includes/class-wp-statistics-install.php:306
 msgid "Item processed"
 msgstr ""
 
@@ -6607,7 +6607,7 @@ msgid "Latest visitors, the most active in the period, and who is online now."
 msgstr ""
 
 #: src/Service/Admin/Metabox/Metaboxes/Visitors.php:202
-#: views/components/visitor-journey.php:229
+#: views/components/visitor-journey.php:235
 msgid "Latest"
 msgstr ""
 
@@ -6905,19 +6905,19 @@ msgid "%1$s &lsaquo; %2$s"
 msgstr ""
 
 #: src/Service/Admin/PageHeader/SingleHeaders.php:132
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:139
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:141
 msgid "Top Visitors"
 msgstr ""
 
 #: src/Service/Admin/PageHeader/SingleHeaders.php:133
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:147
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:149
 #: views/pages/visitor-insights/overview.php:59
 msgid "Logged-in Users"
 msgstr ""
 
 #: src/Service/Admin/PageHeader/SingleHeaders.php:138
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:67
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:96
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:98
 #: src/Service/Admin/VisitorInsights/VisitorInsightsManager.php:31
 msgid "Visitor Insights"
 msgstr ""
@@ -7074,7 +7074,7 @@ msgstr ""
 
 #: src/Service/Admin/PageInsights/Views/TabsView.php:168
 #: src/Service/Admin/PageInsights/Views/TabsView.php:177
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:159
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:161
 msgid "This report needs the Data Plus add-on."
 msgstr ""
 
@@ -7511,7 +7511,7 @@ msgid "Latest Visitors In Editor"
 msgstr ""
 
 #. translators: %s: average number of visitors per day.
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:267
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:366
 #, php-format
 msgid "about %s visitor a day"
 msgid_plural "about %s visitors a day"
@@ -7519,66 +7519,66 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of visitors.
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:271
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:370
 #, php-format
 msgid "%s visitor in the week before"
 msgid_plural "%s visitors in the week before"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:297
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:396
 msgid "Open the tracking settings"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:300
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:399
 msgid "Open the Tracker Debugger"
 msgstr ""
 
 #. translators: %1$s: site name, %2$s: date of the last recorded visit.
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:336
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:435
 #, php-format
 msgid "%1$s: No visits recorded since %2$s"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:339
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:438
 msgid "Last visit recorded"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:340
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:439
 msgid "Usual traffic"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:343
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:442
 msgid "Visits have stopped being recorded"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:345
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:444
 msgid "WP Statistics has not recorded a visit for a while, but your site usually gets visitors. Something may be stopping visits from being recorded, for example a cookie banner, a cache plugin or a blocked script."
 msgstr ""
 
 #. translators: %s: site name.
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:371
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:470
 #, php-format
 msgid "%s: Visits are being recorded again"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:374
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:473
 msgid "No visits recorded from"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:375
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:474
 msgid "Visits recorded again"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:378
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:477
 msgid "Visits are being recorded again"
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:380
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:479
 msgid "Good news: WP Statistics is recording visits on your site again. Visits during the gap were not recorded."
 msgstr ""
 
-#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:457
+#: src/Service/Admin/TrackerDebugger/TrackingHealth.php:556
 msgid "You get this email because \"Email me when visits stop being recorded\" is on in Statistics → Settings → Email Reports."
 msgstr ""
 
@@ -7598,11 +7598,11 @@ msgstr ""
 msgid "IP, Hash, Username, or Email"
 msgstr ""
 
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:148
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:150
 msgid "Visitors who were logged in."
 msgstr ""
 
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:157
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:159
 msgid "Search Terms"
 msgstr ""
 
@@ -7611,58 +7611,58 @@ msgid "Platform"
 msgstr ""
 
 #. translators: %s: File name.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:218
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:225
 #, php-format
 msgid "Downloaded %s"
 msgstr ""
 
 #. translators: %s: File name.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:218
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:225
 msgid "Downloaded a file"
 msgstr ""
 
 #. translators: %s: Link or button text.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:225
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:232
 #, php-format
 msgid "Clicked \"%s\""
 msgstr ""
 
 #. translators: %s: Domain.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:228
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:235
 #, php-format
 msgid "Clicked a link to %s"
 msgstr ""
 
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:230
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:237
 msgid "Clicked a link"
 msgstr ""
 
 #. translators: %s: Number of seconds.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:267
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:274
 #, php-format
 msgid "%s s"
 msgstr ""
 
 #. translators: 1: Minutes, 2: Seconds.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:276
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:283
 #, php-format
 msgid "%1$s min %2$s s"
 msgstr ""
 
 #. translators: %s: Number of minutes.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:278
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:285
 #, php-format
 msgid "%s min"
 msgstr ""
 
 #. translators: 1: Hours, 2: Minutes.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:286
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:293
 #, php-format
 msgid "%1$s h %2$s min"
 msgstr ""
 
 #. translators: %s: Number of hours.
-#: src/Service/Admin/VisitorInsights/VisitorJourney.php:288
+#: src/Service/Admin/VisitorInsights/VisitorJourney.php:295
 #, php-format
 msgid "%s h"
 msgstr ""
@@ -7797,7 +7797,7 @@ msgid "Unassigned Traffic"
 msgstr ""
 
 #. translators: %s: number of countries grouped into the "Other" row
-#: src/Service/Charts/DataProvider/CountryChartDataProvider.php:107
+#: src/Service/Charts/DataProvider/CountryChartDataProvider.php:109
 #, php-format
 msgid "Other %s country"
 msgid_plural "Other %s countries"
@@ -9881,43 +9881,49 @@ msgstr ""
 msgid "Direct visit, no referrer"
 msgstr ""
 
-#: views/components/visitor-journey.php:178
+#. translators: 1: number of page views listed, 2: page views of the visit.
+#: views/components/visitor-journey.php:180
+#, php-format
+msgid "Showing the latest %1$s of %2$s page views in this visit."
+msgstr ""
+
+#: views/components/visitor-journey.php:184
 msgid "The pages of this visit were not recorded."
 msgstr ""
 
-#: views/components/visitor-journey.php:193
+#: views/components/visitor-journey.php:199
 msgid "Open this visit"
 msgstr ""
 
-#: views/components/visitor-journey.php:216
+#: views/components/visitor-journey.php:222
 msgid "Journey"
 msgstr ""
 
-#: views/components/visitor-journey.php:217
+#: views/components/visitor-journey.php:223
 msgid "Every visit from this IP or user, newest first. Time on page runs to the next view, so exit pages have none."
 msgstr ""
 
-#: views/components/visitor-journey.php:222
+#: views/components/visitor-journey.php:228
 msgid "No pages were recorded for this visitor."
 msgstr ""
 
-#: views/components/visitor-journey.php:229
+#: views/components/visitor-journey.php:235
 msgid "This visit"
 msgstr ""
 
-#: views/components/visitor-journey.php:243
+#: views/components/visitor-journey.php:249
 msgid "Clicks and downloads show up here with Data Plus."
 msgstr ""
 
 #. translators: %s: Number of older visits.
-#: views/components/visitor-journey.php:266
+#: views/components/visitor-journey.php:272
 #, php-format
 msgid "%s older visit"
 msgid_plural "%s older visits"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/components/visitor-journey.php:268
+#: views/components/visitor-journey.php:274
 msgid "Show all"
 msgstr ""
 

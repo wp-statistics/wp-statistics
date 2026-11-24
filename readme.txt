@@ -167,6 +167,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **Fix:** Multisite: every site is set up on network activation, new and deleted sites keep their tables in step, and a new Network Admin overview.
 - **Fix:** Emails no longer fail when two are sent at once, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs while IP hashing is on, the `[wpstatistics stat=referrer]` shortcode counts again, and white label details stay hidden.
+- **Fix:** Geographic tables list "(not set)" once and their shares add up under filters, the visits stopped email skips small and long-quiet sites, the visitor journey keeps older visits, "Filter by IP" matches only that IP, and download names with `%` are read correctly.
 
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
