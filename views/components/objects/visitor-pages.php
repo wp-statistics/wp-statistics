@@ -3,9 +3,9 @@
  * Journey cell for visitor tables: where the visit started and where it ended, from data
  * the visitor row already has (entry page, exit page, number of views). No extra queries.
  *
- *  - Several pages: line 1 is a filled dot + the entry page; line 2 is a small "└" connector,
- *    the exit page and a muted " · N pages". When the visitor ended where they started,
- *    line 2 says "Back to start · N pages" instead of repeating the title.
+ *  - Several pages: line 1 is a filled dot + the entry page; line 2 is a small "└" connector
+ *    and the exit page. When the visitor ended where they started, line 2 says "Back to start"
+ *    instead of repeating the title. No page count: the Views column already shows it.
  *  - One page: one line with a hollow dot, the page and an amber "Bounced" pill (the pill
  *    only when the view count is exactly 1).
  *  - Exit not recorded: line 2 says "Not recorded" (muted).
@@ -82,9 +82,6 @@ $link = function ($page, $withQuery = false) {
 
 $campaign = !empty($entryPage['query']) ? sanitize_text_field((string)Url::getParam('?' . $entryPage['query'], 'utm_campaign')) : '';
 $notSet   = '<span class="wps-visitor-pages__none">' . esc_html__('Not recorded', 'wp-statistics') . '</span>';
-
-/* translators: %s: number of pages the visitor saw. */
-$pagesText = $viewCount > 1 ? sprintf(_n('%s page', '%s pages', $viewCount, 'wp-statistics'), number_format_i18n($viewCount)) : '';
 ?>
 <div class="wps-visitor-pages <?php echo $onePage ? 'wps-visitor-pages--single' : 'wps-visitor-pages--multi'; ?>">
     <div class="wps-visitor-pages__line wps-visitor-pages__line--entry">
@@ -119,9 +116,6 @@ $pagesText = $viewCount > 1 ? sprintf(_n('%s page', '%s pages', $viewCount, 'wp-
                 echo $notSet; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
             ?>
-            <?php if ($pagesText !== '') : ?>
-                <span class="wps-visitor-pages__count"><span aria-hidden="true">&middot; </span><?php echo esc_html($pagesText); ?></span>
-            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>

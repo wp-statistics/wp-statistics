@@ -201,8 +201,7 @@
   font-weight: 400;
 }
 
-#wpbody .wps-visitor-pages__back,
-#wpbody .wps-visitor-pages__count {
+#wpbody .wps-visitor-pages__back {
   font-size: 12px;
   line-height: 16px;
   color: $wps-text-subtle;
@@ -211,11 +210,6 @@
 
 #wpbody .wps-visitor-pages__back {
   flex: none;
-}
-
-#wpbody .wps-visitor-pages__count {
-  flex: none;
-  margin-inline-start: -2px;
 }
 
 // One page and gone: a small amber pill.
@@ -309,8 +303,7 @@
 
 @container wps-vtable (max-width: 380px) {
   #wpbody table.wps-visitor-table {
-    .wps-visitor-table__ref-inline,
-    .wps-visitor-pages__count {
+    .wps-visitor-table__ref-inline {
       display: none !important;
     }
 

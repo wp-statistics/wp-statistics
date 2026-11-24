@@ -80,7 +80,8 @@ class Test_VisitorTableView extends WP_UnitTestCase
         $this->assertStringContainsString('<span class="screen-reader-text">Exit page: </span>', $html);
         $this->assertStringContainsString('Pricing', $html);
         $this->assertStringContainsString('Cart', $html);
-        $this->assertStringContainsString('3 pages', $html);
+        $this->assertStringNotContainsString('3 pages', $html, 'no page count: the Views column has it');
+        $this->assertStringNotContainsString('wps-visitor-pages__count', $html);
         $this->assertStringNotContainsString('Bounced', $html);
         $this->assertStringNotContainsString('<svg', $html, 'no entry/exit icons any more');
         $this->assertStringContainsString('wps-ellipsis-text', $html, 'each line cuts with the title-cell ellipsis');
@@ -94,7 +95,8 @@ class Test_VisitorTableView extends WP_UnitTestCase
         $this->assertStringContainsString('wps-visitor-pages--multi', $html);
         $this->assertSame(1, substr_count($html, '>Home<'), 'the title is not repeated');
         $this->assertStringContainsString('Back to start', $html);
-        $this->assertStringContainsString('4 pages', $html);
+        $this->assertStringNotContainsString('4 pages', $html);
+        $this->assertStringNotContainsString('&middot;', $html);
         $this->assertStringNotContainsString('Bounced', $html);
     }
 
@@ -132,7 +134,7 @@ class Test_VisitorTableView extends WP_UnitTestCase
         // Exit missing with several views: second line says it was not recorded.
         $more = View::load('components/objects/visitor-pages', ['entry' => $entry, 'exit' => null, 'views' => 2], true);
         $this->assertStringContainsString('Not recorded', $more);
-        $this->assertStringContainsString('2 pages', $more);
+        $this->assertStringNotContainsString('2 pages', $more);
 
         $online = View::load('components/objects/visitor-pages', ['entry' => $this->page('A'), 'exit' => $this->page('B'), 'exit_label' => 'Current page'], true);
         $this->assertStringContainsString('<span class="screen-reader-text">Current page: </span>', $online);
