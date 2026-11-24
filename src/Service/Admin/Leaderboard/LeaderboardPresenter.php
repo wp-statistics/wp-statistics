@@ -53,47 +53,53 @@ class LeaderboardPresenter
      *
      * @param array  $leaderboard
      * @param string $postType
-     * @return array[] metric => rows (only 'views' for results without rankings).
+     * @return array[] direction (descending|ascending) => metric => rows, for components/leaderboard.
      */
     public static function authorRankings($leaderboard, $postType = '')
     {
-        $rankings = self::rankings($leaderboard);
-
-        foreach ($rankings as $metric => $rows) {
-            $rankings[$metric] = self::authorRows($rows, $postType);
-        }
-
-        return $rankings;
+        return self::mapRankings($leaderboard, function ($rows) use ($postType) {
+            return self::authorRows($rows, $postType);
+        });
     }
 
     /**
      * Term rows for every server ranking of a LeaderboardDataProvider::terms() result.
      *
      * @param array $leaderboard
-     * @return array[] metric => rows.
+     * @return array[] direction (descending|ascending) => metric => rows.
      */
     public static function termRankings($leaderboard)
     {
-        $rankings = self::rankings($leaderboard);
-
-        foreach ($rankings as $metric => $rows) {
-            $rankings[$metric] = self::termRows($rows);
-        }
-
-        return $rankings;
+        return self::mapRankings($leaderboard, [__CLASS__, 'termRows']);
     }
 
     /**
-     * @param array $leaderboard
+     * Both directions of a result's rankings, each list passed through $map. Results without
+     * rankings give the views rows only; without rankings_asc, only the descending lists.
+     *
+     * @param array    $leaderboard
+     * @param callable $map function (array[] $rows): array[].
      * @return array[]
      */
-    private static function rankings($leaderboard)
+    private static function mapRankings($leaderboard, $map)
     {
-        if (!empty($leaderboard['rankings']) && is_array($leaderboard['rankings'])) {
-            return $leaderboard['rankings'];
+        $lists = [
+            'descending' => !empty($leaderboard['rankings']) && is_array($leaderboard['rankings'])
+                ? $leaderboard['rankings']
+                : ['views' => isset($leaderboard['rows']) ? (array) $leaderboard['rows'] : []],
+        ];
+
+        if (!empty($leaderboard['rankings_asc']) && is_array($leaderboard['rankings_asc'])) {
+            $lists['ascending'] = $leaderboard['rankings_asc'];
         }
 
-        return ['views' => isset($leaderboard['rows']) ? (array) $leaderboard['rows'] : []];
+        foreach ($lists as $direction => $rankings) {
+            foreach ($rankings as $metric => $rows) {
+                $lists[$direction][$metric] = call_user_func($map, $rows);
+            }
+        }
+
+        return $lists;
     }
 
     /**

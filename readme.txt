@@ -168,7 +168,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **Fix:** Emails no longer fail when two are sent at once, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs while IP hashing is on, the `[wpstatistics stat=referrer]` shortcode counts again, and white label details stay hidden.
 - **Fix:** Geographic tables list "(not set)" once and their shares add up under filters, the visits stopped email skips small and long-quiet sites, the visitor journey keeps older visits, "Filter by IP" matches only that IP, and download names with `%` are read correctly.
-- **Fix:** One device opening the site in several tabs at the start of a day counts as one online visitor, and Top Authors and Top Categories rank by Views, Posts or Per post on the server with the same numbers as the full reports.
+- **Fix:** One device opening the site in several tabs at the start of a day counts as one online visitor, and Top Authors and Top Categories rank by Views, Posts, Per post or Comments on the server, high to low or low to high, with the same numbers as the full reports.
 
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.

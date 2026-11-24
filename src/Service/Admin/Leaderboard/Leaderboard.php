@@ -17,8 +17,19 @@ class Leaderboard
 
     /**
      * The metrics a leaderboard can be ranked by on the server (the sortable column headers).
+     * Comments joins them when the content takes comments (LeaderboardDataProvider).
      */
     const RANKINGS = ['views', 'published', 'views_per_post'];
+
+    /**
+     * Every metric a header can rank by, including the optional Comments column.
+     */
+    const SORTABLE = ['views', 'published', 'views_per_post', 'comments'];
+
+    /**
+     * Sort directions, as in aria-sort. The first click on a header gives the first one.
+     */
+    const DIRECTIONS = ['descending', 'ascending'];
 
     /**
      * Views per post = views / posts published in the range, the same as the Authors and

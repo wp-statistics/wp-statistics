@@ -9058,14 +9058,6 @@ msgstr ""
 msgid "Not recorded"
 msgstr ""
 
-#. translators: %s: number of pages the visitor saw.
-#: views/components/objects/visitor-pages.php:87
-#, php-format
-msgid "%s page"
-msgid_plural "%s pages"
-msgstr[0] ""
-msgstr[1] ""
-
 #: views/components/objects/visitor-pages.php:102
 msgid "Campaign:"
 msgstr ""

@@ -13,8 +13,12 @@ use WP_Statistics\Models\TaxonomyModel;
  *
  * Each method returns:
  *  - rows            Leaderboard::buildRows() rows, ranked by views (the default view).
- *  - rankings        Leaderboard::RANKINGS key => rows ranked on the server by that metric (top N each),
- *                    so a click on the Posts or Per post header shows the real top N, not the same rows re-ordered.
+ *  - rankings        Metric => rows ranked on the server by that metric, high to low (top N each), so a click
+ *                    on the Posts or Per post header shows the real top N, not the same rows re-ordered.
+ *                    Metrics: Leaderboard::RANKINGS, plus comments when the content takes comments.
+ *  - rankings_asc    The same metrics ranked low to high (bottom N each), for the second click on a header.
+ *                    Only authors/terms with views or a published post in the range are ranked, so the
+ *                    lowest are the least active of those, not everyone who did nothing in the range.
  *  - columns         Leaderboard::columns() flags.
  *  - published_total Posts published in the range (for the "N posts published" line).
  *  - post_type       The post type(s) the numbers cover.
@@ -32,22 +36,23 @@ class LeaderboardDataProvider
         $args  = self::limitPostTypes($args, Helper::get_list_post_type());
         $model = new AuthorsModel();
 
-        $ranked = [];
-        foreach (Leaderboard::RANKINGS as $metric) {
-            $ranked[$metric] = $model->getAuthorsLeaderboard(array_merge($args, ['order_by' => $metric]));
-        }
-
         $supportsComments = self::supportsComments($args['post_type']);
-        $comments         = $supportsComments ? $model->countCommentsByAuthors(self::ids($ranked, 'id'), $args) : [];
+        $ranked           = self::rank(function ($queryArgs) use ($model) {
+            return $model->getAuthorsLeaderboard($queryArgs);
+        }, $args, $supportsComments);
+
+        $comments = $supportsComments ? $model->countCommentsByAuthors(self::ids($ranked, 'id'), $args) : [];
 
         $rankings = [];
-        foreach ($ranked as $metric => $list) {
-            $rows = Leaderboard::buildRows($list, ['id' => 'id', 'name' => 'name'], [], $comments);
+        foreach ($ranked as $direction => $lists) {
+            foreach ($lists as $metric => $list) {
+                $rows = Leaderboard::buildRows($list, ['id' => 'id', 'name' => 'name'], [], $comments);
 
-            // Two authors with the same display name: show their @username.
-            $rankings[$metric] = Leaderboard::disambiguate($rows, function ($row) {
-                return ['slug' => !empty($row['raw']['nicename']) ? '@' . $row['raw']['nicename'] : ''];
-            });
+                // Two authors with the same display name: show their @username.
+                $rankings[$direction][$metric] = Leaderboard::disambiguate($rows, function ($row) {
+                    return ['slug' => !empty($row['raw']['nicename']) ? '@' . $row['raw']['nicename'] : ''];
+                });
+            }
         }
 
         return self::result($rankings, $supportsComments, $args);
@@ -62,25 +67,54 @@ class LeaderboardDataProvider
         $args  = self::limitPostTypes($args, Helper::getPostTypes());
         $model = new TaxonomyModel();
 
-        $ranked = [];
-        foreach (Leaderboard::RANKINGS as $metric) {
-            $ranked[$metric] = $model->getTermsLeaderboard(array_merge($args, ['order_by' => $metric]));
-        }
-
         $supportsComments = self::supportsComments($args['post_type']);
-        $comments         = $supportsComments ? $model->countCommentsByTerms(self::ids($ranked, 'term_taxonomy_id'), $args) : [];
+        $ranked           = self::rank(function ($queryArgs) use ($model) {
+            return $model->getTermsLeaderboard($queryArgs);
+        }, $args, $supportsComments);
+
+        $comments = $supportsComments ? $model->countCommentsByTerms(self::ids($ranked, 'term_taxonomy_id'), $args) : [];
 
         $rankings = [];
-        foreach ($ranked as $metric => $list) {
-            $rows               = Leaderboard::buildRows($list, ['id' => 'term_id', 'name' => 'term_name', 'count_key' => 'term_taxonomy_id'], [], $comments);
-            $rankings[$metric] = Leaderboard::disambiguate($rows, [__CLASS__, 'termContext']);
+        foreach ($ranked as $direction => $lists) {
+            foreach ($lists as $metric => $list) {
+                $rows                          = Leaderboard::buildRows($list, ['id' => 'term_id', 'name' => 'term_name', 'count_key' => 'term_taxonomy_id'], [], $comments);
+                $rankings[$direction][$metric] = Leaderboard::disambiguate($rows, [__CLASS__, 'termContext']);
+            }
         }
 
         return self::result($rankings, $supportsComments, $args);
     }
 
     /**
-     * @param array[] $rankings metric => rows.
+     * One query per sortable metric and direction.
+     *
+     * @param callable $query            function (array $args): object[] ranked rows.
+     * @param array    $args
+     * @param bool     $supportsComments Rank by comments too.
+     * @return array[] direction (descending|ascending) => metric => query rows.
+     */
+    private static function rank($query, $args, $supportsComments)
+    {
+        $metrics = Leaderboard::RANKINGS;
+        if ($supportsComments) {
+            $metrics[] = 'comments';
+        }
+
+        $ranked = [];
+        foreach (Leaderboard::DIRECTIONS as $direction) {
+            foreach ($metrics as $metric) {
+                $ranked[$direction][$metric] = call_user_func($query, array_merge($args, [
+                    'order_by' => $metric,
+                    'order'    => $direction === 'ascending' ? 'ASC' : 'DESC',
+                ]));
+            }
+        }
+
+        return $ranked;
+    }
+
+    /**
+     * @param array[] $rankings direction => metric => rows.
      * @param bool    $supportsComments
      * @param array   $args
      * @return array
@@ -88,13 +122,16 @@ class LeaderboardDataProvider
     private static function result($rankings, $supportsComments, $args)
     {
         $all = [];
-        foreach ($rankings as $rows) {
-            $all = array_merge($all, $rows);
+        foreach ($rankings as $lists) {
+            foreach ($lists as $rows) {
+                $all = array_merge($all, $rows);
+            }
         }
 
         return [
-            'rows'            => $rankings['views'],
-            'rankings'        => $rankings,
+            'rows'            => $rankings['descending']['views'],
+            'rankings'        => $rankings['descending'],
+            'rankings_asc'    => $rankings['ascending'],
             'columns'         => Leaderboard::columns($all, ['comments' => $supportsComments]),
             'published_total' => (int) (new PostsModel())->countPosts(self::countArgs($args)),
             'post_type'       => $args['post_type'],
@@ -104,7 +141,7 @@ class LeaderboardDataProvider
     /**
      * Distinct ids across every ranking, for the side counts.
      *
-     * @param array[] $ranked metric => query rows.
+     * @param array[] $ranked direction => metric => query rows.
      * @param string  $field
      * @return int[]
      */
@@ -112,9 +149,11 @@ class LeaderboardDataProvider
     {
         $ids = [];
 
-        foreach ($ranked as $list) {
-            foreach ((array) $list as $row) {
-                $ids[] = (int) ((array) $row)[$field];
+        foreach ($ranked as $lists) {
+            foreach ($lists as $list) {
+                foreach ((array) $list as $row) {
+                    $ids[] = (int) ((array) $row)[$field];
+                }
             }
         }
 

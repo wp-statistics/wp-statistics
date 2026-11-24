@@ -293,10 +293,15 @@ class AuthorsModel extends BaseModel
      *  - views:          views in the range of the author's published content (any publish date);
      *  - published:      posts published in the range ("Posts");
      *  - views_per_post: views / posts published in the range (NULL when nothing was published).
-     * An author is listed when they have views or a published post in the range. Ties fall back to views.
+     *  - comments:       approved comments written in the range on the author's published content.
+     * An author is listed when they have views or a published post in the range, in both directions,
+     * so ascending ("lowest first") ranks the active authors and never fills up with authors who did
+     * nothing in the range. Ties fall back to views, in the same direction. A missing Per post (nothing
+     * published) counts as the lowest value, the "0" the table shows.
      *
-     * @param array $args date, post_type, taxonomy, term, order_by (views|published|views_per_post), page, per_page.
-     * @return object[] id, name, nicename, views, posts_with_views, published, views_per_post.
+     * @param array $args date, post_type, taxonomy, term, order_by (views|published|views_per_post|comments),
+     *                    order (DESC|ASC), page, per_page.
+     * @return object[] id, name, nicename, views, posts_with_views, published, views_per_post (+ comments when ranked by it).
      */
     public function getAuthorsLeaderboard($args = [])
     {
@@ -311,7 +316,8 @@ class AuthorsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post'], true) ? $args['order_by'] : 'views';
+        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post', 'comments'], true) ? $args['order_by'] : 'views';
+        $order   = strtoupper((string) $args['order']) === 'ASC' ? 'ASC' : 'DESC';
 
         $viewsQuery = Query::select([
                 'posts.post_author AS author_id',
@@ -344,21 +350,48 @@ class AuthorsModel extends BaseModel
             ->where('posts.post_type', 'IN', $args['post_type'])
             ->getQuery();
 
-        $query = Query::select([
-                'users.ID AS id',
-                'users.display_name AS name',
-                'users.user_nicename AS nicename',
-                'COALESCE(author_views.views, 0) AS views',
-                'COALESCE(author_views.posts_with_views, 0) AS posts_with_views',
-                'COALESCE(author_published.published, 0) AS published',
-                'COALESCE(author_views.views, 0) / NULLIF(author_published.published, 0) AS views_per_post'
-            ])
+        $fields = [
+            'users.ID AS id',
+            'users.display_name AS name',
+            'users.user_nicename AS nicename',
+            'COALESCE(author_views.views, 0) AS views',
+            'COALESCE(author_views.posts_with_views, 0) AS posts_with_views',
+            'COALESCE(author_published.published, 0) AS published',
+            'COALESCE(author_views.views, 0) / NULLIF(author_published.published, 0) AS views_per_post'
+        ];
+
+        // Comments are only joined when they are the ranking; other rankings get them from countCommentsByAuthors().
+        $commentsQuery = null;
+        if ($orderBy === 'comments') {
+            $fields[]      = 'COALESCE(author_comments.comments, 0) AS comments';
+            $commentsQuery = Query::select([
+                    'posts.post_author AS author_id',
+                    'COUNT(comments.comment_ID) AS comments'
+                ])
+                ->from('comments')
+                ->join('posts', ['comments.comment_post_ID', 'posts.ID'])
+                ->where('posts.post_status', '=', 'publish')
+                ->where('posts.post_type', 'IN', $args['post_type'])
+                ->where('comments.comment_approved', '=', '1')
+                ->where('comments.comment_type', '=', 'comment')
+                ->whereDate('comments.comment_date', $args['date'])
+                ->groupBy('posts.post_author');
+            $this->joinTermFilter($commentsQuery, $args);
+        }
+
+        $query = Query::select($fields)
             ->fromQuery($authorsQuery, 'authors')
             ->join('users', ['authors.post_author', 'users.ID'])
             ->joinQuery($viewsQuery->getQuery(), ['users.ID', 'author_views.author_id'], 'author_views', 'LEFT')
-            ->joinQuery($publishedQuery->getQuery(), ['users.ID', 'author_published.author_id'], 'author_published', 'LEFT')
-            ->whereRaw('(author_views.author_id IS NOT NULL OR author_published.author_id IS NOT NULL)')
-            ->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], 'DESC')
+            ->joinQuery($publishedQuery->getQuery(), ['users.ID', 'author_published.author_id'], 'author_published', 'LEFT');
+
+        if ($commentsQuery) {
+            $query->joinQuery($commentsQuery->getQuery(), ['users.ID', 'author_comments.author_id'], 'author_comments', 'LEFT');
+        }
+
+        $query->whereRaw('(author_views.author_id IS NOT NULL OR author_published.author_id IS NOT NULL)');
+
+        $query->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], $order)
             ->perPage($args['page'], $args['per_page']);
 
         $this->allowCachingForPastRange($query, $args['date']);
