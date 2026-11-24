@@ -31,6 +31,11 @@ use WP_Statistics\Decorators\VisitorDecorator;
  * the IP only when "Hash IP Addresses" is off and the stored value is a real IP (VisitorDecorator::isIpVisible(),
  * so rows saved before hashing was switched on stay hidden too); email and role only for people who can list users.
  * The single visitor header and profile use the same two methods.
+ *
+ * Online now: when the visitor is online (VisitorDecorator::isOnline(), same window as the Online
+ * Visitors report), the status slot gets a green dot on its corner (span.wps-visitor-info__online)
+ * with the hover text "Online now · on <page>", and the pill's accessible name says it too.
+ * The dot uses logical properties, so it sits on the other corner in RTL.
  */
 
 /** @var VisitorDecorator $visitor */
@@ -71,6 +76,10 @@ $canSeeUsers  = current_user_can('list_users');
 
 // Fifth pill slot: login status only (logged-in user or anonymous visitor).
 $status = $user ? 'user' : 'anonymous';
+
+// Online now marker on the status slot.
+$isOnline    = $visitor->isOnline();
+$onlineLabel = $isOnline ? $visitor->getOnlineLabel() : '';
 
 // Card text.
 $placeText = implode(', ', array_unique(array_filter([
@@ -114,6 +123,9 @@ if ($status === 'user') {
 } else {
     $labelParts[] = __('Anonymous Visitor', 'wp-statistics');
 }
+if ($isOnline) {
+    $labelParts[] = $onlineLabel;
+}
 if (!$ipVisible || $isAnonymized) {
     $labelParts[] = $isAnonymized ? __('IP anonymized', 'wp-statistics') : __('IP hidden', 'wp-statistics');
 }
@@ -155,7 +167,7 @@ $statusIcon = function ($type, $width = 14) {
 };
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $svg() returns static SVG markup.
 ?>
-<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?>" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card>
+<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?><?php echo $isOnline ? ' wps-visitor-info--online' : ''; ?>" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card>
     <li class="wps-visitor__information wps-visitor-info__slot wps-visitor-info__slot--country" role="none">
         <span>
             <?php if ($isUnknown) : ?>
@@ -179,8 +191,11 @@ $statusIcon = function ($type, $width = 14) {
     </li>
 
     <?php if ($status) : ?>
-        <li class="wps-visitor__information wps-visitor-info__slot wps-visitor-info__slot--status wps-visitor-info__slot--<?php echo esc_attr($status) ?>" role="none">
+        <li class="wps-visitor__information wps-visitor-info__slot wps-visitor-info__slot--status wps-visitor-info__slot--<?php echo esc_attr($status) ?>" role="none"<?php echo $isOnline ? ' title="' . esc_attr($onlineLabel) . '"' : ''; ?>>
             <span><?php echo $statusIcon($status); ?></span>
+            <?php if ($isOnline) : ?>
+                <span class="wps-visitor-info__online"><span class="screen-reader-text"><?php echo esc_html($onlineLabel); ?></span></span>
+            <?php endif; ?>
         </li>
     <?php endif; ?>
 

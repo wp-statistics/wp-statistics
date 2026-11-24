@@ -7,6 +7,8 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Utils\Query;
 
 class VisitorDecorator
 {
@@ -14,6 +16,21 @@ class VisitorDecorator
      * @var mixed
      */
     private $visitor;
+
+    /**
+     * last_counter / last_view / last_page loaded by primeOnlineStatus() for rows whose query
+     * did not select last_view. Null = not loaded, false = the visitor is not online.
+     *
+     * @var object|false|null
+     */
+    private $onlineRow = null;
+
+    /**
+     * Memoized getLastPage() result, so the pill tooltip and the journey cell share one lookup.
+     *
+     * @var array|null|false
+     */
+    private $lastPage = false;
 
     /**
      * VisitorDecorator constructor.
@@ -481,7 +498,115 @@ class VisitorDecorator
      */
     public function getLastPage()
     {
-        return $this->visitor->last_page ? Visitor::get_page_by_id($this->visitor->last_page) : null;
+        if ($this->lastPage === false) {
+            $lastPage = $this->visitor->last_page ?? ($this->onlineRow->last_page ?? null);
+
+            $this->lastPage = $lastPage ? Visitor::get_page_by_id($lastPage) : null;
+        }
+
+        return $this->lastPage;
+    }
+
+    /**
+     * Whether the visitor is online now: the row is from today and its last view is inside the
+     * online window (OnlineModel, filter `wp_statistics_online_visitors_timeframe`, 5 minutes by default).
+     * Uses the row's own columns; rows from a query without last_view need primeOnlineStatus() first,
+     * otherwise they count as offline (no query per row).
+     *
+     * @param array|null $timeframe Optional ['from' => ..., 'to' => ...] window (OnlineModel::getTimeframe()),
+     *                              so a table can compute it once for all its rows.
+     * @return bool
+     */
+    public function isOnline($timeframe = null)
+    {
+        if (property_exists($this->visitor, 'last_view')) {
+            $row = $this->visitor;
+        } elseif (is_object($this->onlineRow)) {
+            $row = $this->onlineRow;
+        } else {
+            return false;
+        }
+
+        if (empty($row->last_view)) {
+            return false;
+        }
+
+        if (!empty($row->last_counter) && substr((string)$row->last_counter, 0, 10) !== DateTime::get()) {
+            return false;
+        }
+
+        if (!is_array($timeframe) || empty($timeframe['from']) || empty($timeframe['to'])) {
+            $timeframe = (new OnlineModel())->getTimeframe();
+        }
+
+        $lastView = (string)$row->last_view;
+
+        return $lastView >= $timeframe['from'] && $lastView <= $timeframe['to'];
+    }
+
+    /**
+     * Loads the online columns, in one query, for the rows whose list query did not select last_view
+     * (e.g. add-on tables), so isOnline() works for them without a query per row.
+     * Rows that already carry last_view are skipped; when all do, nothing runs.
+     *
+     * @param VisitorDecorator[] $visitors
+     * @return void
+     */
+    public static function primeOnlineStatus($visitors)
+    {
+        $pending = [];
+        foreach ((array)$visitors as $visitor) {
+            if (!$visitor instanceof self || !is_object($visitor->visitor) || property_exists($visitor->visitor, 'last_view') || $visitor->onlineRow !== null) {
+                continue;
+            }
+
+            $id = intval($visitor->getId());
+            if ($id > 0) {
+                $pending[$id][] = $visitor;
+            }
+        }
+
+        if (empty($pending)) {
+            return;
+        }
+
+        $timeframe = (new OnlineModel())->getTimeframe();
+        $rows      = Query::select(['ID', 'last_counter', 'last_view', 'last_page'])
+            ->from('visitor')
+            ->where('ID', 'IN', array_keys($pending))
+            ->where('last_counter', '=', DateTime::get())
+            ->whereDate('last_view', $timeframe)
+            ->getAll();
+
+        $online = [];
+        foreach ((array)$rows as $row) {
+            $online[intval($row->ID)] = $row;
+        }
+
+        foreach ($pending as $id => $list) {
+            foreach ($list as $visitor) {
+                $visitor->onlineRow = $online[$id] ?? false;
+            }
+        }
+    }
+
+    /**
+     * Hover and screen reader text of the online marker: "Online now · on <last page title>",
+     * or "Online now" when the page is not known.
+     *
+     * @return string Plain text (not escaped).
+     */
+    public function getOnlineLabel()
+    {
+        $page  = $this->getLastPage();
+        $title = !empty($page['title']) ? wp_strip_all_tags((string)$page['title']) : '';
+
+        if ($title === '') {
+            return __('Online now', 'wp-statistics');
+        }
+
+        /* translators: %s: Title of the page the visitor is on now. */
+        return sprintf(__('Online now · on %s', 'wp-statistics'), $title);
     }
 
     /**
