@@ -76,7 +76,7 @@ class VisitorProvider extends AbstractDebuggerProvider
      * from one where tracking stopped. Dates are in the site's timezone, as WP Statistics
      * stores them.
      *
-     * @return array{last_visit: string|null, seconds_since: int|null, visitors_24h: int, visitors_week_before: int|null, error: bool}
+     * @return array{last_visit: string|null, seconds_since: int|null, visitors_24h: int, visitors_week_before: int|null, active_days: int|null, error: bool}
      */
     public function getRecordingStatus()
     {
@@ -99,6 +99,7 @@ class VisitorProvider extends AbstractDebuggerProvider
         $failed     = $recent === null && $wpdb->last_error !== '';
         $lastVisit  = !empty($recent->last_visit) ? (string)$recent->last_visit : null;
         $weekBefore = null;
+        $activeDays = null;
 
         if ($lastVisit === null && !$failed) {
             // The latest visit by date, not by ID: imported or restored rows can have higher IDs.
@@ -139,6 +140,22 @@ class VisitorProvider extends AbstractDebuggerProvider
             } else {
                 $weekBefore = (int)$weekBeforeResult;
             }
+
+            // Days with at least one visit in the 14 days ending on the last visit: tells a site
+            // with visits every day from one with a few visits a week (read from the date index).
+            if (!$failed) {
+                $activeDaysResult = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COUNT(DISTINCT `last_counter`) FROM `{$table}` WHERE `last_counter` >= %s AND `last_counter` <= %s",
+                    gmdate('Y-m-d', strtotime($lastVisit . ' -13 days')),
+                    substr($lastVisit, 0, 10)
+                ));
+
+                if ($activeDaysResult === null && $wpdb->last_error !== '') {
+                    $failed = true;
+                } else {
+                    $activeDays = (int)$activeDaysResult;
+                }
+            }
         }
         // phpcs:enable
 
@@ -147,6 +164,7 @@ class VisitorProvider extends AbstractDebuggerProvider
             'seconds_since'        => $lastVisit ? max(0, strtotime($now) - strtotime($lastVisit)) : null,
             'visitors_24h'         => !empty($recent->visitors_24h) ? (int)$recent->visitors_24h : 0,
             'visitors_week_before' => $weekBefore,
+            'active_days'          => $activeDays,
             // A failed query is not "no visits": the card says it could not check.
             'error'                => $failed,
         ];

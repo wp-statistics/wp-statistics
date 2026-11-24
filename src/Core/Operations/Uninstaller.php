@@ -81,6 +81,7 @@ class Uninstaller extends AbstractCore
         delete_option('wp_statistics_dismissed_notices');
         delete_option('wp_statistics_tracking_health');
         delete_option('wp_statistics_tracking_health_lock');
+        delete_option('wp_statistics_tracking_health_baseline');
         delete_option('wp_statistics_dismissed_widgets');
         delete_option('wp_statistics_jobs');
         delete_option('wp_statistics_user_modals');

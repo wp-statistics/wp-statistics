@@ -13,7 +13,10 @@ use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
  * It reads the same status as the Tracker Debugger's "Visit Recording" card and uses the
  * same rule (VisitorProvider::getRecordingState()), so the alert and the card never disagree.
  * A site that never recorded a visit, or a quiet site that can go a day without one, is not
- * an outage. When the check could not read the visitor table, it does nothing.
+ * an outage. The email also needs steady traffic before the last visit and a silence longer
+ * than the site's usual gap (see shouldAlert()), and is never sent before the check has once
+ * seen a recent visit (see BASELINE_OPTION). When the check could not read the visitor table,
+ * it does nothing.
  *
  * One email when visits stop, one when they come back, never more per outage. While visits
  * are stopped, WP Statistics screens show a notice that can be dismissed for this outage.
@@ -52,6 +55,28 @@ class TrackingHealth
      * Short-lived option that keeps two overlapping checks from both sending the email.
      */
     const LOCK_OPTION = 'wp_statistics_tracking_health_lock';
+
+    /**
+     * Set the first time a check sees a visit in the baseline window. Until then nothing is sent,
+     * so the first check after an update or activation never alerts about a site that has been
+     * quiet for a long time. Removed on deactivation.
+     */
+    const BASELINE_OPTION = 'wp_statistics_tracking_health_baseline';
+
+    /**
+     * Days looked at to decide whether the site has steady traffic.
+     */
+    const BASELINE_DAYS = 14;
+
+    /**
+     * Steady traffic: visits on at least this many of the BASELINE_DAYS days...
+     */
+    const STEADY_ACTIVE_DAYS = 10;
+
+    /**
+     * ...or at least this many visitors a day on average in the week before the last visit.
+     */
+    const STEADY_VISITORS_PER_DAY = 5;
 
     /**
      * Whether the alert is on. On by default, also for sites that never saved the setting.
@@ -149,11 +174,17 @@ class TrackingHealth
             delete_option(self::STATE_OPTION);
         }
 
+        $hasBaseline = self::updateBaseline($status);
+
         if ($recordingState === 'stopped') {
-            // add_option() only succeeds for one of two overlapping checks, so only one of them
-            // records the outage; the other one leaves the email to it.
-            self::claimOutage($status);
-            self::sendStoppedEmail();
+            // Only a site with steady traffic, silent for longer than its usual gap, is an outage.
+            // An outage that is already open stays open (and is emailed once) until visits come back.
+            if (self::isStopped() || ($hasBaseline && self::shouldAlert($status))) {
+                // add_option() only succeeds for one of two overlapping checks, so only one of them
+                // records the outage; the other one leaves the email to it.
+                self::claimOutage($status);
+                self::sendStoppedEmail();
+            }
 
             return $recordingState;
         }
@@ -171,6 +202,74 @@ class TrackingHealth
         }
 
         return $recordingState;
+    }
+
+    /**
+     * Whether a "stopped" status is worth an email: the site had steady traffic before the last
+     * visit, and the silence is longer than its usual gap between visits.
+     *
+     * - Steady: visits on most of the last BASELINE_DAYS days, or STEADY_VISITORS_PER_DAY a day on
+     *   average. A small blog with 3 visits a week never gets the alert.
+     * - Usual gap: BASELINE_DAYS / active days. The alert waits twice that, less one day, and at
+     *   least one day (a site with visits every day: 1 day; on 7 of 14 days: 3 days).
+     *
+     * @param array $status Result of VisitorProvider::getRecordingStatus().
+     * @return bool
+     */
+    public static function shouldAlert($status)
+    {
+        if (VisitorProvider::getRecordingState($status) !== 'stopped') {
+            return false;
+        }
+
+        $activeDays = isset($status['active_days']) && is_numeric($status['active_days']) ? (int)$status['active_days'] : null;
+        $perDay     = isset($status['visitors_week_before']) && is_numeric($status['visitors_week_before']) ? (float)$status['visitors_week_before'] / 7 : 0;
+
+        $steady = ($activeDays !== null && $activeDays >= self::STEADY_ACTIVE_DAYS) || $perDay >= self::STEADY_VISITORS_PER_DAY;
+
+        if (!$steady) {
+            return false;
+        }
+
+        $gapDays = $activeDays ? self::BASELINE_DAYS / max(1, min(self::BASELINE_DAYS, $activeDays)) : 1;
+        $window  = max(1, (int)ceil(2 * $gapDays - 1)) * DAY_IN_SECONDS;
+
+        return (int)$status['seconds_since'] > $window;
+    }
+
+    /**
+     * Record that the check has seen the site with a visit in the last BASELINE_DAYS days.
+     *
+     * @param array $status
+     * @return bool Whether the baseline is (now) established.
+     */
+    private static function updateBaseline($status)
+    {
+        if (get_option(self::BASELINE_OPTION, false)) {
+            return true;
+        }
+
+        $recent = !empty($status['last_visit'])
+            && isset($status['seconds_since'])
+            && (int)$status['seconds_since'] <= self::BASELINE_DAYS * DAY_IN_SECONDS;
+
+        if (!$recent) {
+            return false;
+        }
+
+        update_option(self::BASELINE_OPTION, time(), false);
+
+        return true;
+    }
+
+    /**
+     * Forget the baseline, so the next check after activation starts fresh.
+     *
+     * @return void
+     */
+    public static function resetBaseline()
+    {
+        delete_option(self::BASELINE_OPTION);
     }
 
     /**

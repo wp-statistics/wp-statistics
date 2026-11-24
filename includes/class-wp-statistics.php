@@ -359,6 +359,7 @@ final class WP_Statistics
             foreach ($siteIds as $siteId) {
                 switch_to_blog($siteId);
                 wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
+                delete_option('wp_statistics_tracking_health_baseline');
                 restore_current_blog();
             }
 
@@ -366,6 +367,7 @@ final class WP_Statistics
         }
 
         wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
+        delete_option('wp_statistics_tracking_health_baseline');
     }
 
     /**
