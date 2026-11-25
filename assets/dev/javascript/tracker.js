@@ -83,7 +83,18 @@ function handleWpConsentApiIntegration() {
     // statistics-anonymous allowed. The page was already counted with full consent, so the reload must not
     // count it again under a new, anonymous visitor. Later pages are counted anonymously.
     const downgradeKey = 'wp_statistics_consent_downgrade';
-    const currentPath = () => window.location.pathname;
+    // Page identity: path plus query string (sites with ?p=10 links), without the parameter Complianz adds
+    // to force a reload in Firefox.
+    const pageKey = href => {
+        try {
+            const url = new URL(href, window.location.href);
+            url.searchParams.delete('cmplz-force-reload');
+            return url.pathname + url.search;
+        } catch (e) {
+            return '';
+        }
+    };
+    const currentPath = () => pageKey(window.location.href);
 
     const rememberDowngrade = () => {
         try {
@@ -112,7 +123,7 @@ function handleWpConsentApiIntegration() {
             : null;
         let referrerPath = '';
         try {
-            referrerPath = document.referrer ? new URL(document.referrer).pathname : '';
+            referrerPath = document.referrer ? pageKey(document.referrer) : '';
         } catch (e) {
             referrerPath = '';
         }
