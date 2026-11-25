@@ -35,7 +35,8 @@ if (!window.WpStatisticsUserTracker) {
         // Flag to track hit request status
         hitRequestSuccessful: true,
 
-        init: function () {
+        // options.skipCurrentPage: start tracking for later pages only, because this page is already counted.
+        init: function (options) {
             const wasTrackingEnabled = this.isTrackingEnabled;
             this.isTrackingEnabled = true;
 
@@ -58,7 +59,7 @@ if (!window.WpStatisticsUserTracker) {
 
             if (typeof WP_Statistics_Tracker_Object == "undefined") {
                 console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/assets/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
-            } else {
+            } else if (!(options && options.skipCurrentPage)) {
                 this.checkHitRequestConditions();
             }
 
@@ -114,6 +115,14 @@ if (!window.WpStatisticsUserTracker) {
             this.pendingHit = null;
             this.isRestoringPendingHit = false;
             this.checkHitRequestConditions(pendingHit.trackerObject, pendingHit.pageUri);
+        },
+
+        // True while the current page change is still waiting for its hit. Older page changes do not count:
+        // the page the visitor is on now may already be counted.
+        hasPendingHit: function () {
+            const current = this.urlChangeGeneration;
+            return !!(this.pendingUrlChangeGenerations || {})[current]
+                || (!!this.pendingHit && this.pendingHit.generation === current);
         },
 
         // Sending Hit Request

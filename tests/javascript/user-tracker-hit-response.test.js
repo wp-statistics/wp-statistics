@@ -31,6 +31,7 @@ function loadTracker(file) {
         history: {pushState() {}, replaceState() {}},
         navigator: {},
         document: {
+            readyState: 'loading',
             referrer: '',
             cookie: '',
             addEventListener() {},

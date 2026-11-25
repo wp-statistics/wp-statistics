@@ -19,7 +19,7 @@ function loadEventTracker(file, {downloadQueryKeys = ['protected_download', 'dow
         URLSearchParams,
         history: {pushState() {}, replaceState() {}},
         navigator: {},
-        document: {referrer: '', cookie: '', addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; }, getElementById() { return null; }},
+        document: {readyState: 'loading', referrer: '', cookie: '', addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; }, getElementById() { return null; }},
         console: {log() {}, warn() {}, error() {}},
         setTimeout() {},
         clearTimeout() {},
@@ -108,18 +108,20 @@ for (const file of trackerFiles) {
         // "Q3%20report.pdf" is the real name; searchParams.get() returns it already decoded once
         const doubled = classify(tracker, 'https://site.test/?file=Q3%2520report.pdf');
         assert.equal(doubled.en, 'file_download');
-        assert.equal(doubled.fn, 'Q3%20report');
+        assert.equal(doubled.fnr, 'Q3%20report', 'exact name for Data Plus 2.9.0+');
         // "100%.pdf" would throw on a second decode
         const percent = classify(tracker, 'https://site.test/?file=100%25.pdf');
         assert.equal(percent.en, 'file_download');
-        assert.equal(percent.fn, '100%');
+        assert.equal(percent.fnr, '100%', 'exact name for Data Plus 2.9.0+');
     });
 
     test(`${file}: paths are decoded once and malformed encoding is kept`, () => {
         const tracker = loadEventTracker(file);
-        assert.equal(classify(tracker, 'https://site.test/files/Q3%2520report.pdf').fn, 'Q3%20report');
-        assert.equal(classify(tracker, 'https://site.test/files/100%25.pdf').fn, '100%');
-        assert.equal(classify(tracker, 'https://site.test/files/100%.pdf').fn, '100%');
+        assert.equal(classify(tracker, 'https://site.test/files/Q3%2520report.pdf').fnr, 'Q3%20report');
+        assert.equal(classify(tracker, 'https://site.test/files/100%25.pdf').fnr, '100%');
+        assert.equal(classify(tracker, 'https://site.test/files/100%.pdf').fnr, '100%');
+        // Older Data Plus reads `fn`, which carries no % so its name check accepts it.
+        assert.ok(!classify(tracker, 'https://site.test/files/100%.pdf').fn.includes('%'));
     });
 
     test(`${file}: javascript links are not tracked`, () => {

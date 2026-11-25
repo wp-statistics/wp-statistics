@@ -145,7 +145,7 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 25. Optimization: Clean old data and keep your database small.
 
 == Changelog ==
-= 14.17.0 - 2026-11-24 =
+= 14.17.0 - 2026-11-25 =
 Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
 - **New:** Visitors card on the Overview with a green dot for online visitors, a visitor card and a visitor journey page.
@@ -159,8 +159,11 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 - **Fix:** Multisite sets up every site on activation, keeps site tables in step and works on WordPress 6.6.
 - **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)) and file names with %.
 - **Fix:** Any cookie plugin that supports WP Consent API works, no visit is counted before the banner is ready, and the consent setting no longer switches itself off.
+- **Fix:** CookieYes through WP Consent API respects Reject, and Real Cookie Banner's free version is supported.
+- **Fix:** Borlabs Cookie consent is checked before tracking, and withdrawing consent in Complianz no longer counts the page twice.
 - **Fix:** Hits are no longer lost when a visitor opens several tabs at once, and login page visits keep their address.
 - **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
+- **Fix:** Visits are counted when a cookie plugin like Borlabs Cookie loads the tracker after consent; no false low-memory warning when PHP has no memory limit.
 - **Fix:** Emails no longer fail when sent together, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs with IP hashing on; the referrer shortcode counts again.
 

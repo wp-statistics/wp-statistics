@@ -5,6 +5,7 @@ namespace WP_Statistics\Tests\Integrations;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
 use WP_UnitTestCase;
 
@@ -21,6 +22,10 @@ class Test_RealCookieBannerIntegration extends WP_UnitTestCase
     {
         unset($GLOBALS['wp_statistics_test_rcb_services']);
         Option::update('hash_ips', true);
+        Option::update('consent_integration', '');
+        update_option('active_plugins', []);
+        wp_deregister_script('real-cookie-banner-banner');
+        wp_deregister_script('real-cookie-banner-pro-banner');
         parent::tearDown();
     }
 
@@ -83,5 +88,40 @@ class Test_RealCookieBannerIntegration extends WP_UnitTestCase
         $GLOBALS['wp_statistics_test_rcb_services'] = ['wp-statistics' => true, 'wp-statistics-with-data-processing' => true];
 
         $this->assertFalse((new RealCookieBanner())->trackAnonymously());
+    }
+
+    public function test_free_version_is_detected_and_used_by_the_tracker()
+    {
+        update_option('active_plugins', ['real-cookie-banner/index.php']);
+        wp_register_script('real-cookie-banner-banner', 'https://example.test/banner.lite.js');
+
+        $integration = new RealCookieBanner();
+        $this->assertTrue($integration->isActive());
+        $this->assertTrue($integration->isSelectable());
+        $this->assertSame('real-cookie-banner/index.php', $integration->getPath());
+        $this->assertSame(['real-cookie-banner-banner'], $integration->getJsHandles());
+
+        // A saved choice works with the free version, so the tracker asks for consent.
+        Option::update('consent_integration', 'real_cookie_banner');
+        $this->assertTrue(IntegrationHelper::isIntegrationActive('real_cookie_banner'));
+        $this->assertSame('real_cookie_banner', IntegrationHelper::getIntegrationStatus()['name']);
+    }
+
+    public function test_pro_version_is_preferred_when_both_are_active()
+    {
+        update_option('active_plugins', ['real-cookie-banner/index.php', 'real-cookie-banner-pro/index.php']);
+        wp_register_script('real-cookie-banner-pro-banner', 'https://example.test/banner.pro.js');
+
+        $integration = new RealCookieBanner();
+        $this->assertSame('real-cookie-banner-pro/index.php', $integration->getPath());
+        $this->assertSame(['real-cookie-banner-pro-banner'], $integration->getJsHandles());
+    }
+
+    public function test_tracker_does_not_depend_on_a_missing_banner_script()
+    {
+        // WordPress would drop the tracker if one of its dependencies is not registered.
+        update_option('active_plugins', ['real-cookie-banner/index.php']);
+
+        $this->assertSame([], (new RealCookieBanner())->getJsHandles());
     }
 }

@@ -18,6 +18,7 @@ function loadCookieYesTracker(file, cookie, extra = {}) {
     const context = {
         document: {
             cookie,
+            readyState: 'loading',
             prerendering: false,
             addEventListener(type, callback) {
                 (listeners[type] ||= []).push(callback);
