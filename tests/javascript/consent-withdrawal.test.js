@@ -44,14 +44,17 @@ function loadTracker(files, integration, options = {}) {
     };
 
     const context = {
-        location: {href: 'https://example.test/', pathname: '/', search: '', host: 'example.test'},
+        location: (() => {
+            const url = new URL(options.href || 'https://example.test/');
+            return {href: url.href, pathname: url.pathname, search: url.search, host: url.host};
+        })(),
         history: {pushState() {}, replaceState() {}},
         navigator: {},
         document: {
             cookie: '',
             readyState: options.readyState || 'loading',
             prerendering: false,
-            referrer: '',
+            referrer: options.referrer || '',
             addEventListener: addListener(documentListeners),
             getElementById() { return null; },
             querySelectorAll() { return []; },
@@ -61,6 +64,7 @@ function loadTracker(files, integration, options = {}) {
         console: {log() {}, warn() {}, error() {}},
         TextEncoder,
         URLSearchParams,
+        URL,
         XMLHttpRequest: FakeXMLHttpRequest,
         btoa: value => Buffer.from(value, 'binary').toString('base64'),
         fetch: async () => ({ok: true}),
@@ -461,6 +465,46 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         });
         later.dispatchDocument('DOMContentLoaded');
         assert.equal(later.getHits(), 1, 'the marker is used once');
+    });
+
+    // Sites with ?p= links: a different page right after the withdrawal is a new page, not the reload.
+    test(`${bundle} tracker still counts a different ?p= page after a withdrawal to anonymous`, async () => {
+        const storage = memoryStorage();
+        const first = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow',
+        });
+        first.dispatchDocument('DOMContentLoaded');
+        first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
+        first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+
+        const next = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=20', referrer: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'navigate'}]; }},
+        });
+        next.dispatchDocument('DOMContentLoaded');
+        assert.equal(next.getHits(), 1, '/?p=20 is a new page and is counted');
+    });
+
+    // Complianz reloads Firefox with a cmplz-force-reload parameter: still the same page.
+    test(`${bundle} tracker treats the Complianz Firefox reload URL as the same page`, async () => {
+        const storage = memoryStorage();
+        const first = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow',
+        });
+        first.dispatchDocument('DOMContentLoaded');
+        first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
+        first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+
+        const reloaded = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=10&cmplz-force-reload=123', referrer: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'navigate'}]; }},
+        });
+        reloaded.dispatchDocument('DOMContentLoaded');
+        assert.equal(reloaded.getHits(), 0, 'same page, not counted again');
     });
 
     test(`${bundle} tracker sends nothing more when both statistics categories are denied`, async () => {
