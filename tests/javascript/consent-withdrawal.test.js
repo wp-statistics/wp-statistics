@@ -515,7 +515,7 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
             cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow',
         });
         first.dispatchDocument('DOMContentLoaded');
-        vm.runInContext('WpStatisticsUserTracker.pendingUrlChangeGenerations = {9: true};', first.context);
+        vm.runInContext('WpStatisticsUserTracker.urlChangeGeneration = 9; WpStatisticsUserTracker.pendingUrlChangeGenerations = {9: true};', first.context);
         first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
         first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
 
@@ -526,6 +526,27 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         });
         reloaded.dispatchDocument('DOMContentLoaded');
         assert.equal(reloaded.getHits(), 1, 'no marker was written, so the reloaded page is counted');
+    });
+
+    // An older page change (/one) still pending while the current one (/two) was already counted.
+    test(`${bundle} tracker does not count the current page again when only an older page change is pending`, async () => {
+        const storage = memoryStorage();
+        const first = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/two',
+            cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow',
+        });
+        first.dispatchDocument('DOMContentLoaded');
+        vm.runInContext('WpStatisticsUserTracker.urlChangeGeneration = 2; WpStatisticsUserTracker.pendingUrlChangeGenerations = {1: true};', first.context);
+        first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
+        first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+
+        const reloaded = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/two',
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'reload'}]; }},
+        });
+        reloaded.dispatchDocument('DOMContentLoaded');
+        assert.equal(reloaded.getHits(), 0, '/two was already counted');
     });
 
     test(`${bundle} tracker sends nothing more when both statistics categories are denied`, async () => {

@@ -117,9 +117,12 @@ if (!window.WpStatisticsUserTracker) {
             this.checkHitRequestConditions(pendingHit.trackerObject, pendingHit.pageUri);
         },
 
-        // True while a page change is waiting for its hit (the tracker object is still being updated).
+        // True while the current page change is still waiting for its hit. Older page changes do not count:
+        // the page the visitor is on now may already be counted.
         hasPendingHit: function () {
-            return Object.keys(this.pendingUrlChangeGenerations || {}).length > 0 || !!this.pendingHit;
+            const current = this.urlChangeGeneration;
+            return !!(this.pendingUrlChangeGenerations || {})[current]
+                || (!!this.pendingHit && this.pendingHit.generation === current);
         },
 
         // Sending Hit Request
