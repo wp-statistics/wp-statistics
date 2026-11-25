@@ -117,6 +117,11 @@ if (!window.WpStatisticsUserTracker) {
             this.checkHitRequestConditions(pendingHit.trackerObject, pendingHit.pageUri);
         },
 
+        // True while a page change is waiting for its hit (the tracker object is still being updated).
+        hasPendingHit: function () {
+            return Object.keys(this.pendingUrlChangeGenerations || {}).length > 0 || !!this.pendingHit;
+        },
+
         // Sending Hit Request
         sendHitRequest: async function (trackerObject = WP_Statistics_Tracker_Object, pageUri = this.getPathAndQueryString()) {
             try {

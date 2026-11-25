@@ -167,7 +167,9 @@ function handleWpConsentApiIntegration() {
                     decided = true;
                     if (hasStatisticsConsent()) {
                         // Full consent withdrawn, anonymous still allowed: this page is already counted.
-                        if (key === 'statistics' && changedConsentCategory[key] === 'deny' && WpStatisticsUserTracker.isTrackingEnabled) {
+                        // Only when this page's hit was already sent: a page still waiting for its hit must be counted after the reload.
+                        if (key === 'statistics' && changedConsentCategory[key] === 'deny' && WpStatisticsUserTracker.isTrackingEnabled
+                            && !(typeof WpStatisticsUserTracker.hasPendingHit === 'function' && WpStatisticsUserTracker.hasPendingHit())) {
                             rememberDowngrade();
                         }
                         wpStatisticsStartTracking();

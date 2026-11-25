@@ -507,6 +507,27 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         assert.equal(reloaded.getHits(), 0, 'same page, not counted again');
     });
 
+    // A page change still waiting for its hit when consent is withdrawn: the reload must count it.
+    test(`${bundle} tracker counts a page whose hit was still pending when consent was withdrawn`, async () => {
+        const storage = memoryStorage();
+        const first = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow',
+        });
+        first.dispatchDocument('DOMContentLoaded');
+        vm.runInContext('WpStatisticsUserTracker.pendingUrlChangeGenerations = {9: true};', first.context);
+        first.context.document.cookie = 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow';
+        first.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+
+        const reloaded = loadTracker(files, 'wp_consent_api', {
+            sessionStorage: storage, href: 'https://example.test/?p=10',
+            cookie: 'wp_consent_statistics=deny; wp_consent_statistics-anonymous=allow',
+            performance: {getEntriesByType() { return [{type: 'reload'}]; }},
+        });
+        reloaded.dispatchDocument('DOMContentLoaded');
+        assert.equal(reloaded.getHits(), 1, 'no marker was written, so the reloaded page is counted');
+    });
+
     test(`${bundle} tracker sends nothing more when both statistics categories are denied`, async () => {
         const storage = memoryStorage();
         const tracker = loadTracker(files, 'wp_consent_api', {sessionStorage: storage, cookie: 'wp_consent_statistics=allow; wp_consent_statistics-anonymous=allow'});
