@@ -54,11 +54,11 @@ class Test_VisitorInformationView extends WP_UnitTestCase
         $html = $this->render([]);
 
         $this->assertStringContainsString('<ul class="wps-visitor__information--container wps-visitor-info wps-visitor-info--anonymous"', $html);
-        $this->assertSame(6, substr_count($html, '<li class="wps-visitor__information'), 'four icons + the login status icon + the who item');
-        $this->assertStringContainsString('wps-visitor__information__incognito-text', $html, 'IP text kept in markup for PDF export and add-ons');
+        $this->assertSame(5, substr_count($html, '<li class="wps-visitor__information'), 'the who line + four icons');
+        $this->assertStringContainsString('<span class="wps-visitor-info__label wps-visitor-info__label--ip">203.0.113.7</span>', $html, 'IP shown on the top line');
         $this->assertMatchesRegularExpression('/class="wps-visitor-card"[^>]*hidden style="display:none"/', $html);
         $this->assertStringNotContainsString('wps-tooltip', $html, 'no per-icon tooltips any more');
-        $this->assertStringContainsString('wps-visitor-info__slot--anonymous', $html, 'not logged in = incognito icon');
+        $this->assertStringContainsString('wps-visitor-info__slot--guest', $html, 'guest with a visible IP = grey person icon');
     }
 
     public function test_anonymous_visitor_uses_the_logged_in_users_widget_icon_and_wording()
@@ -68,7 +68,7 @@ class Test_VisitorInformationView extends WP_UnitTestCase
         $icon = file_get_contents(WP_STATISTICS_DIR . 'assets/images/anonymous.svg');
         preg_match('/ d="([^"]+)"/', $icon, $m);
 
-        $this->assertSame(2, substr_count($html, $m[1]), 'same incognito shape in the pill and the card avatar');
+        $this->assertSame(1, substr_count($html, $m[1]), 'incognito shape in the card avatar; the box shows the guest person icon because the IP is visible');
         $this->assertStringContainsString('<strong>Anonymous Visitor</strong>', $card);
         $this->assertStringContainsString('wps-visitor-card__tag--anonymous">Anonymous<', $card);
         $this->assertStringNotContainsString('Guest', $html);
@@ -91,7 +91,7 @@ class Test_VisitorInformationView extends WP_UnitTestCase
     {
         $html = $this->render([]);
 
-        $this->assertMatchesRegularExpression('/role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="(wps-visitor-card-[^"]+)" aria-label="Visitor details: Munich, Bavaria, Germany, Chrome on Windows, Desktop, Anonymous Visitor"/', $html);
+        $this->assertMatchesRegularExpression('/role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="(wps-visitor-card-[^"]+)" aria-label="Visitor details: Munich, Bavaria, Germany, Chrome on Windows, Desktop, Anonymous Visitor, IP 203\.0\.113\.7"/', $html);
         preg_match('/aria-controls="([^"]+)"/', $html, $m);
         $this->assertStringContainsString('id="' . $m[1] . '" role="dialog"', $html);
     }
@@ -128,8 +128,9 @@ class Test_VisitorInformationView extends WP_UnitTestCase
         $html = $this->render(['ip' => '#hash#e7b398f96b14993b571215e36b41850c65f39b1a']);
         $card = substr($html, strpos($html, 'class="wps-visitor-card"'));
 
-        $this->assertStringContainsString('wps-visitor-info__slot--anonymous', $html, 'login status icon, not an IP icon');
-        $this->assertStringContainsString('IP hidden', $html);
+        $this->assertStringContainsString('wps-visitor-info__slot--anonymous', $html, 'incognito icon when the IP is hashed');
+        $this->assertStringContainsString('Hashed IP #e7b398f9', $html, 'short hash in the accessible name');
+        $this->assertStringContainsString('<span class="wps-visitor-info__label wps-visitor-info__label--ip">#e7b398f9</span>', $html, 'short hash on the top line');
         $this->assertStringContainsString('<span class="wps-visitor-card__ip">#e7b398f9</span>', $card, 'short hash shown');
         $this->assertStringContainsString('hashed', $card);
         $this->assertStringNotContainsString('e7b398f96b14993b', $card, 'never the full hash');
@@ -166,14 +167,14 @@ class Test_VisitorInformationView extends WP_UnitTestCase
 
         $html = $this->render(['user_id' => $userId]);
 
-        $this->assertStringContainsString('wps-visitor-info__slot--user', $html, 'person icon in the pill');
+        $this->assertStringContainsString('wps-visitor-info__slot--user', $html, 'person icon in the box');
         $this->assertStringContainsString('Logged-in user: Ana Example', $html);
         $this->assertStringContainsString('<span class="wps-visitor-info__name">Ana Example</span>', $html, 'user-text spans kept for add-ons');
         $this->assertStringContainsString('ana@example.com', $html);
         $this->assertStringContainsString('Logged in', $html);
         $this->assertStringContainsString('Author · user #' . $userId, $html);
         $this->assertStringContainsString('wps-visitor-card__initial">A<', $html);
-        $this->assertSame(6, substr_count($html, '<li class="wps-visitor__information'));
+        $this->assertSame(5, substr_count($html, '<li class="wps-visitor__information'));
     }
 
     public function test_editor_sees_name_but_not_email_or_role()

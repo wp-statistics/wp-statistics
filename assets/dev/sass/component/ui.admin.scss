@@ -3136,6 +3136,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     .rtl & {
       a .wps-dot {
         padding: 0 !important;
+        margin-inline-start: 6px !important; // a later rule zeroes it, so the dot touched the label
+        top: 1px;
 
         &:before {
           right: unset;
