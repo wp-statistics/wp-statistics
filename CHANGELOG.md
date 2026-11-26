@@ -1,3 +1,6 @@
+Unreleased
+- **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
+
 14.17.0 - 2026-11-25
 Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
