@@ -76,6 +76,16 @@ class ConsentOnlyTracking
             ];
         }
 
+        // Real Cookie Banner without the WP Statistics base service reports consent for every visitor
+        // (the tracker reads the same thing), so everyone is counted. A service exists only when its
+        // "cookie" value is set.
+        if ($integration->getKey() === 'real_cookie_banner' && function_exists('wp_rcb_consent_given')) {
+            $baseService = wp_rcb_consent_given('wp-statistics');
+            if (empty($baseService['cookie'])) {
+                return null;
+            }
+        }
+
         // An opt-out banner counts visitors until they decline, so nothing is missing by default.
         if ($integration->getKey() === 'wp_consent_api' && function_exists('wp_get_consent_type')
             && strpos((string)wp_get_consent_type(), 'optout') !== false) {
