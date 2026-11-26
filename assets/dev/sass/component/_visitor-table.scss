@@ -27,6 +27,12 @@
     font-weight: 600;
   }
 
+  // Compact rows: the visitor box is two lines, so the cells need less padding.
+  > tbody > tr > td {
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+  }
+
   > tbody > tr > td.is-sorted,
   > tbody > tr > td.is-sorted a {
     font-weight: 600;
@@ -43,9 +49,9 @@
     box-sizing: border-box;
   }
 
-  // Visitor: the pill (flag, OS, device, browser, user) with the folded referrer under it.
+  // Visitor: the box (who on top, then flag, OS, device, browser) with the folded referrer under it.
   > thead > tr > th.wps-visitor-table__visitor {
-    width: 158px;
+    width: 178px;
   }
 
   .wps-visitor-table__visitor {
