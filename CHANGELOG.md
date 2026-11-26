@@ -1,3 +1,6 @@
+Unreleased
+- **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
+
 14.17.0 - 2026-11-25
 Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
