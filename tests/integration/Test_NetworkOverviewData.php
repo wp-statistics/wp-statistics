@@ -148,6 +148,9 @@ class Test_NetworkOverviewData extends WP_UnitTestCase
         $this->addVisitor(0, 2);
         $this->addVisitor(9, 1);
 
+        // The suite only loads the plugin file; a row counts as active when the site lists it.
+        update_option('active_plugins', [plugin_basename(WP_STATISTICS_MAIN_FILE)]);
+
         $sites = Network::getSitesOverview();
 
         $this->assertNotEmpty($sites);

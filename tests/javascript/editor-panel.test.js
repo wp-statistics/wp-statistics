@@ -76,3 +76,29 @@ test('summary chart accepts a canvas element and returns the chart, so the panel
     assert.equal(window.wpStatisticsPostSummaryChart, wps_js.post_summary_chart);
     assert.equal(wps_js.post_summary_chart(canvas, {}), undefined, 'no data, no chart');
 });
+
+test('first visit opens the panel once, even when React runs the effect twice (SCRIPT_DEBUG)', () => {
+    const {window, calls} = loadPanel({postId: 12, slot: 'WPStatisticsPostPanel', html: '', chart: null});
+    const effects = [];
+    let seen = false;
+    let opened = false;
+    let toggles = 0;
+    const stores = {
+        'core/preferences': {get: () => seen},
+        'core/editor': {isEditorPanelOpened: () => opened},
+    };
+    window.wp.element.useEffect = effect => effects.push(effect);
+    window.wp.data.useRegistry = () => ({select: name => stores[name]});
+    window.wp.data.useSelect = map => map(name => stores[name]);
+    window.wp.data.useDispatch = () => ({
+        set: (scope, key, value) => { seen = value; },
+        toggleEditorPanelOpened: () => { toggles++; opened = !opened; },
+    });
+
+    calls.registerPlugin[0].settings.render();
+    effects[0]();
+    effects[0]();
+
+    assert.equal(toggles, 1);
+    assert.equal(opened, true);
+});

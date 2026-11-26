@@ -272,6 +272,12 @@ class Hits extends Singleton
                 return;
             }
 
+            // WordPress 7.2+ redirects a "random post" request right after this hook, and the
+            // destination records the view. With no post to pick it stays a 404, which is recorded.
+            if (function_exists('wp_is_random_content_query') && !is_404() && wp_is_random_content_query($GLOBALS['wp_the_query'])) {
+                return;
+            }
+
             $isConsentGiven     = IntegrationHelper::isConsentGiven();
             $trackAnonymously   = IntegrationHelper::shouldTrackAnonymously();
 
