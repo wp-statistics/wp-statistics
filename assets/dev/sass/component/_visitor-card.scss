@@ -213,6 +213,19 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
   flex-wrap: wrap !important;
   background: none;
   box-shadow: none;
+  grid-template-rows: auto auto;
+
+  // No card to open in a PDF: the full IP / name wraps instead of ending in an ellipsis.
+  .wps-visitor-info__who {
+    height: auto;
+  }
+
+  .wps-visitor-info__label {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+  }
 
   .wps-visitor-info__who {
     display: list-item !important;
@@ -227,6 +240,18 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
     flex-wrap: wrap !important;
     background: none;
     box-shadow: none;
+    grid-template-rows: auto auto;
+
+    .wps-visitor-info__who {
+      height: auto;
+    }
+
+    .wps-visitor-info__label {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: anywhere;
+    }
 
     .wps-visitor-info__who {
       display: list-item !important;

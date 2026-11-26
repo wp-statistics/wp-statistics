@@ -124,7 +124,15 @@ if ($status === 'user') {
 if ($isOnline) {
     $labelParts[] = $onlineLabel;
 }
-if (!$ipVisible || $isAnonymized) {
+// The identity shown on the top line, so screen readers can tell visitors apart too.
+if (!$user && $showIp && !empty($ip)) {
+    /* translators: %s: IP address. */
+    $labelParts[] = sprintf(__('IP %s', 'wp-statistics'), $ip);
+} elseif (!$user && $isHashed && !empty($ip)) {
+    /* translators: %s: short hashed IP, for example #e7b398f9. */
+    $labelParts[] = sprintf(__('Hashed IP %s', 'wp-statistics'), $ip);
+}
+if ((!$ipVisible && !($isHashed && !empty($ip))) || $isAnonymized) {
     $labelParts[] = $isAnonymized ? __('IP anonymized', 'wp-statistics') : __('IP hidden', 'wp-statistics');
 }
 /* translators: %s: Short visitor summary (place, browser, device). */
