@@ -145,6 +145,10 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 25. Optimization: Clean old data and keep your database small.
 
 == Changelog ==
+= 14.17.1 - Unreleased =
+- **Enhancement:** Tested with WordPress 7.2.
+- **Fix:** A WordPress 7.2 "random post" visit is no longer counted twice with server-side tracking.
+
 = 14.17.0 - 2026-11-25 =
 Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
