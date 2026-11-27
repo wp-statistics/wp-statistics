@@ -2,11 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Faqs;
 
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
-
 class RequireMention extends AbstractFaq
 {
     public static function getStates()
@@ -22,32 +17,25 @@ class RequireMention extends AbstractFaq
                 'title'   => $title,
                 'icon'    => $icon,
                 'summary' => esc_html__('Mentioning Not Strictly Necessary', 'wp-statistics'),
-                'notes'   => __('<p>According to your current setup, WP Statistics is not configured to record any personal data. This means that technically, you do not need to mention WP Statistics in your privacy policy. However, to foster an environment of utmost transparency with your users, we still encourage mentioning the use of WP Statistics. This helps inform users about the analytics tools employed by your site, reinforcing trust through transparency.</p>', 'wp-statistics')
+                'notes'   => '<p>' . esc_html__('With your current settings, WP Statistics does not record personal data, so you do not have to mention it. Mentioning it anyway tells visitors which analytics tool your site uses.', 'wp-statistics') . '</p>'
             ],
             'warning' => [
                 'status'  => $status,
                 'title'   => $title,
                 'icon'    => $icon,
                 'summary' => esc_html__('Mentioning Required', 'wp-statistics'),
-                /* translators: %s: string value */
-                'notes'   => sprintf(__('Your current WP Statistics setup records data that can be considered personal. You should add WP Statistics to your privacy policy and explain what data is collected, why it is collected, and how it is stored. A helper text that matches your configuration is available in <b>WP Admin > Settings > Privacy > </b> <a href="%s">Privacy Guide</a> and can be copied into your policy. For tips on reducing data collection, see the <b>Privacy Audit</b> section of this page.', 'wp-statistics'), esc_url($privacyPolicyUrl))
+                'notes'   => '<p>' . esc_html__('These settings make WP Statistics record personal data:', 'wp-statistics') . '</p>'
+                    . '<ul>' . implode('', array_map(function ($setting) {
+                        return '<li>' . esc_html($setting) . '</li>';
+                    }, RequireConsent::getPersonalDataSettings())) . '</ul>'
+                    /* translators: %s: link to the WordPress Privacy Policy Guide. */
+                    . '<p>' . sprintf(__('Add WP Statistics to your privacy policy and say what it collects and why. <b>Settings > Privacy > </b> <a href="%s">Policy Guide</a> has text that matches your settings, ready to copy.', 'wp-statistics'), esc_url($privacyPolicyUrl)) . '</p>'
             ],
         ];
     }
 
     public static function getStatus()
     {
-        $requirements = [
-            RecordUserPageVisits::isOptionPassed(),
-            HashIpAddress::isOptionPassed(),
-            AnonymizeIpAddress::isOptionPassed(),
-            StoreUserAgentString::isOptionPassed()
-        ];
-
-        if (in_array(false, $requirements)) {
-            return 'warning';
-        }
-
-        return 'success';
+        return RequireConsent::getStatus();
     }
 }

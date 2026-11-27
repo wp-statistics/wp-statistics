@@ -18,7 +18,7 @@ class StoreUserAgentString extends ResolvableAudit
     public static function getPassedStateInfo()
     {
         return [
-            'title' => esc_html__('The “Store Entire User Agent String” feature is currently disabled on your website.', 'wp-statistics'),
+            'title' => esc_html__('The "Store Entire User Agent String" feature is currently disabled on your website.', 'wp-statistics'),
             'notes' => View::load('components/privacy-audit/stored-user-agent', [], true),
         ];
     }
@@ -26,7 +26,7 @@ class StoreUserAgentString extends ResolvableAudit
     public static function getUnpassedStateInfo()
     {
         return [
-            'title' => esc_html__('The “Store Entire User Agent String” feature is currently enabled on your website.', 'wp-statistics'),
+            'title' => esc_html__('The "Store Entire User Agent String" feature is currently enabled on your website.', 'wp-statistics'),
             'notes' => View::load('components/privacy-audit/stored-user-agent-unpassed', [], true),
         ];
     }

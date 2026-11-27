@@ -35,13 +35,12 @@ class AjaxOptionUpdater
      */
     public static function getAllowedOptions()
     {
-        return ['share_anonymous_data', 'consent_integration', 'anonymous_tracking'];
+        return ['share_anonymous_data', 'consent_integration'];
     }
 
     /**
      * Values allowed per option. Options not listed take any value.
-     * The consent fixes (ConsentOnlyTracking) may only switch the integration off or turn
-     * Anonymous Tracking on; picking a consent plugin stays on the settings page.
+     * The consent fixes (ConsentOnlyTracking) may only switch the integration off; picking a consent plugin stays on the settings page.
      *
      * @return array
      */
@@ -49,7 +48,6 @@ class AjaxOptionUpdater
     {
         return [
             'consent_integration' => [''],
-            'anonymous_tracking'  => [true],
         ];
     }
 

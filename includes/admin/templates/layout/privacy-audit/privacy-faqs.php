@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-audit-cards wps-privacy-questions">
     <h2 class="wps-audit-cards__title wps-audit-cards__title--dark">
-        <?php esc_html_e('FAQS', 'wp-statistics'); ?>
+        <?php esc_html_e('FAQs', 'wp-statistics'); ?>
     </h2>
     <div class="wps-audit-cards__container loading">
         <!-- load faq items using js -->
