@@ -7,7 +7,7 @@
     <div class="wps-audit-card__suggestion-text">
         <ol>
             <li><?php echo wp_kses(
-                    __('<b>Unique Visitor Counting:</b> The system counts unique visitors by hashing a combination of the IP address, User-Agent string, and a daily-changing salt. This ensures each visitor’s identifier is unique and secure for that day.', 'wp-statistics'),
+                    __('<b>Unique Visitor Counting:</b> The system counts unique visitors by hashing a combination of the IP address, User-Agent string, and a daily-changing salt. This ensures each visitor\'s identifier is unique and secure for that day.', 'wp-statistics'),
                     array('b' => array())
                 ); ?></li>
             <li><?php echo wp_kses(

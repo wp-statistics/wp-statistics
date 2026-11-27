@@ -9,33 +9,27 @@ use WP_Statistics\Decorators\VisitorDecorator;
 /**
  * Visitor Information cell.
  *
- * The cell shows one rounded pill: flag, OS, device and browser icons, plus a fifth icon for the login
- * status only: a person for a logged-in user, the incognito icon (hat + glasses, the same icons as the
- * Logged-in Users widget: assets/images/user-visitor.svg / anonymous.svg) for an "Anonymous Visitor".
- * Whether the IP is hidden is a privacy setting, not a login status: the card says it in a detail row.
- * No IP and no name text on screen. The pill is one button that
- * opens a small visitor card (assets/dev/javascript/components/visitor-card.js) with who, location,
- * browser, OS, device, IP and the actions Copy IP, Filter by IP (or by country) and Visitor Journey.
+ * A small box: the top line shows who the visitor is, the bottom line four equal cells for
+ * country, OS, device and browser. Top line: an icon (blue person = logged-in user, grey person =
+ * guest whose IP is shown, full or anonymized, incognito hat = IP hashed or not stored) and the
+ * name, the IP, the short hash or "Anonymous". The box is one button that opens the visitor card
+ * (assets/dev/javascript/components/visitor-card.js) with location, browser, OS, device, IP and the
+ * actions Copy IP, Filter by IP (or by country) and Visitor Journey.
  *
  * Args:
  *  - visitor (VisitorDecorator) required.
  *
- * Markup and classes stay compatible with add-ons and older CSS:
- * ul.wps-visitor__information--container > li.wps-visitor__information (country, OS, device, browser,
- * [status], who), .wps-visitor__information__user-text > span (name) + span (#ID),
- * .wps-visitor__information__incognito-text. The "who" item is hidden on screen but kept for PDF
- * exports and print, which showed the IP or user before.
+ * Classes stay compatible with add-ons and older CSS: ul.wps-visitor__information--container >
+ * li.wps-visitor__information (who, country, OS, device, browser).
  * The card is rendered hidden (attribute + inline style) so PDFs, prints and emails never show it.
  *
  * Privacy: the user only when user tracking (visitors_log) is on (VisitorDecorator::getVisibleUser());
  * the IP only when "Hash IP Addresses" is off and the stored value is a real IP (VisitorDecorator::isIpVisible(),
  * so rows saved before hashing was switched on stay hidden too); email and role only for people who can list users.
- * The single visitor header and profile use the same two methods.
  *
  * Online now: when the visitor is online (VisitorDecorator::isOnline(), same window as the Online
- * Visitors report), the status slot gets a green dot on its corner (span.wps-visitor-info__online)
- * with the hover text "Online now · on <page>", and the pill's accessible name says it too.
- * The dot uses logical properties, so it sits on the other corner in RTL.
+ * Visitors report), the icon gets a green dot on its corner (span.wps-visitor-info__online)
+ * with the hover text "Online now · on <page>", and the box's accessible name says it too.
  */
 
 /** @var VisitorDecorator $visitor */
@@ -74,8 +68,12 @@ $showIp       = $ipVisible;
 $isAnonymized = $ipVisible && Option::get('anonymize_ips') && $visitor->isIpAnonymized();
 $canSeeUsers  = current_user_can('list_users');
 
-// Fifth pill slot: login status only (logged-in user or anonymous visitor).
+// Login status (logged-in user or anonymous visitor), used for classes and the card.
 $status = $user ? 'user' : 'anonymous';
+
+// Icon on the top line: blue person for a logged-in user, grey person for a guest whose IP is
+// shown (full or anonymized), the incognito hat when the IP is hashed or not stored.
+$iconType = $user ? 'user' : ((($showIp) && !empty($ip)) ? 'guest' : 'anonymous');
 
 // Online now marker on the status slot.
 $isOnline    = $visitor->isOnline();
@@ -126,7 +124,15 @@ if ($status === 'user') {
 if ($isOnline) {
     $labelParts[] = $onlineLabel;
 }
-if (!$ipVisible || $isAnonymized) {
+// The identity shown on the top line, so screen readers can tell visitors apart too.
+if (!$user && $showIp && !empty($ip)) {
+    /* translators: %s: IP address. */
+    $labelParts[] = sprintf(__('IP %s', 'wp-statistics'), $ip);
+} elseif (!$user && $isHashed && !empty($ip)) {
+    /* translators: %s: short hashed IP, for example #e7b398f9. */
+    $labelParts[] = sprintf(__('Hashed IP %s', 'wp-statistics'), $ip);
+}
+if ((!$ipVisible && !($isHashed && !empty($ip))) || $isAnonymized) {
     $labelParts[] = $isAnonymized ? __('IP anonymized', 'wp-statistics') : __('IP hidden', 'wp-statistics');
 }
 /* translators: %s: Short visitor summary (place, browser, device). */
@@ -167,7 +173,23 @@ $statusIcon = function ($type, $width = 14) {
 };
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $svg() returns static SVG markup.
 ?>
-<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?><?php echo $isOnline ? ' wps-visitor-info--online' : ''; ?>" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card>
+<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?><?php echo $isOnline ? ' wps-visitor-info--online' : ''; ?>" role="link" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card data-wps-visitor-url="<?php echo esc_url($visitorUrl) ?>">
+    <li class="wps-visitor__information wps-visitor-info__who" role="none">
+        <span class="wps-visitor-info__status wps-visitor-info__slot--status wps-visitor-info__slot--<?php echo esc_attr($iconType) ?>"<?php echo $isOnline ? ' title="' . esc_attr($onlineLabel) . '"' : ''; ?>>
+            <?php echo $statusIcon($iconType === 'guest' ? 'user' : $iconType); ?>
+            <?php if ($isOnline) : ?>
+                <span class="wps-visitor-info__online"><span class="screen-reader-text"><?php echo esc_html($onlineLabel); ?></span></span>
+            <?php endif; ?>
+        </span>
+        <?php if ($user) : ?>
+            <span class="wps-visitor-info__label wps-visitor-info__label--user"><span class="wps-visitor-info__name"><?php echo esc_html($user->getDisplayName()) ?></span></span>
+        <?php elseif (($showIp || $isHashed) && !empty($ip)) : ?>
+            <span class="wps-visitor-info__label wps-visitor-info__label--ip"><?php echo esc_html($ip); ?></span>
+        <?php else : ?>
+            <span class="wps-visitor-info__label wps-visitor-info__label--none"><?php esc_html_e('Anonymous', 'wp-statistics'); ?></span>
+        <?php endif; ?>
+    </li>
+
     <li class="wps-visitor__information wps-visitor-info__slot wps-visitor-info__slot--country" role="none">
         <span>
             <?php if ($isUnknown) : ?>
@@ -190,29 +212,6 @@ $statusIcon = function ($type, $width = 14) {
         <span><img src="<?php echo esc_url($browser->getLogo()) ?>" alt="<?php echo esc_attr($browserName) ?>" width="14" height="14"></span>
     </li>
 
-    <?php if ($status) : ?>
-        <li class="wps-visitor__information wps-visitor-info__slot wps-visitor-info__slot--status wps-visitor-info__slot--<?php echo esc_attr($status) ?>" role="none"<?php echo $isOnline ? ' title="' . esc_attr($onlineLabel) . '"' : ''; ?>>
-            <span><?php echo $statusIcon($status); ?></span>
-            <?php if ($isOnline) : ?>
-                <span class="wps-visitor-info__online"><span class="screen-reader-text"><?php echo esc_html($onlineLabel); ?></span></span>
-            <?php endif; ?>
-        </li>
-    <?php endif; ?>
-
-    <li class="wps-visitor__information wps-visitor-info__who" role="none">
-        <div>
-            <?php if ($user) : ?>
-                <span class="wps-visitor__information__user-text">
-                    <span class="wps-visitor-info__name"><?php echo esc_html($user->getDisplayName()) ?></span>
-                    <span class="wps-visitor-info__id">#<?php echo esc_html($user->getId()) ?></span>
-                </span>
-            <?php elseif ($showIp) : ?>
-                <span class="wps-visitor__information__incognito-text"><?php echo esc_html($ip); ?></span>
-            <?php else : ?>
-                <span class="wps-visitor__information__incognito-img" role="img" aria-label="<?php esc_attr_e('Anonymous Visitor', 'wp-statistics'); ?>"></span>
-            <?php endif; ?>
-        </div>
-    </li>
 </ul>
 <div class="wps-visitor-card" id="<?php echo esc_attr($cardId) ?>" role="dialog" aria-label="<?php esc_attr_e('Visitor details', 'wp-statistics'); ?>" data-copied="<?php esc_attr_e('Copied', 'wp-statistics'); ?>" hidden style="display:none">
     <div class="wps-visitor-card__head">

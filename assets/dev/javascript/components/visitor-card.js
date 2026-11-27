@@ -4,14 +4,16 @@
  *
  * - The pill (ul[data-wps-visitor-card], role="button") is the trigger; its card is the next sibling.
  * - Hover opens after 250 ms and closes 150 ms after the mouse leaves both pill and card; moving to
- *   another row switches at once. Click, tap, Enter or Space opens and pins it (close button shows,
- *   it stays until closed). Esc, outside click and the close button close it; focus goes back to
- *   the pill. Tab from the pill moves into the card. One card open at a time.
+ *   another row switches at once. Keyboard focus opens it too.
+ * - Click, tap or Enter on the pill opens the visitor's journey page (data-wps-visitor-url); Ctrl/Cmd
+ *   or middle click opens it in a new tab. Touch never opens the card, so phones go straight to the page.
+ *   Space pins the card for keyboard users (close button shows). Esc, outside click and the close button
+ *   close it; focus goes back to the pill. Tab from the pill moves into the card. One card open at a time.
  * - While open the card lives in <body> with fixed positioning, so scrolling tables never clip it.
- *   It is measured while visibility:hidden and only then faded in, so it never jumps. 8px below
- *   the pill, start edges lined up (end edge in RTL), flips above when there is no room and never
- *   covers its own pill. Under 480px it is a bottom sheet that opens on tap/click only (no hover) and adds
- *   bottom padding to <body> while open, so a pill in the last rows can scroll above it.
+ *   It is measured while visibility:hidden and only then faded in, so it never jumps. It opens beside
+ *   the pill (right in LTR, left in RTL), top edges lined up, so the mouse can move straight down the
+ *   list without the card covering the next row. Without room beside the pill it opens 8px below
+ *   (above near the bottom) and never covers its own pill. Under 480px it is a bottom sheet (keyboard only).
  * - Event delegation: rows added later by AJAX (Overview widgets, Real-Time, add-ons) work.
  *
  * window.wpsVisitorCard.position() is the pure placement helper (tests/javascript).
@@ -33,6 +35,18 @@
         opts = opts || {};
         var gap = opts.gap != null ? opts.gap : GAP;
         var m = opts.margin != null ? opts.margin : MARGIN;
+
+        // Beside the pill first: the mouse can then go straight down the list.
+        if (opts.beside !== false) {
+            var sideLeft = opts.rtl ? trigger.left - gap - card.width : trigger.right + gap;
+            if (sideLeft >= m && sideLeft + card.width <= viewport.width - m) {
+                var room = viewport.height - 2 * m;
+                var cap = card.height > room ? Math.max(0, Math.floor(room)) : null;
+                var h = cap != null ? cap : card.height;
+                var sideTop = Math.max(m, Math.min(trigger.top, viewport.height - m - h));
+                return {left: Math.round(sideLeft), top: Math.round(sideTop), side: opts.rtl ? 'left' : 'right', maxHeight: cap};
+            }
+        }
         var below = viewport.height - m - (trigger.bottom + gap);
         var above = trigger.top - gap - m;
         var side, maxHeight = null, height = card.height;
@@ -65,6 +79,7 @@
     var TRIGGER = '[data-wps-visitor-card]';
     var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     var open = null, closing = null, showTimer = 0, hideTimer = 0, watchTimer = 0, lastPointer = 'mouse';
+    var refocusing = false; // focus moved back to a pill by a close: do not reopen its card
     var bodyPad = null; // body padding-bottom before a bottom sheet added room under the last rows
     var cards = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
 
@@ -232,10 +247,18 @@
         else closing.timer = setTimeout(finishClose, CLOSE_MS + 20);
     }
 
+    // Move focus without the focus handler reopening the card that was just closed.
+    function quietFocus(el) {
+        if (!el || !el.isConnected) return;
+        refocusing = true;
+        el.focus();
+        setTimeout(function () { refocusing = false; }, 0);
+    }
+
     function closeAndFocus() {
         var trigger = open && open.trigger;
         hideNow();
-        if (trigger && trigger.isConnected) trigger.focus();
+        quietFocus(trigger);
     }
 
     function hideSoon() {
@@ -285,6 +308,18 @@
         }
     }
 
+    // Open the visitor's journey page.
+    function go(trigger, newTab) {
+        var url = trigger.getAttribute('data-wps-visitor-url');
+        if (!url) {
+            show(trigger, true);
+            return;
+        }
+        hideNow(true);
+        if (newTab && root.open) root.open(url, '_blank', 'noopener');
+        else root.location.href = url;
+    }
+
     function pinned() {
         return !!(open && (open.card.classList.contains('is-pinned') || open.card.classList.contains('wps-visitor-card--sheet')));
     }
@@ -323,6 +358,12 @@
         if (open && !pinned()) hideSoon();
     });
 
+    document.addEventListener('focusin', function (e) {
+        if (lastPointer !== 'keyboard' || refocusing) return;
+        var trigger = e.target.closest && e.target.closest(TRIGGER);
+        if (trigger && e.target === trigger && !(open && open.trigger === trigger) && !isSheet()) show(trigger);
+    });
+
     document.addEventListener('focusout', function () {
         if (!open) return;
         setTimeout(function () {
@@ -335,7 +376,13 @@
         var trigger = e.target.closest && e.target.closest(TRIGGER);
         lastPointer = 'keyboard';
 
-        if (trigger && e.target === trigger && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')) {
+        if (trigger && e.target === trigger && e.key === 'Enter') {
+            e.preventDefault();
+            go(trigger, e.ctrlKey || e.metaKey);
+            return;
+        }
+
+        if (trigger && e.target === trigger && (e.key === ' ' || e.key === 'Spacebar')) {
             e.preventDefault();
             if (open && open.trigger === trigger && pinned()) hideNow();
             else show(trigger, true);
@@ -372,7 +419,7 @@
                 e.preventDefault();
                 var from = open.trigger, next = focusAfter(from);
                 hideNow();
-                (next || from).focus();
+                if (next) next.focus(); else quietFocus(from);
             }
         }
     });
@@ -409,12 +456,19 @@
         var trigger = target.closest(TRIGGER);
         if (trigger) {
             e.preventDefault();
-            if (open && open.trigger === trigger && pinned()) hideNow();
-            else show(trigger, true);
+            go(trigger, e.ctrlKey || e.metaKey || e.shiftKey);
             return;
         }
 
         if (open && !inOpen(target)) hideNow();
+    });
+
+    // Middle click on the pill: journey in a new tab, like a link.
+    document.addEventListener('auxclick', function (e) {
+        var trigger = e.button === 1 && e.target.closest && e.target.closest(TRIGGER);
+        if (!trigger) return;
+        e.preventDefault();
+        go(trigger, true);
     });
 
     root.addEventListener('scroll', function () {

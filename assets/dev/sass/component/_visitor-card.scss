@@ -9,44 +9,113 @@
 $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-info[data-wps-visitor-card]';
 
 #{$wps-pill} {
-  display: inline-flex;
+  // A small box: who the visitor is on top (status icon, online dot, IP / short hash / name),
+  // then four equal cells for country, OS, device and browser.
+  display: inline-grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 23px 22px;
+  gap: 0 !important; // the old pill rules in _table.scss / _title-cell.scss add a 4px row gap
   flex-wrap: nowrap !important; // _title-cell.scss lets narrow tables wrap the old IP/name
-  align-items: center;
-  width: auto;
+  width: 146px;
   min-width: 0 !important;
   max-width: 100%;
-  height: 24px;
   box-sizing: border-box;
   margin: 0;
-  padding: 0 3px;
+  padding: 0;
   list-style: none;
   vertical-align: middle;
-  border-radius: 999px;
-  background: #F3F4F6;
-  box-shadow: inset 0 0 0 1px #E6E7EA;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #E2E4E9;
+  overflow: hidden;
   cursor: pointer;
   outline: 0;
   transition: background-color .12s ease, box-shadow .12s ease;
   -webkit-tap-highlight-color: transparent;
 
-  .wps-visitor-info__slot {
+  .wps-visitor-info__who {
+    grid-column: 1 / -1;
+    // Same first column as the icon strip below, so the visitor icon sits right above the flag.
+    display: grid !important;
+    grid-template-columns: 25% minmax(0, 1fr);
+    align-items: center;
+    gap: 0;
+    min-width: 0;
+    height: 23px;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    border: 0 !important;
+    border-bottom: 1px solid #ECEEF2 !important;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .wps-visitor-info__status {
+    position: relative;
     display: inline-flex;
+    justify-self: center;
+    align-items: center;
+    line-height: 0;
+
+    svg {
+      display: block;
+      width: 14px;
+      height: auto;
+    }
+  }
+
+  // display: block (not the inline-flex _table.scss gives every child span) so the text
+  // starts at the left and long IPv6 addresses end in an ellipsis.
+  .wps-visitor-info__label {
+    display: block !important;
+    padding-inline-end: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+    direction: ltr;
+    text-align: start;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12.5px;
+    color: #1D2327;
+  }
+
+  .wps-visitor-info__label--ip {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .wps-visitor-info__label--user {
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  .wps-visitor-info__label--none {
+    color: #6B6E73;
+  }
+
+  // !important: the old pill rules in _table.scss give the slots fixed widths, rounded ends,
+  // inner padding and inset shadows; none of that belongs in the box.
+  .wps-visitor-info__slot {
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    flex: none;
-    width: 24px;
-    height: 24px;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;
+    width: auto !important;
+    min-width: 0;
+    height: 22px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     line-height: 0;
-    background: none;
-    box-shadow: none;
-    border: 0;
-    border-radius: 0;
+    background: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
 
     & + .wps-visitor-info__slot {
-      border-inline-start: 1px solid #E2E3E6;
-      width: 25px;
+      border-inline-start: 1px solid #ECEEF2 !important;
     }
 
     & > span {
@@ -57,14 +126,14 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
 
     img {
       display: block;
-      width: 14px;
-      height: 14px;
+      width: 13px !important;
+      height: 13px !important;
       object-fit: contain;
       cursor: inherit;
 
       &.flag {
-        width: 16px;
-        height: 12px;
+        width: 15px !important;
+        height: 11px !important;
         object-fit: cover;
         border-radius: 2px;
         box-shadow: 0 0 0 .5px rgba(12, 12, 13, .12);
@@ -78,53 +147,53 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
 
   .wps-visitor-info__unknown {
     display: inline-flex;
-    width: 16px;
+    width: 14px;
     height: 12px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+    }
     align-items: center;
     justify-content: center;
     color: #6B6E73;
     cursor: inherit;
   }
 
-  // Fifth slot: login status only (person = logged-in user, incognito = anonymous visitor).
+  // Login status: person = logged-in user, incognito = anonymous visitor.
   .wps-visitor-info__slot--user {
     color: #404BF2;
   }
 
-  .wps-visitor-info__slot--anonymous {
+  .wps-visitor-info__slot--anonymous,
+  .wps-visitor-info__slot--guest {
     color: #56585A;
   }
 
   // Online now: a green dot with a white edge on the corner of the status icon, like an avatar.
   // inset-inline-end puts it on the left corner in RTL.
-  .wps-visitor-info__slot--status {
-    position: relative;
-  }
-
+  // Online now: one small green dot on the top corner of the visitor icon.
   .wps-visitor-info__online {
     position: absolute;
-    top: 2px;
-    inset-inline-end: 2px;
-    width: 8px;
-    height: 8px;
-    box-sizing: border-box;
+    top: -2px;
+    inset-inline-end: -6px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #00A32A;
-    box-shadow: 0 0 0 2px #fff;
-  }
-
-  // IP / name stay in the markup for add-ons, PDF exports and print, never on screen.
-  .wps-visitor-info__who {
-    display: none !important;
+    background: #22C55E;
   }
 
   &:hover,
   &.is-open {
-    background: #F0F1FE;
+    background: #F7F7FE;
     box-shadow: inset 0 0 0 1px #C6C9FB;
 
+    .wps-visitor-info__who {
+      border-bottom-color: #D9DBFC !important;
+    }
+
     .wps-visitor-info__slot + .wps-visitor-info__slot {
-      border-inline-start-color: #D9DBFC;
+      border-inline-start-color: #D9DBFC !important;
     }
   }
 
@@ -144,6 +213,19 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
   flex-wrap: wrap !important;
   background: none;
   box-shadow: none;
+  grid-template-rows: auto auto;
+
+  // No card to open in a PDF: the full IP / name wraps instead of ending in an ellipsis.
+  .wps-visitor-info__who {
+    height: auto;
+  }
+
+  .wps-visitor-info__label {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+  }
 
   .wps-visitor-info__who {
     display: list-item !important;
@@ -158,6 +240,18 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
     flex-wrap: wrap !important;
     background: none;
     box-shadow: none;
+    grid-template-rows: auto auto;
+
+    .wps-visitor-info__who {
+      height: auto;
+    }
+
+    .wps-visitor-info__label {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      overflow-wrap: anywhere;
+    }
 
     .wps-visitor-info__who {
       display: list-item !important;
@@ -199,6 +293,11 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
 
   &[data-side="top"] {
     --wps-card-dy: 4px;
+  }
+
+  &[data-side="right"],
+  &[data-side="left"] {
+    --wps-card-dy: 0px;
   }
 
   &.is-visible {

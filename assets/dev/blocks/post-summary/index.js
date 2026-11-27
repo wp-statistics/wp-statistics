@@ -11,7 +11,7 @@ import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { createSlotFill } from '@wordpress/components';
 import { RawHTML, useEffect, useRef } from '@wordpress/element';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch, useRegistry, useSelect } from '@wordpress/data';
 import { store as preferencesStore } from '@wordpress/preferences';
 import { __ } from '@wordpress/i18n';
 
@@ -85,19 +85,19 @@ const Summary = ({ html, chart }) => {
  * whether they keep it open or closed, like every other panel.
  */
 const useOpenOnFirstVisit = () => {
-    const { seen, opened } = useSelect((select) => ({
-        seen: !!select(preferencesStore).get(PLUGIN_NAME, 'postPanelSeen'),
-        opened: select('core/editor').isEditorPanelOpened(PANEL_ID),
-    }), []);
+    const registry = useRegistry();
+    const seen = useSelect((select) => !!select(preferencesStore).get(PLUGIN_NAME, 'postPanelSeen'), []);
     const { set } = useDispatch(preferencesStore);
     const { toggleEditorPanelOpened } = useDispatch('core/editor');
 
     useEffect(() => {
-        if (seen) {
+        // Ask the stores, not this render: with SCRIPT_DEBUG on, React runs the effect twice,
+        // and a second toggle would close the panel again.
+        if (registry.select(preferencesStore).get(PLUGIN_NAME, 'postPanelSeen')) {
             return;
         }
         set(PLUGIN_NAME, 'postPanelSeen', true);
-        if (!opened) {
+        if (!registry.select('core/editor').isEditorPanelOpened(PANEL_ID)) {
             toggleEditorPanelOpened(PANEL_ID);
         }
     }, [seen]);

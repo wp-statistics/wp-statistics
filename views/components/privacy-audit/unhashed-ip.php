@@ -1,5 +1,5 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div class="wps-mb-16"><?php echo esc_html__('Our system has identified that raw IP addresses are stored in your database, likely due to the “Hash IP Addresses” feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.', 'wp-statistics') ?></div>
+<div class="wps-mb-16"><?php echo esc_html__('Our system has identified that raw IP addresses are stored in your database, likely due to the "Hash IP Addresses" feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Convert IP Addresses to Hash?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
@@ -8,7 +8,7 @@
                 <li>Select <b>Plugin Maintenance</b>.</li>
                 <li>Choose <b>Convert IP Addresses to Hash</b> to start the conversion process.</li>
             </ol>
-            <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website’s compliance with data protection regulations.</p>', 'wp-statistics') ?>
+            <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website\'s compliance with data protection regulations.</p>', 'wp-statistics') ?>
     </div>
 </div>
 <div class="wps-audit-card__suggestion">

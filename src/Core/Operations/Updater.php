@@ -313,15 +313,7 @@ class Updater extends AbstractCore
             delete_option('wp_statistics_tracker_js_errors');
         }
 
-        /**
-         * Update consent integration to WP Consent API for backward compatibility
-         */
-        $integration          = Option::get('consent_integration');
-        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
-
-        if ($isWpConsentApiActive && empty($integration)) {
-            Option::update('consent_integration', 'wp_consent_api');
-        }
+        $this->migrateConsentIntegration();
 
         /**
          * Removes duplicate entries from the visitor_relationships table.
@@ -387,6 +379,30 @@ class Updater extends AbstractCore
 
         if (Option::get('schedule_dbmaint') && version_compare($this->currentVersion, '14.15.5', '<')) {
             Event::reschedule('wp_statistics_dbmaint_hook', 'daily', DateTime::get('tomorrow midnight', 'U'));
+        }
+    }
+
+    /**
+     * Before 14.14 WP Statistics always followed WP Consent API when it was active. 14.14 made it a
+     * setting, so sites updating from an older version get it selected once, to keep that behaviour.
+     *
+     * Only for those updates: on later updates an empty setting is the admin's choice (None). Since
+     * 14.17 the setting is no longer cleared on the next request, so selecting it on every update
+     * silently switched sites to consent-only tracking (issue #1258).
+     *
+     * @return void
+     */
+    private function migrateConsentIntegration()
+    {
+        if (version_compare($this->currentVersion, '14.14', '>=')) {
+            return;
+        }
+
+        $integration          = Option::get('consent_integration');
+        $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+
+        if ($isWpConsentApiActive && empty($integration)) {
+            Option::update('consent_integration', 'wp_consent_api');
         }
     }
 

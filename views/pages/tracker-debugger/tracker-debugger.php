@@ -8,6 +8,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Integrations\ConsentOnlyTracking;
 use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
 
 $currentDate = TimeZone::getCurrentDate();
@@ -289,6 +290,22 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                         'suggestion'  => $consentGuide,
                         'status'      => 'info'
                     ];
+
+                    // Same rule as the "Some Visitors Are Not Counted" notice (ConsentOnlyTracking).
+                    $consentOnly = ConsentOnlyTracking::getInfo();
+                    if (!empty($consentOnly)) {
+                        $atData['status']     = 'warning';
+                        $atData['content']    = sprintf(
+                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
+                            esc_html($consentOnly['message']),
+                            $consentBrowser
+                        );
+                        $atData['suggestion'] = sprintf(
+                            '%1$s %2$s',
+                            ConsentOnlyTracking::getFixButton($consentOnly),
+                            $consentGuide
+                        );
+                    }
                 }
 
                 View::load("components/audit-card", $atData);

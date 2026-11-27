@@ -67,8 +67,8 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]                    += $visitors;
+            $thisParsedData[(string)$item->source_name][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]                            += $visitors;
         }
 
         // Sort data by referrals number

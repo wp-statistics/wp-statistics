@@ -6,7 +6,7 @@
         <ol>
             <li><?php echo wp_kses_post(__('<b>IPv4 Anonymization:</b> An IP address like 192.168.1.123 is transformed into 192.168.1.0.', 'wp-statistics')) ?></li>
             <li><?php echo wp_kses_post(__('<b>IPv6 Anonymization:</b> An IPv6 address like 2001:0db8:85a3:0000:0000:8a2e:0370:7334 becomes 2001:0db8:85a3::.', 'wp-statistics')) ?></li>
-            <li><?php echo wp_kses_post(__('<b>Enhanced Privacy:</b> After anonymization, a hashing process is applied to the IP address, further securing user data and making re-identification through IP addresses highly unlikely.', 'wp-statistics')) ?></li>
+            <li><?php echo wp_kses_post(__('<b>Enhanced Privacy:</b> When Hash IP Addresses is also on, the masked IP address is hashed too, so the stored value cannot be reversed to an IP address. It still matches the same visitor within a day.', 'wp-statistics')) ?></li>
         </ol>
     </div>
 </div>

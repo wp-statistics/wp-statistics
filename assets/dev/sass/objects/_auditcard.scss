@@ -294,6 +294,16 @@ $breakpoint-audit-mobile: 650px;
         margin: 0;
       }
 
+      ul {
+        margin: 4px 0;
+        padding-left: 20px;
+        list-style: disc;
+
+        li {
+          margin: 0;
+        }
+      }
+
       a {
         font-weight: 400;
       }
@@ -336,6 +346,11 @@ $breakpoint-audit-mobile: 650px;
       a {
         font-weight: 400;
         text-decoration: underline;
+
+        &.button {
+          margin-right: 8px;
+          text-decoration: none;
+        }
       }
     }
   }

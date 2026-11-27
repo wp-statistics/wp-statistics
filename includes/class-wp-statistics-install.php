@@ -240,7 +240,7 @@ class Install
                     jQuery(document).ready(function () {
 
                         // Check Page is complete Loaded
-                        jQuery(window).load(function () {
+                        jQuery(window).on('load', function () {
                             jQuery("#wp-statistics-update-page-area").fadeIn(2000);
                             jQuery("#wp-statistics-update-page-area button.notice-dismiss").hide();
                         });

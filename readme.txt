@@ -3,8 +3,8 @@ Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
-Tested up to: 7.1
-Stable tag: 14.17.0
+Tested up to: 7.2
+Stable tag: 14.17.1
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -145,6 +145,16 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 25. Optimization: Clean old data and keep your database small.
 
 == Changelog ==
+= 14.17.1 - 2026-11-27 =
+- **Enhancement:** Improved the visitor card: the IP, hash or user name is back on each row, and clicking it opens the visitor's journey.
+- **Enhancement:** A notice when your cookie banner stops visitors from being counted, with a one-click fix.
+- **Enhancement:** Tested with WordPress 7.2.
+- **Fix:** Updating no longer turns on the WP Consent API integration by itself.
+- **Fix:** Posts no longer show 0 views after their address was a 404 earlier the same day.
+- **Fix:** The Privacy Audit now matches the consent notice and names the settings that need consent.
+- **Fix:** "Random post" visits on WordPress 7.2 are no longer counted twice with server-side tracking.
+- **Fix:** No more PHP 8.5 and 8.6 deprecation notices from the search engine and social media charts.
+
 = 14.17.0 - 2026-11-25 =
 Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.

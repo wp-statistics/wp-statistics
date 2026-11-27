@@ -12,6 +12,7 @@ use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Integrations\ConsentOnlyTracking;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Utils\Url;
@@ -29,6 +30,7 @@ class GeneralNotices
     private $coreNotices = [
         'detectConsentIntegrations',
         'consentIntegrationWarning',
+        'consentOnlyTracking',
         'detectCachePlugins',
         'checkTrackingMode',
         'performanceAndCleanUp',
@@ -83,6 +85,32 @@ class GeneralNotices
         );
 
         Notice::addNotice(wp_kses_post($message), 'consent_integration_warning', 'warning', false);
+    }
+
+    /**
+     * Warns on WP Statistics pages when only visitors who accept the cookie banner are counted.
+     * Same rule as the Tracker Debugger consent card (ConsentOnlyTracking::getInfo()).
+     *
+     * @return void
+     */
+    private function consentOnlyTracking()
+    {
+        if (!Menus::in_plugin_page()) return;
+
+        $info = ConsentOnlyTracking::getInfo();
+
+        if (empty($info)) return;
+
+        $message = sprintf(
+            '<div><b class="wp-statistics-notice__title">%s</b><p>%s</p><p>%s <a href="%s">%s</a></p></div>',
+            esc_html__('WP Statistics - Some Visitors Are Not Counted', 'wp-statistics'),
+            esc_html($info['message']),
+            ConsentOnlyTracking::getFixButton($info),
+            esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
+            esc_html__('Review consent settings ›', 'wp-statistics')
+        );
+
+        Notice::addNotice(wp_kses_post($message), 'consent_only_tracking', 'warning');
     }
 
     /**

@@ -202,7 +202,7 @@ class IntegrationHelper
                     '%s <br> %s · %s',
                     sprintf(
                         /* translators: %s: string value */
-                        __('We’ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
+                        __('We\'ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
                         $integration->getName()
                     ),
                     '<a href="' . esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration') . '">' . esc_html__('Activate integration ›', 'wp-statistics') . '</a>',
