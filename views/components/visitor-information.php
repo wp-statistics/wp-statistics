@@ -173,7 +173,7 @@ $statusIcon = function ($type, $width = 14) {
 };
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $svg() returns static SVG markup.
 ?>
-<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?><?php echo $isOnline ? ' wps-visitor-info--online' : ''; ?>" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card>
+<ul class="wps-visitor__information--container wps-visitor-info<?php echo $status ? ' wps-visitor-info--' . esc_attr($status) : ''; ?><?php echo $isOnline ? ' wps-visitor-info--online' : ''; ?>" role="link" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?php echo esc_attr($cardId) ?>" aria-label="<?php echo esc_attr($triggerLabel) ?>" data-wps-visitor-card data-wps-visitor-url="<?php echo esc_url($visitorUrl) ?>">
     <li class="wps-visitor__information wps-visitor-info__who" role="none">
         <span class="wps-visitor-info__status wps-visitor-info__slot--status wps-visitor-info__slot--<?php echo esc_attr($iconType) ?>"<?php echo $isOnline ? ' title="' . esc_attr($onlineLabel) . '"' : ''; ?>>
             <?php echo $statusIcon($iconType === 'guest' ? 'user' : $iconType); ?>

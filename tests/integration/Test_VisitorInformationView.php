@@ -91,7 +91,7 @@ class Test_VisitorInformationView extends WP_UnitTestCase
     {
         $html = $this->render([]);
 
-        $this->assertMatchesRegularExpression('/role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="(wps-visitor-card-[^"]+)" aria-label="Visitor details: Munich, Bavaria, Germany, Chrome on Windows, Desktop, Anonymous Visitor, IP 203\.0\.113\.7"/', $html);
+        $this->assertMatchesRegularExpression('/role="link" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="(wps-visitor-card-[^"]+)" aria-label="Visitor details: Munich, Bavaria, Germany, Chrome on Windows, Desktop, Anonymous Visitor, IP 203\.0\.113\.7" data-wps-visitor-card data-wps-visitor-url="[^"]+"/', $html);
         preg_match('/aria-controls="([^"]+)"/', $html, $m);
         $this->assertStringContainsString('id="' . $m[1] . '" role="dialog"', $html);
     }
