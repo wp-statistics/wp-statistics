@@ -283,11 +283,19 @@ class Pages
             // Added to DB
             $page_id = self::save_page($pages);
 
-            // Two first views of this page at the same moment: the (date, uri) unique key let only
-            // one row in, so count this view on that row instead of losing it.
+            // The (date, uri) unique key already holds a row for this URI today: either two first
+            // views arrived at the same moment, or the URI was a 404 earlier today (e.g. the post
+            // was a draft). Count this view on that row, and hand a 404 row over to the real page
+            // so its views are not filed under the 404 (#1256). `id` is set before `type` so
+            // MySQL, which applies SET left to right, still compares against the old type.
             if (empty($page_id)) {
                 $wpdb->query($wpdb->prepare(
-                    "UPDATE `{$tablePage}` SET `count` = `count` + 1 WHERE `date` = %s AND `uri` = %s",
+                    "UPDATE `{$tablePage}` SET `count` = `count` + 1,
+                        `id` = CASE WHEN `type` = '404' THEN %d ELSE `id` END,
+                        `type` = CASE WHEN `type` = '404' THEN %s ELSE `type` END
+                    WHERE `date` = %s AND `uri` = %s",
+                    $pages['id'],
+                    $pages['type'],
                     $pages['date'],
                     $pages['uri']
                 ));
