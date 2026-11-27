@@ -259,10 +259,10 @@ class Pages
 
         // Update Exist Page
         if (null !== $exist) {
-            $query = $wpdb->prepare("UPDATE `{$tablePage}` SET `count` = `count` + 1 WHERE `date` = %s {$search_query} AND `type` = %s AND `id` = %d",
-                TimeZone::getCurrentDate('Y-m-d'),
-                $current_page['type'],
-                $current_page['id']
+            // Update the row the SELECT found, by its key: another request may have just handed a 404
+            // row over to the real page (type and id changed), and that must not lose this view.
+            $query = $wpdb->prepare("UPDATE `{$tablePage}` SET `count` = `count` + 1 WHERE `page_id` = %d",
+                $exist['page_id']
             );
 
             $wpdb->query($query);
