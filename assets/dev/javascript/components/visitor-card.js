@@ -79,6 +79,7 @@
     var TRIGGER = '[data-wps-visitor-card]';
     var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     var open = null, closing = null, showTimer = 0, hideTimer = 0, watchTimer = 0, lastPointer = 'mouse';
+    var refocusing = false; // focus moved back to a pill by a close: do not reopen its card
     var bodyPad = null; // body padding-bottom before a bottom sheet added room under the last rows
     var cards = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
 
@@ -246,10 +247,18 @@
         else closing.timer = setTimeout(finishClose, CLOSE_MS + 20);
     }
 
+    // Move focus without the focus handler reopening the card that was just closed.
+    function quietFocus(el) {
+        if (!el || !el.isConnected) return;
+        refocusing = true;
+        el.focus();
+        setTimeout(function () { refocusing = false; }, 0);
+    }
+
     function closeAndFocus() {
         var trigger = open && open.trigger;
         hideNow();
-        if (trigger && trigger.isConnected) trigger.focus();
+        quietFocus(trigger);
     }
 
     function hideSoon() {
@@ -350,7 +359,7 @@
     });
 
     document.addEventListener('focusin', function (e) {
-        if (lastPointer !== 'keyboard') return;
+        if (lastPointer !== 'keyboard' || refocusing) return;
         var trigger = e.target.closest && e.target.closest(TRIGGER);
         if (trigger && e.target === trigger && !(open && open.trigger === trigger) && !isSheet()) show(trigger);
     });
@@ -410,7 +419,7 @@
                 e.preventDefault();
                 var from = open.trigger, next = focusAfter(from);
                 hideNow();
-                (next || from).focus();
+                if (next) next.focus(); else quietFocus(from);
             }
         }
     });
