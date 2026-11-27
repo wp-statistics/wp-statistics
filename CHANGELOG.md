@@ -1,4 +1,4 @@
-14.17.1 - Unreleased
+14.17.1 - 2026-11-27
 - **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
 - **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
 - **Enhancement:** Tested with WordPress 7.2.

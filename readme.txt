@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.2
-Stable tag: 14.17.0
+Stable tag: 14.17.1
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -145,11 +145,11 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 25. Optimization: Clean old data and keep your database small.
 
 == Changelog ==
-= 14.17.1 - Unreleased =
-- **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
-- **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
+= 14.17.1 - 2026-11-27 =
+- **Enhancement:** A notice and Tracker Debugger warning when your cookie banner stops visits from being counted, with a one-click fix.
+- **Enhancement:** The Visitors list shows the IP, short hash or user name again, with country, OS, device and browser icons.
 - **Enhancement:** Tested with WordPress 7.2.
-- **Fix:** A WordPress 7.2 "random post" visit is no longer counted twice with server-side tracking.
+- **Fix:** "Random post" visits on WordPress 7.2 are no longer counted twice with server-side tracking.
 - **Fix:** No more PHP 8.5 and 8.6 deprecation notices from the search engine and social media charts.
 
 = 14.17.0 - 2026-11-25 =
