@@ -301,9 +301,8 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                             $consentBrowser
                         );
                         $atData['suggestion'] = sprintf(
-                            '<a class="button button-primary" href="%1$s">%2$s</a> %3$s',
-                            esc_url($consentOnly['url']),
-                            esc_html($consentOnly['button']),
+                            '%1$s %2$s',
+                            ConsentOnlyTracking::getFixButton($consentOnly),
                             $consentGuide
                         );
                     }

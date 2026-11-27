@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_Statistics\Service\Integrations\ConsentOnlyTracking;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\PageHeader\PageHeader;
 
@@ -39,7 +38,6 @@ class AdminManager
         add_action('admin_notices', [Notice::class, 'displayNotices']);
         add_action('admin_init', [Notice::class, 'handleDismissNotice']);
         add_action('admin_init', [Notice::class, 'handleGeneralNotices'], 11);
-        ConsentOnlyTracking::register();
     }
 
     private function initSiteHealthInfo()

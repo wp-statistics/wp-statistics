@@ -35,7 +35,22 @@ class AjaxOptionUpdater
      */
     public static function getAllowedOptions()
     {
-        return ['share_anonymous_data'];
+        return ['share_anonymous_data', 'consent_integration', 'anonymous_tracking'];
+    }
+
+    /**
+     * Values allowed per option. Options not listed take any value.
+     * The consent fixes (ConsentOnlyTracking) may only switch the integration off or turn
+     * Anonymous Tracking on; picking a consent plugin stays on the settings page.
+     *
+     * @return array
+     */
+    public static function getAllowedValues()
+    {
+        return [
+            'consent_integration' => [''],
+            'anonymous_tracking'  => [true],
+        ];
     }
 
     /**
@@ -52,7 +67,7 @@ class AjaxOptionUpdater
                 check_ajax_referer('wp_statistics_option_updater', 'wps_nonce');
 
                 $option = Request::get('option');
-                $value  = Request::get('value');
+                $value  = Request::get('value', '');
 
                 if (!in_array($option, self::getAllowedOptions(), true)) {
                     wp_send_json_error(__('This option cannot be changed here.', 'wp-statistics'), 403);
@@ -62,6 +77,11 @@ class AjaxOptionUpdater
                     $value = true;
                 } elseif ($value === 'false') {
                     $value = false;
+                }
+
+                $allowedValues = self::getAllowedValues();
+                if (isset($allowedValues[$option]) && !in_array($value, $allowedValues[$option], true)) {
+                    wp_send_json_error(__('This value cannot be set here.', 'wp-statistics'), 403);
                 }
 
                 Option::update($option, $value);

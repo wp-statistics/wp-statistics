@@ -102,11 +102,10 @@ class GeneralNotices
         if (empty($info)) return;
 
         $message = sprintf(
-            '<div><b class="wp-statistics-notice__title">%s</b><p>%s</p><p><a class="button button-primary" href="%s">%s</a> <a href="%s">%s</a></p></div>',
+            '<div><b class="wp-statistics-notice__title">%s</b><p>%s</p><p>%s <a href="%s">%s</a></p></div>',
             esc_html__('WP Statistics - Some Visitors Are Not Counted', 'wp-statistics'),
             esc_html($info['message']),
-            esc_url($info['url']),
-            esc_html($info['button']),
+            ConsentOnlyTracking::getFixButton($info),
             esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
             esc_html__('Review consent settings ›', 'wp-statistics')
         );
