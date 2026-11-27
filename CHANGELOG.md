@@ -1,7 +1,6 @@
 14.17.1 - 2026-11-27
 - **Fix:** Updating no longer switches Consent Plugin Integration to WP Consent API by itself, which stopped counting visitors who do not accept the cookie banner. The one-time switch now only runs when updating from versions before 14.14.
 - **Fix:** A post no longer shows 0 views for the day when its address was first visited as a 404 (for example while it was still a draft).
-- **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
 - **Fix:** The Privacy Audit consent item matches the "Some Visitors Are Not Counted" notice: no "Passed" while only visitors who accept are counted or the consent plugin is inactive. The consent FAQs name the settings that record personal data, and the page uses current setting names and straight quotes.
 - **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (set Consent Plugin Integration to None; for Borlabs Cookie, also remove its WP Statistics service).
 - **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
@@ -100,7 +99,6 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 
 14.16.10 - 2026-07-25
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.
-- **Enhancement:** General security hardening and internal improvements.
 
 14.16.9 - 2026-07-21
 - **Fix:** Content Analytics no longer adds the site-wide historical baseline into each post's Total Views, so per-post totals are accurate again (issue [#1097](https://github.com/wp-statistics/wp-statistics/issues/1097)).
@@ -257,8 +255,6 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 14.14.1 - 2025-06-29
 - **New:** Added a Database Schema tool to check and repair database structure in the Optimization page.
 - **Enhancement:** Added country name to the flag tooltip in Visitor Info.
-- **Enhancement:** Added unread notification badge to the Help Center menu.
-- **Enhancement:** Improved migration performance by running schema updates synchronously and removing background processes.
 - **Enhancement:** Improved the "Views" section in the Visitor Insight report.
 - **Enhancement:** Deprecated the Matomo Referrer Spam Blacklist option (to be removed in v14.16).
 - **Fix:** Fixed accessibility (A11y) issues.
