@@ -295,6 +295,11 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
     --wps-card-dy: 4px;
   }
 
+  &[data-side="right"],
+  &[data-side="left"] {
+    --wps-card-dy: 0px;
+  }
+
   &.is-visible {
     opacity: 1;
     visibility: visible;

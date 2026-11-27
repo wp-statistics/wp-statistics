@@ -1,6 +1,7 @@
 14.17.1 - 2026-11-27
 - **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
 - **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
+- **Enhancement:** The visitor card opens beside the visitor box, so you can move down the list without it covering the next row. Clicking or tapping the box opens the visitor's journey; on phones it goes straight there.
 - **Enhancement:** Tested with WordPress 7.2.
 - **Fix:** A WordPress 7.2 "random post" visit is no longer counted twice with server-side tracking.
 - **Fix:** No more PHP 8.5 and 8.6 deprecation notices from the search engine and social media charts.
