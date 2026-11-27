@@ -146,10 +146,12 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Changelog ==
 = 14.17.1 - 2026-11-27 =
-- **Enhancement:** A notice and Tracker Debugger warning when your cookie banner stops visits from being counted, with a one-click fix.
-- **Enhancement:** The Visitors list shows the IP, short hash or user name again, with country, OS, device and browser icons.
-- **Enhancement:** The visitor card opens beside the visitor box, and clicking the box opens the visitor's journey.
+- **Enhancement:** Improved the visitor card: the IP, hash or user name is back on each row, and clicking it opens the visitor's journey.
+- **Enhancement:** A notice when your cookie banner stops visitors from being counted, with a one-click fix.
 - **Enhancement:** Tested with WordPress 7.2.
+- **Fix:** Updating no longer turns on the WP Consent API integration by itself.
+- **Fix:** Posts no longer show 0 views after their address was a 404 earlier the same day.
+- **Fix:** The Privacy Audit now matches the consent notice and names the settings that need consent.
 - **Fix:** "Random post" visits on WordPress 7.2 are no longer counted twice with server-side tracking.
 - **Fix:** No more PHP 8.5 and 8.6 deprecation notices from the search engine and social media charts.
 
