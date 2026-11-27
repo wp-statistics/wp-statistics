@@ -78,9 +78,11 @@ class RequireConsent extends AbstractFaq
      *
      * @return string[]
      */
-    public static function getPersonalDataSettings()
+    public static function getPersonalDataSettings($withExemption = true)
     {
-        if (self::isEveryVisitAnonymous()) {
+        // $withExemption = false checks the settings themselves, as they would apply with the
+        // consent integration set to None (no "every visit is anonymous" exemption).
+        if ($withExemption && self::isEveryVisitAnonymous()) {
             return [];
         }
 

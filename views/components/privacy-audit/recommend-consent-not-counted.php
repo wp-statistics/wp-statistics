@@ -15,8 +15,13 @@ use WP_Statistics\Service\Integrations\ConsentOnlyTracking;
 
 $settingsUrl = Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration';
 
-// Setting the integration to None is only safe when WP Statistics records no personal data.
-$showButton = $info['fix'] === ConsentOnlyTracking::FIX_ANONYMOUS || empty($settings);
+// Setting the integration to None is only safe when WP Statistics records no personal data once the
+// integration is gone, so check the settings without the integration's anonymity exemption.
+$afterNone  = \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getPersonalDataSettings(false);
+$showButton = ConsentOnlyTracking::isNoneSafe();
+if (!$showButton) {
+    $settings = $afterNone;
+}
 ?>
 <div class="wps-mb-16"><?php echo esc_html($info['message']); ?></div>
 

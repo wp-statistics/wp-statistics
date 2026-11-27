@@ -110,6 +110,12 @@ class ConsentOnlyTracking
      */
     public static function getFixButton($info, $class = 'button button-primary')
     {
+        // Only offer "None" when WP Statistics records no personal data without the integration;
+        // otherwise the notice keeps just its link to the settings.
+        if (!self::isNoneSafe()) {
+            return '';
+        }
+
         return sprintf(
             '<a href="#" class="%1$s wps-option__updater" data-option="%2$s" data-value="%3$s">%4$s</a>',
             esc_attr($class),
@@ -117,5 +123,16 @@ class ConsentOnlyTracking
             esc_attr($info['value']),
             esc_html($info['button'])
         );
+    }
+
+    /**
+     * Whether setting the integration to None leaves no setting that records personal data
+     * (checked without the current integration's "every visit is anonymous" exemption).
+     *
+     * @return bool
+     */
+    public static function isNoneSafe()
+    {
+        return empty(\WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getPersonalDataSettings(false));
     }
 }
