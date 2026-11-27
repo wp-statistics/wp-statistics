@@ -3,8 +3,7 @@
 - **Fix:** A post no longer shows 0 views for the day when its address was first visited as a 404 (for example while it was still a draft).
 - **Fix:** The Privacy Audit consent item matches the "Some Visitors Are Not Counted" notice: no "Passed" while only visitors who accept are counted or the consent plugin is inactive. The consent FAQs name the settings that record personal data, and the page uses current setting names and straight quotes.
 - **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (set Consent Plugin Integration to None; for Borlabs Cookie, also remove its WP Statistics service).
-- **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
-- **Enhancement:** The visitor card opens beside the visitor box, so you can move down the list without it covering the next row. Clicking or tapping the box opens the visitor's journey; on phones it goes straight there.
+- **Enhancement:** Improved the visitor card: the IP, hash or user name is back on each row, and clicking it opens the visitor's journey. The card opens beside the box so the next row stays visible; on phones a tap goes straight to the journey.
 - **Enhancement:** Tested with WordPress 7.2.
 - **Fix:** A WordPress 7.2 "random post" visit is no longer counted twice with server-side tracking.
 - **Fix:** No more PHP 8.5 and 8.6 deprecation notices from the search engine and social media charts.
