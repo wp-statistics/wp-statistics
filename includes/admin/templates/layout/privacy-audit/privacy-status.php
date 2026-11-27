@@ -16,7 +16,7 @@
     </div>
 
     <div class="wps-privacy-audit__status-description">
-        <?php esc_html_e('The Privacy Audit ensures WP Statistics settings comply with privacy standards, offering insights and actionable steps to protect user data.', 'wp-statistics'); ?>
+        <?php esc_html_e('The Privacy Audit checks your WP Statistics settings and shows steps to collect less personal data.', 'wp-statistics'); ?>
     </div>
 
     <div class="wps-privacy-audit__status-bar">

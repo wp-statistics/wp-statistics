@@ -2,6 +2,8 @@
 - **Fix:** Updating no longer switches Consent Plugin Integration to WP Consent API by itself, which stopped counting visitors who do not accept the cookie banner. The one-time switch now only runs when updating from versions before 14.14.
 - **Fix:** A post no longer shows 0 views for the day when its address was first visited as a 404 (for example while it was still a draft).
 - **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (Anonymous Tracking for Borlabs Cookie, or Consent Plugin Integration set to None).
+- **Fix:** The Privacy Audit consent item matches the "Some Visitors Are Not Counted" notice: no "Passed" while only visitors who accept are counted or the consent plugin is inactive. The consent FAQs name the settings that record personal data, and the page uses current setting names and straight quotes.
+- **Enhancement:** New notice and Tracker Debugger warning when a cookie banner stops WP Statistics from counting visitors who do not accept it, with a one-click fix (set Consent Plugin Integration to None; for Borlabs Cookie, also remove its WP Statistics service).
 - **Enhancement:** Visitors list shows the IP, short hash or user name again, in a compact box with the country, OS, device and browser icons.
 - **Enhancement:** The visitor card opens beside the visitor box, so you can move down the list without it covering the next row. Clicking or tapping the box opens the visitor's journey; on phones it goes straight there.
 - **Enhancement:** Tested with WordPress 7.2.

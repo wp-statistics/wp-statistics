@@ -4,7 +4,7 @@
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Privacy Considerations', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
         <ol>
-            <li><?php echo wp_kses_post(__('<b>Temporary Activation:</b> Intended for short-term diagnostic purposes, it’s recommended to disable this feature once specific issues have been resolved to minimize the collection of extensive user data.', 'wp-statistics')) ?></li>
+            <li><?php echo wp_kses_post(__('<b>Temporary Activation:</b> Intended for short-term diagnostic purposes, it\'s recommended to disable this feature once specific issues have been resolved to minimize the collection of extensive user data.', 'wp-statistics')) ?></li>
             <li><?php echo wp_kses_post(__('<b>Privacy Compliance:</b> The activation of this feature necessitates clear disclosure within your privacy policy about the collection of full user agent strings and their purpose.', 'wp-statistics')) ?></li>
         </ol>
     </div>

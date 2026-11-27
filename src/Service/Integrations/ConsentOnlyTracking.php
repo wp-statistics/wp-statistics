@@ -12,7 +12,8 @@ namespace WP_Statistics\Service\Integrations;
  * Tracker Debugger consent card, so both always agree.
  *
  * The fix depends on the plugin:
- *  - Borlabs Cookie reads WP Statistics' own "Anonymous Tracking" setting, so the fix turns it on.
+ *  - Borlabs Cookie loads the tracker only after the visitor accepts, so the fix is in Borlabs (remove
+ *    the WP Statistics service) plus setting the integration to None.
  *  - WP Consent API, CookieYes and Real Cookie Banner decide in the consent plugin itself; "Anonymous
  *    Tracking" does nothing there. The fix is to set Consent Plugin Integration to None, for sites
  *    where WP Statistics does not need consent (no cookies, hashed IPs).
@@ -41,22 +42,21 @@ class ConsentOnlyTracking
 
         $name = $integration->getName();
 
+        // Borlabs Cookie only loads the tracker for visitors who accept the WP Statistics service, so
+        // nothing in WP Statistics (Anonymous Tracking included) can count the others. The fix is in
+        // Borlabs: remove the service, then set the integration to None.
         if ($integration->getKey() === 'borlabs_cookie') {
-            if ($integration->trackAnonymously()) {
-                return null;
-            }
-
             return [
                 'plugin'  => $name,
                 'message' => sprintf(
                     /* translators: %s: consent plugin name, for example "Borlabs Cookie". */
-                    esc_html__('WP Statistics only counts visitors who accept %s. Visitors who decline or never answer the banner are not counted. Turn on Anonymous Tracking to count them without personal data.', 'wp-statistics'),
+                    esc_html__('%1$s only loads WP Statistics for visitors who accept it, so visitors who decline or never answer the banner are not counted. To count everyone, remove the WP Statistics service in %1$s and set Consent Plugin Integration to None.', 'wp-statistics'),
                     $name
                 ),
-                'fix'     => self::FIX_ANONYMOUS,
-                'button'  => esc_html__('Turn on Anonymous Tracking', 'wp-statistics'),
-                'option'  => 'anonymous_tracking',
-                'value'   => 'true',
+                'fix'     => self::FIX_NONE,
+                'button'  => esc_html__('Set Consent Plugin Integration to None', 'wp-statistics'),
+                'option'  => 'consent_integration',
+                'value'   => '',
             ];
         }
 

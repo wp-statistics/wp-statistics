@@ -1,5 +1,5 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div class="wps-mb-16"><?php echo esc_html__('WP Statistics counts unique visitors without cookies or storing identifiers on visitors’ devices. Cookieless tracking reduces data stored in the browser, but it does not by itself determine whether consent is required.', 'wp-statistics') ?></div>
+<div class="wps-mb-16"><?php echo esc_html__('WP Statistics counts unique visitors without cookies or storing identifiers on visitors\' devices. Cookieless tracking reduces data stored in the browser, but it does not by itself determine whether consent is required.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('When a Cookie Banner May Be Required', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">

@@ -12,11 +12,10 @@ class Test_ConsentFixOptionUpdater extends WP_UnitTestCase
     public function test_consent_options_are_allowed_with_fixed_values_only()
     {
         $this->assertContains('consent_integration', AjaxOptionUpdater::getAllowedOptions());
-        $this->assertContains('anonymous_tracking', AjaxOptionUpdater::getAllowedOptions());
+        $this->assertNotContains('anonymous_tracking', AjaxOptionUpdater::getAllowedOptions());
 
         $values = AjaxOptionUpdater::getAllowedValues();
         $this->assertSame([''], $values['consent_integration'], 'only switching the integration off');
-        $this->assertSame([true], $values['anonymous_tracking'], 'only turning Anonymous Tracking on');
         $this->assertArrayNotHasKey('share_anonymous_data', $values);
     }
 

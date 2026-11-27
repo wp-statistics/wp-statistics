@@ -18,7 +18,7 @@ class RecordUserPageVisits extends ResolvableAudit
     public static function getPassedStateInfo()
     {
         return [
-            'title' => esc_html__('The “Track Logged-In User Activity” feature is currently disabled on your website.', 'wp-statistics'),
+            'title' => esc_html__('The "Track Logged-In User Activity" feature is currently disabled on your website.', 'wp-statistics'),
             'notes' => View::load('components/privacy-audit/visitors-log', [], true),
         ];
     }
@@ -26,7 +26,7 @@ class RecordUserPageVisits extends ResolvableAudit
     public static function getUnpassedStateInfo()
     {
         return [
-            'title' => esc_html__('The “Track Logged-In User Activity” feature is currently enabled on your website.', 'wp-statistics'),
+            'title' => esc_html__('The "Track Logged-In User Activity" feature is currently enabled on your website.', 'wp-statistics'),
             'notes' => View::load('components/privacy-audit/visitors-log-unpassed', [], true),
         ];
     }

@@ -13,7 +13,7 @@
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Recommendations', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
         <ol>
-            <li><?php echo wp_kses_post(__('<b>Enable Anonymization:</b> We recommend enabling the “Anonymize IP Addresses” feature to enhance user privacy and align with privacy laws and best practices.', 'wp-statistics')) ?></li>
+            <li><?php echo wp_kses_post(__('<b>Enable Anonymization:</b> We recommend enabling the "Anonymize IP Addresses" feature to enhance user privacy and align with privacy laws and best practices.', 'wp-statistics')) ?></li>
             <li><?php echo wp_kses_post(__('<b>Review Privacy Practices:</b> If you have specific reasons for keeping this feature disabled, ensure you have adequate measures in place to protect user data and comply with applicable laws. This might include obtaining explicit consent from users for processing their complete IP addresses.', 'wp-statistics')) ?></li>
         </ol>
     </div>
