@@ -48,7 +48,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
         <div class="wps-addon__step__action">
             <a href="<?php echo esc_url(Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>" class="wps-addon__step__back"><?php esc_html_e('Back', 'wp-statistics'); ?></a>
             <a class="wps-postbox-addon-button js-addon-download-button disabled">
-                <?php esc_html_e('Download & Install Selected Add-ons', 'wp-statistics'); ?>
+                <?php esc_html_e('Install or Update Selected Add-ons', 'wp-statistics'); ?>
             </a>
         </div>
     </div>

@@ -33,13 +33,13 @@ if (empty($addOn)) {
     </div>
     <div class="wps-addon__download__item--select">
         <?php if ($included && $addOn->isInstalled()) : ?>
-            <span class="wps-postbox-addon__status wps-postbox-addon__status--installed "><?php esc_html_e('Installed', 'wp-statistics'); ?></span>
+            <span class="wps-postbox-addon__status wps-postbox-addon__status--installed "><?php echo $addOn->isUpdateAvailable() ? esc_html__('Installed · Update', 'wp-statistics') : esc_html__('Installed', 'wp-statistics'); ?></span>
         <?php elseif (!$included) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--primary "><?php esc_html_e('Not included', 'wp-statistics'); ?></span>
         <?php endif; ?>
 
         <?php if ($included && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
-            <span> <input aria-label="<?php esc_html_e('Select to download and install addon', 'wp-statistics'); ?>" type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>"></span>
+            <span> <input aria-label="<?php echo $addOn->isInstalled() ? esc_attr__('Select to update add-on', 'wp-statistics') : esc_attr__('Select to download and install add-on', 'wp-statistics'); ?>" type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>"></span>
         <?php endif; ?>
     </div>
 </div>
