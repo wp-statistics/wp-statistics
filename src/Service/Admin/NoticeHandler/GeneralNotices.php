@@ -54,6 +54,11 @@ class GeneralNotices
             return;
         }
 
+        // The Add-ons / License screens are about licenses only; tracking and settings notices do not belong there.
+        if (Menus::in_page('plugins')) {
+            return;
+        }
+
         if (!Helper::is_request('ajax') && !Option::get('hide_notices') && User::Access('manage')) {
             foreach ($this->coreNotices as $notice) {
                 if (method_exists($this, $notice)) {
