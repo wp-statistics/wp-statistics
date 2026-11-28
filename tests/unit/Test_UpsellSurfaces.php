@@ -510,14 +510,16 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
             $this->assertStringContainsString('Add Another License', $html);
             $this->assertStringNotContainsString('Download your add-ons', $html);
 
-            // The stepper shows only the Add License step, no dead "Download Add-ons" link.
+            // One step left: a plain "Your License" title, no step bar and no dead "Download Add-ons" link.
             $this->blockHttp();
             $_GET['tab'] = $_REQUEST['tab'] = 'add-license';
             ob_start();
             (new \WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView())->render();
             $page = ob_get_clean();
-            $this->assertStringContainsString('Add Your License', $page);
+            $this->assertStringContainsString('<h2 class="wps_title">Your License</h2>', $page);
+            $this->assertStringNotContainsString('class="wps-steps"', $page);
             $this->assertStringNotContainsString('wps-step-link__title">Download Add-ons', $page);
+            $this->assertSame(1, substr_count($page, 'wp-header-end'), 'one notice anchor, so notices are not cloned');
         } finally {
             $cleanup();
         }

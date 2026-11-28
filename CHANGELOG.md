@@ -1,4 +1,7 @@
 Unreleased
+- **Fix:** The License screen no longer shows the same notice twice, and the Add-ons screens no longer show tracking and settings notices that have nothing to do with licenses.
+- **Fix:** With every add-on installed, the License screen shows a plain "Your License" title instead of a step bar with a lone "1".
+- **Enhancement:** Visitor box: the hash or IP is easier to read (softer gray), sits next to the visitor icon in right-to-left languages, and the single visitor header has a little more space.
 - **Enhancement:** The REST API add-on is now called "API & MCP" in the plugin, since it also connects ChatGPT, Claude and other AI agents through MCP.
 - **Fix:** The "visits stopped" email alert is no longer switched on by updating. It stays on for new installs; sites that updated and never saved the setting now have it off (turn it on in Settings → Email Reports → Tracking Alerts).
 - **Fix:** No more PHP 8.4 "Implicitly marking parameter as nullable" deprecation notices from bundled libraries (Parsedown, GeoIP2 and MaxMind exceptions).

@@ -256,8 +256,10 @@ class TabsView extends BaseTabView
             } else {
                 // A licensed site with every add-on already installed has nothing to download,
                 // so the Add License step stands alone instead of leading to a dead "Download Add-ons" step.
+                // With only one step left, a lone "1" in the step bar looks broken, so show a plain title.
                 if ($this->isTab('add-license') && LicenseHelper::isValidLicenseAvailable() && !PluginHelper::hasAddonsToDownload()) {
-                    $args['tabs'] = array_slice($args['tabs'], 0, 2);
+                    $args['tabs']  = [];
+                    $args['title'] = esc_html__('Your License', 'wp-statistics');
                 }
 
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
