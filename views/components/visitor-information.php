@@ -303,6 +303,15 @@ $statusIcon = function ($type, $width = 14) {
     </ul>
 
     <?php
+    // The campaign the visit arrived with: the UTM tags on its entry page.
+    $wpsEntry = $visitor->getFirstPage();
+    if (!empty($wpsEntry['query']) && \WP_Statistics\Utils\Url::getParam('?' . ltrim($wpsEntry['query'], '?'), 'utm_campaign')) : ?>
+        <div class="wps-visitor-card__campaign">
+            <?php \WP_Statistics\Components\View::load('components/objects/campaign-label', ['query' => $wpsEntry['query'], 'variant' => 'block', 'surface' => 'visitor-card']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php
     $actions = [];
     if ($ipVisible) {
         $actions[] = '<button type="button" data-wps-copy="' . esc_attr($ip) . '">' . $svg($icon['copy']) . '<span data-wps-copy-label>' . esc_html__('Copy IP', 'wp-statistics') . '</span></button>';

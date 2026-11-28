@@ -90,8 +90,21 @@ test('beside the pill near the bottom moves up to stay on screen', () => {
     assert.equal(pos.top, 900 - 8 - 200);
 });
 
-test('no room beside the pill: falls back to below', () => {
+test('no room on the right: opens on the left of the pill (last column)', () => {
     const pos = load().position(rect(1200, 200), card, viewport);
+    assert.equal(pos.side, 'left');
+    assert.equal(pos.left, 1200 - 8 - 340);
+    assert.equal(pos.top, 200);
+});
+
+test('no room on the right in RTL-mirror: RTL pill near the left edge opens on its right', () => {
+    const pos = load().position(rect(20, 200), card, viewport, {rtl: true});
+    assert.equal(pos.side, 'right');
+    assert.equal(pos.left, 20 + 102 + 8);
+});
+
+test('no room on either side: falls back to below', () => {
+    const pos = load().position(rect(200, 200), card, {width: 500, height: 900});
     assert.equal(pos.side, 'bottom');
     assert.equal(pos.top, 200 + 24 + 8);
 });

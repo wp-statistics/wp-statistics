@@ -150,24 +150,6 @@
     flex: 0 1 auto;
     min-width: 0;
   }
-
-  .wps-campaign-label {
-    flex: 0 1 auto;
-    min-width: 0;
-    max-width: 40%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 1px 5px;
-    border-radius: 3px;
-    background: #F1EDFB;
-    color: #6B4FBB;
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 14px;
-    letter-spacing: .03em;
-    text-transform: uppercase;
-  }
 }
 
 // Dot before the entry page: filled when the visit went on to other pages, a hollow ring
@@ -219,16 +201,210 @@
 }
 
 // One page and gone: a small amber pill.
+// Same box as the campaign pill (height, corners, border, type), so the two line up.
 #wpbody .wps-visitor-pages__bounced {
+  display: inline-flex;
+  align-items: center;
   flex: none;
-  padding: 1px 6px;
+  box-sizing: border-box;
+  height: 18px;
+  padding: 0 7px;
+  border: 1px solid #F5E4B8;
   border-radius: 9px;
   background: #FFF4DC;
   color: #8A5A00;
   font-size: 10.5px;
   font-weight: 600;
-  line-height: 14px;
+  line-height: 1;
   white-space: nowrap;
+}
+
+// ---- Campaign pill, block and tooltip (views/components/objects/campaign-label.php) ----
+// Not scoped to #wpbody: the visitor card and the tooltips live in <body>.
+// The pill never shrinks: in a narrow column the page title cuts first. Long names cut at 150px.
+.wps-campaign-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  align-self: flex-start;
+  box-sizing: border-box;
+  max-width: 150px;
+  height: 18px;
+  margin: 0;
+  padding: 0 7px;
+  border: 1px solid #E2DAF7;
+  border-radius: 9px;
+  background: #F1EDFB;
+  color: #6B4FBB;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  // Arrow with a question mark: hover shows the details; the label is not a link.
+  cursor: help;
+
+  .wps-campaign__tag {
+    flex: none;
+    width: 10px;
+    height: 10px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #6B4FBB;
+    outline-offset: 1px;
+  }
+}
+
+.wps-campaign-label__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// The block: a head (tag icon + "Campaign", report link on the other side) and one row per tag.
+// Same type and colors as the visitor card's facts.
+.wps-campaign-block {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: #3C4043;
+  white-space: normal;
+}
+
+.wps-campaign-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wps-campaign-block__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #0C0C0D;
+
+  .wps-campaign__tag {
+    width: 14px;
+    height: 14px;
+    color: #6B4FBB;
+  }
+}
+
+// The link: blue at rest, darker on hover; only the words get the underline (one line, never
+// a second one under the arrow).
+.wps-campaign-block .wps-campaign-block__link,
+#wpbody .wps-campaign-block .wps-campaign-block__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #404BF2 !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  cursor: pointer;
+
+  span {
+    text-decoration: none !important;
+  }
+
+  // No underline or line on hover (owner: hover lines looked doubled). Only the colour darkens.
+  &,
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    text-decoration: none !important;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: #2B34C9 !important;
+  }
+
+  &--locked {
+    color: #6B4FBB !important;
+
+    &:hover,
+    &:focus-visible {
+      color: #55389F !important;
+    }
+  }
+}
+
+.wps-campaign-block__rows {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 6px 8px;
+}
+
+.wps-campaign-block__key {
+  color: #6B6E73;
+}
+
+.wps-campaign-block__value {
+  min-width: 0;
+  color: #0C0C0D;
+  overflow-wrap: anywhere;
+}
+
+// Tooltip of the pill: the visitor card's box (white, 1px border, 10px corners, same shadow).
+.tooltipster-base.tooltipster-shadow.wps-tooltip--card {
+  max-width: min(320px, calc(100vw - 16px));
+
+  .tooltipster-box {
+    background: #fff;
+    border: 1px solid #DADCE0;
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(16, 24, 40, .16);
+  }
+
+  .tooltipster-content {
+    padding: 12px 14px;
+    color: #0C0C0D;
+    overflow-wrap: normal;
+  }
+
+  .tooltipster-arrow-border {
+    border-top-color: #DADCE0 !important;
+    border-bottom-color: #DADCE0 !important;
+  }
+
+  .tooltipster-arrow-background {
+    border-top-color: #fff !important;
+    border-bottom-color: #fff !important;
+  }
+}
+
+.wps-campaign-tip {
+  display: block;
+  min-width: 240px;
+}
+
+// In the visitor card: its own section under the facts, with the card's side padding.
+.wps-visitor-card__campaign {
+  padding: 12px 14px;
+  border-top: 1px solid #EEEFF1;
+}
+
+// In the visitor profile: a full-width section between Referrer and Visits.
+#wpbody .wps-visitor-profile__facts > .wps-visitor-profile__campaign {
+  display: block;
+
+  > dd {
+    overflow: visible;
+    white-space: normal;
+  }
 }
 
 #wpbody .wps-visitor-pages__none {
@@ -351,4 +527,55 @@
       font-size: 12px;
     }
   }
+}
+
+// A link inside an ellipsis wrapper uses the whole cell: the wrapper cuts it at the cell's edge,
+// instead of the fixed 150px cap that cut short titles in wide columns (Campaigns, Entry Page).
+body .o-table-wrapper table.wps-new-table tbody tr td .wps-ellipsis-parent > .wps-link-arrow {
+  max-width: 100%;
+}
+
+// Channel of a visit next to its referrer ("From newsletter  EMAIL"): the Referrer column's label.
+.wps-channel-label {
+  display: inline-block;
+  margin-inline-start: 6px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, .03);
+  color: #636363;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+// Source row of the visitor profile: channel, then the referrer link on the same line.
+#wpbody .wps-visitor-profile__facts dd.wps-visitor-profile__source {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+
+  > * {
+    min-width: 0;
+  }
+}
+
+// The visitor pill sits at the start of its cell on every table (Marketing's single campaign
+// table right-aligned its last column, so the pill and its card ended up far right).
+#wpbody table td:has(> .wps-visitor-info),
+#wpbody table td:has(> .wps-visitor__information--container) {
+  text-align: start !important;
+}
+
+// Entry page titles in the add-on tables (Marketing Latest Visitors): no underline on hover,
+// only the colour changes, as on the title cells elsewhere.
+#wpbody .wps-entry-page a.wps-link-arrow:hover,
+#wpbody .wps-entry-page a.wps-link-arrow:focus-visible,
+#wpbody .wps-entry-page a.wps-link-arrow:hover span,
+#wpbody .wps-entry-page a.wps-link-arrow:focus-visible span {
+  text-decoration: none !important;
 }

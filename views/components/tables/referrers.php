@@ -54,11 +54,14 @@ $shareLabel = !empty($share_label) ? $share_label : __('Share of all referrals',
                         <tr>
                             <td class="wps-pd-l">
                                 <?php if (!empty($referrer->getRawReferrer())) : ?>
-                                    <div class="wps-ellipsis-parent">
-                                        <a href="<?php echo esc_url($referrer->getReferrer()) ?>" title="<?php echo esc_html($referrer->getRawReferrer()) ?>" target="_blank" class="wps-link-arrow">
-                                            <span class="wps-ellipsis-text"><?php echo esc_html($referrer->getRawReferrer()) ?></span>
-                                        </a>
-                                    </div>
+                                    <?php // The domain opens its report (the visitors it sent); the ↗ opens the site itself. ?>
+                                    <span class="wps-title-cell">
+                                        <?php View::load('components/objects/internal-link', [
+                                            'url'   => Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'referrer' => $referrer->getRawReferrer()]),
+                                            'title' => $referrer->getRawReferrer(),
+                                        ]); ?>
+                                        <?php View::load('components/objects/new-tab-link', ['url' => $referrer->getReferrer(), 'label' => __('Open site in a new tab', 'wp-statistics')]); ?>
+                                    </span>
                                 <?php else : ?>
                                     <span class="wps-referrer-none"><?php esc_html_e('(no referrer)', 'wp-statistics') ?></span>
                                 <?php endif; ?>

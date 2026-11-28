@@ -1,0 +1,76 @@
+// "Where readers go next" card on the single content report.
+// PHP: views/components/tables/next-pages.php
+
+.wps-next-pages {
+  &__left {
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text-muted;
+
+    strong {
+      color: $wps-text;
+    }
+  }
+
+  &__lock {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  &__lock-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: $wps-brand;
+    font-weight: 600;
+    text-decoration: none;
+
+    svg {
+      flex: none;
+      color: $wps-text-subtle;
+    }
+
+    &:hover,
+    &:focus {
+      color: $wps-brand;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Small locked card for an add-on card on the single content report.
+// PHP: views/components/lock-sections/locked-card.php
+.wps-locked-card {
+  .wps-card__title h2 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__icon {
+    flex: none;
+    color: $wps-text-subtle;
+  }
+
+  &__text {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text-muted;
+  }
+
+  &__link {
+    font-size: 13px;
+    font-weight: 600;
+    color: $wps-brand;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $wps-brand;
+      text-decoration: underline;
+    }
+  }
+}

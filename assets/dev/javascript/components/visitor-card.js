@@ -36,15 +36,22 @@
         var gap = opts.gap != null ? opts.gap : GAP;
         var m = opts.margin != null ? opts.margin : MARGIN;
 
-        // Beside the pill first: the mouse can then go straight down the list.
+        // Beside the pill first: the mouse can then go straight down the list. The reading side
+        // (right in LTR) when it fits, else the other side: a pill in the last column (single
+        // campaign, Latest Visitors) opens to its left instead of above, where it got cut off.
         if (opts.beside !== false) {
-            var sideLeft = opts.rtl ? trigger.left - gap - card.width : trigger.right + gap;
-            if (sideLeft >= m && sideLeft + card.width <= viewport.width - m) {
-                var room = viewport.height - 2 * m;
-                var cap = card.height > room ? Math.max(0, Math.floor(room)) : null;
-                var h = cap != null ? cap : card.height;
-                var sideTop = Math.max(m, Math.min(trigger.top, viewport.height - m - h));
-                return {left: Math.round(sideLeft), top: Math.round(sideTop), side: opts.rtl ? 'left' : 'right', maxHeight: cap};
+            var after = opts.rtl ? trigger.left - gap - card.width : trigger.right + gap;
+            var before = opts.rtl ? trigger.right + gap : trigger.left - gap - card.width;
+            var sides = [[after, opts.rtl ? 'left' : 'right'], [before, opts.rtl ? 'right' : 'left']];
+            for (var i = 0; i < sides.length; i++) {
+                var sideLeft = sides[i][0];
+                if (sideLeft >= m && sideLeft + card.width <= viewport.width - m) {
+                    var room = viewport.height - 2 * m;
+                    var cap = card.height > room ? Math.max(0, Math.floor(room)) : null;
+                    var h = cap != null ? cap : card.height;
+                    var sideTop = Math.max(m, Math.min(trigger.top, viewport.height - m - h));
+                    return {left: Math.round(sideLeft), top: Math.round(sideTop), side: sides[i][1], maxHeight: cap};
+                }
             }
         }
         var below = viewport.height - m - (trigger.bottom + gap);

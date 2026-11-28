@@ -120,6 +120,52 @@ class Test_VisitorTableView extends WP_UnitTestCase
         $this->assertStringNotContainsString('Bounced', $unknown);
     }
 
+    public function test_campaign_label_lists_every_utm_tag_in_its_tooltip()
+    {
+        $html = View::load('components/objects/campaign-label', ['query' => '?utm_source=news&utm_medium=email&utm_campaign=spring-sale&utm_content=hero&utm_term=shoes'], true);
+
+        // One pill with the campaign name, and a tooltip with all five tags.
+        $this->assertSame(1, substr_count($html, 'class="wps-campaign-label '));
+        $this->assertStringContainsString('data-tooltip-content="#wps-campaign-tip-', $html);
+        foreach (['spring-sale', 'news', 'email', 'hero', 'shoes'] as $value) {
+            $this->assertStringContainsString('dir="auto">' . $value . '</span>', $html);
+        }
+
+        // Without a utm_campaign there is no pill, even when other tags are set.
+        $this->assertSame('', trim(View::load('components/objects/campaign-label', ['query' => 'utm_source=news'], true)));
+        $this->assertSame('', trim(View::load('components/objects/campaign-label', ['query' => ''], true)));
+
+        // Tags are shown as plain text.
+        $unsafe = View::load('components/objects/campaign-label', ['query' => 'utm_campaign=%3Cscript%3Ex%3C%2Fscript%3E'], true);
+        $this->assertStringNotContainsString('<script>', $unsafe);
+    }
+
+    public function test_campaign_label_links_to_the_report_only_with_marketing()
+    {
+        $query  = 'utm_source=news&utm_medium=email&utm_campaign=spring-sale';
+        $plugin = 'wp-statistics-marketing/wp-statistics-marketing.php';
+        $active = function ($plugins) use ($plugin) {
+            return array_merge((array)$plugins, [$plugin]);
+        };
+        $inactive = function ($plugins) use ($plugin) {
+            return array_values(array_diff((array)$plugins, [$plugin]));
+        };
+
+        add_filter('option_active_plugins', $inactive);
+        $free = View::load('components/objects/campaign-label', ['query' => $query], true);
+        remove_filter('option_active_plugins', $inactive);
+        $this->assertStringContainsString('js-wps-openPremiumModal', $free);
+        $this->assertStringContainsString('data-target="wp-statistics-marketing"', $free);
+        $this->assertStringNotContainsString('type=single-campaign', $free);
+
+        add_filter('option_active_plugins', $active);
+        $paid = View::load('components/objects/campaign-label', ['query' => $query], true);
+        remove_filter('option_active_plugins', $active);
+        $this->assertStringContainsString('type=single-campaign', $paid);
+        $this->assertStringContainsString('utm_campaign=spring-sale', $paid);
+        $this->assertStringNotContainsString('js-wps-openPremiumModal', $paid);
+    }
+
     public function test_journey_cell_missing_exit_campaign_and_unknown()
     {
         $entry          = $this->page('Shop');

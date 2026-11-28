@@ -176,25 +176,28 @@ class Test_PrivacyRoleWhiteLabel extends WP_UnitTestCase
         $html = $this->render('components/visitor-profile', ['visitor' => $this->visitor('203.0.113.9'), 'summary' => ['visits' => 3, 'views' => 5]]);
 
         $this->assertStringNotContainsString('203.0.113.9', $html);
-        $this->assertStringContainsString('Anonymous Visitor', $html);
-        $this->assertStringContainsString('Not logged in · IP hidden', $html);
-        $this->assertStringContainsString('assets/images/anonymous.svg', $html, 'same incognito icon as the Logged-in Users widget');
+        // Layout A: who it is lives in the page header; the card shows the IP state as a pill.
+        $this->assertStringContainsString('<span class="wps-pill__text">IP hidden</span>', $html);
+        $this->assertStringNotContainsString('wps-visitor-profile__head', $html);
         $this->assertStringNotContainsString('Guest', $html);
         $this->assertStringNotContainsString('from this IP', $html);
     }
 
-    public function test_single_visitor_header_shows_short_hash_for_hashed_ip()
+    public function test_short_hash_for_hashed_ip_shows_in_the_profile_card_not_the_header()
     {
         Option::update('hash_ips', true);
 
+        // Layout A: the short hash moved from the page header to the profile card.
         $header = SingleHeaders::visitor($this->visitor($this->hashedIp()));
         $facts  = wp_list_pluck($header['facts'], 'text');
+        $this->assertNotContains('#a1b2c3d4 · hashed', $facts);
 
-        $this->assertContains('#a1b2c3d4 · hashed', $facts);
-        $this->assertNotContains('Hashed IP', $facts);
+        $html = $this->render('components/visitor-profile', ['visitor' => $this->visitor($this->hashedIp()), 'summary' => ['visits' => 1, 'views' => 1]]);
+        $this->assertStringContainsString('#a1b2c3d4 · hashed', $html);
+        $this->assertStringNotContainsString('Hashed IP', $html);
     }
 
-    public function test_single_visitor_header_says_anonymous_and_keeps_ip_privacy_as_a_fact()
+    public function test_single_visitor_header_says_anonymous_and_leaves_ip_privacy_to_the_card()
     {
         Option::update('hash_ips', true);
         Option::update('visitors_log', false);
@@ -205,8 +208,9 @@ class Test_PrivacyRoleWhiteLabel extends WP_UnitTestCase
         $this->assertSame('Anonymous', $header['tag']);
         $this->assertSame('anonymous', $header['icon']['shape']);
         $this->assertStringEndsWith('assets/images/anonymous.svg', $header['icon']['src']);
+        // Layout A: the header holds identity and last seen only; IP state is in the profile card.
         $facts = wp_list_pluck($header['facts'], 'text');
-        $this->assertContains('IP hidden', $facts);
+        $this->assertNotContains('IP hidden', $facts);
     }
 
     // --- Roles and white label ---

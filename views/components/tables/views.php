@@ -14,11 +14,11 @@ use WP_STATISTICS\Menus;
                 <table width="100%" class="o-table wps-new-table">
                     <thead>
                     <tr>
-                        <th scope="col" class="wps-pd-l">
-                            <span class="wps-order"><?php esc_html_e('View Time', 'wp-statistics'); ?></span>
+                        <th scope="col" class="wps-pd-l wps-visitor-table__visitor">
+                            <?php esc_html_e('Visitor', 'wp-statistics'); ?>
                         </th>
                         <th scope="col" class="wps-pd-l">
-                            <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                            <span class="wps-order"><?php esc_html_e('View Time', 'wp-statistics'); ?></span>
                         </th>
                         <th scope="col" class="wps-pd-l">
                             <?php esc_html_e('Referrer', 'wp-statistics'); ?>
@@ -37,12 +37,12 @@ use WP_STATISTICS\Menus;
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
-                            <td class="wps-pd-l">
-                                <?php echo esc_html($visitor->getLastView()); ?>
+                            <td class="wps-pd-l wps-visitor-table__visitor">
+                                <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
+                                <?php echo esc_html($visitor->getLastView()); ?>
                             </td>
 
                             <td class="wps-pd-l">

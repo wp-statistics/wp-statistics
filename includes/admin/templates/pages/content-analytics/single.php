@@ -142,6 +142,14 @@ $postType = get_post_type($postId);
             'data'    => $data['referrers']
         ];
         View::load("components/tables/top-referring", $topReferring);
+
+        /**
+         * Cards after "Top Referring" on the single content report: how visitors found the post,
+         * what they did on it, where they went next (core, Marketing, Data Plus).
+         *
+         * @param int $postId The post being reported on.
+         */
+        do_action('wp_statistics_single_content_widgets', $postId);
         ?>
     </div>
 

@@ -74,7 +74,7 @@
 
 .wps-head-filters {
   right: unset;
-  left: 24px;
+  left: 20px; // = $wps-page-gutter
   flex-direction: row-reverse;
 }
 
