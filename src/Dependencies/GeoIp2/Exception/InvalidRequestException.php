@@ -22,7 +22,7 @@ class InvalidRequestException extends HttpException
         string $error,
         int $httpStatus,
         string $uri,
-        \Exception $previous = null
+        ?\Exception $previous = null
     ) {
         $this->error = $error;
         parent::__construct($message, $httpStatus, $uri, $previous);
