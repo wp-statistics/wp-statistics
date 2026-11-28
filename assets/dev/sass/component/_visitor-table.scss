@@ -259,6 +259,13 @@
   }
 }
 
+// Hover keeps the "?" pointer: tooltip and link rules elsewhere set their own cursor on :hover.
+.wps-campaign-label:hover,
+#wpbody .wps-campaign-label:hover,
+#wpbody a .wps-campaign-label:hover {
+  cursor: help !important;
+}
+
 .wps-campaign-label__text {
   min-width: 0;
   overflow: hidden;
