@@ -33,6 +33,13 @@ class VisitorDecorator
     private $lastPage = false;
 
     /**
+     * First page of the visit, read once (false = not read yet).
+     *
+     * @var array|null|false
+     */
+    private $firstPage = false;
+
+    /**
      * VisitorDecorator constructor.
      * @param mixed $visitor
      */
@@ -299,7 +306,12 @@ class VisitorDecorator
      */
     public function getFirstPage()
     {
-        return !empty($this->visitor->first_page) ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+        // Kept for the row: the journey cell, the visitor card and the campaign pill all read it.
+        if ($this->firstPage === false) {
+            $this->firstPage = !empty($this->visitor->first_page) ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+        }
+
+        return $this->firstPage;
     }
 
     /**

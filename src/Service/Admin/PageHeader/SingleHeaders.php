@@ -154,26 +154,8 @@ class SingleHeaders
             'facts'  => [],
         ];
 
-        $location = self::visitorLocation($visitor);
-        if ($location) {
-            $header['facts'][] = [
-                'text'  => $location,
-                'icon'  => $visitor->getLocation()->getCountryFlag(),
-                'shape' => 'flag',
-            ];
-        }
-
-        $browser = $visitor->getBrowser()->getName();
-        $os      = $visitor->getOs()->getName();
-        if (!Admin_Template::isUnknown($browser) && $browser !== __('(not set)', 'wp-statistics')) {
-            $header['facts'][] = [
-                /* translators: 1: Browser name, 2: Operating system name. */
-                'text'  => (!Admin_Template::isUnknown($os) && $os !== __('(not set)', 'wp-statistics')) ? sprintf(__('%1$s on %2$s', 'wp-statistics'), $browser, $os) : $browser,
-                'icon'  => $visitor->getBrowser()->getLogo(),
-                'shape' => 'logo',
-            ];
-        }
-
+        // Layout A: the header says who it is and when they were last seen. Location, browser and
+        // IP state live in the profile card below, so nothing shows twice.
         $lastSeen = $visitor->getLastView(true);
         if (!empty($lastSeen)) {
             $header['facts'][] = [
@@ -183,16 +165,6 @@ class SingleHeaders
             ];
         }
 
-        // IP privacy is a setting, not a login status: its own fact.
-        if ($visitor->isHashedIP() || !$visitor->isIpVisible()) {
-            $header['facts'][] = [
-                // Short hash ("#e7b398f9 · hashed"), same as the visitor card, so visits can be matched.
-                'text' => $visitor->isHashedIP()
-                    ? ($visitor->getIP() ? /* translators: %s: Short hash of the visitor's IP, e.g. #e7b398f9. */ sprintf(__('%s · hashed', 'wp-statistics'), $visitor->getIP()) : __('Hashed IP', 'wp-statistics'))
-                    : __('IP hidden', 'wp-statistics'),
-                'svg'  => 'lock',
-            ];
-        }
 
         return $header;
     }

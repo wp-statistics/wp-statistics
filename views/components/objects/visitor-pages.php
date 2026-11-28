@@ -10,7 +10,8 @@
  *    only when the view count is exactly 1).
  *  - Exit not recorded: line 2 says "Not recorded" (muted).
  *  - Neither page known: the unknown "-" value.
- *  - A utm_campaign on the entry URL adds the campaign tag after the entry page.
+ *  - A utm_campaign on the entry URL adds the campaign pill after the entry page, with every
+ *    UTM tag in its tooltip (components/objects/campaign-label).
  *
  * Each title cuts with an ellipsis; the full title shows on hover
  * (assets/dev/javascript/components/title-cell.js). The dot and connector are drawn in CSS
@@ -32,10 +33,8 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Utils\Url;
 
 $entryPage = null;
 $exitPage  = null;
@@ -80,7 +79,7 @@ $link = function ($page, $withQuery = false) {
     ]);
 };
 
-$campaign = !empty($entryPage['query']) ? sanitize_text_field((string)Url::getParam('?' . $entryPage['query'], 'utm_campaign')) : '';
+$hasCampaign = !empty($entryPage['query']) && \WP_Statistics\Utils\Url::getParam('?' . ltrim($entryPage['query'], '?'), 'utm_campaign');
 $notSet   = '<span class="wps-visitor-pages__none">' . esc_html__('Not recorded', 'wp-statistics') . '</span>';
 ?>
 <div class="wps-visitor-pages <?php echo $onePage ? 'wps-visitor-pages--single' : 'wps-visitor-pages--multi'; ?>">
@@ -90,14 +89,15 @@ $notSet   = '<span class="wps-visitor-pages__none">' . esc_html__('Not recorded'
         echo $srText($entryLabel); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         if (!empty($entryPage)) {
-            $link($entryPage, true);
+            // The campaign pill's tooltip shows the UTM tags, so the ⓘ with the raw query string goes.
+            $link($entryPage, !$hasCampaign);
         } else {
             echo $notSet; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
         ?>
-        <?php if ($campaign) : ?>
-            <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr(Helper::plainText($campaign)); ?>"><?php echo esc_html(Helper::plainText($campaign)); ?></span>
-        <?php endif; ?>
+        <?php if (!empty($entryPage['query'])) {
+            View::load('components/objects/campaign-label', ['query' => $entryPage['query'], 'surface' => 'visitors-journey']);
+        } ?>
         <?php if ($bounced) : ?>
             <span class="wps-visitor-pages__bounced" title="<?php esc_attr_e('Left after one page', 'wp-statistics'); ?>"><?php echo esc_html_x('Bounced', 'visitor left after one page', 'wp-statistics'); ?></span>
         <?php endif; ?>

@@ -140,6 +140,9 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
                         </span>
                         <?php if (!empty($step['is_entry'])) : ?>
                             <span class="wps-journey__badge wps-journey__badge--entry"><?php esc_html_e('Entry', 'wp-statistics'); ?></span>
+                            <?php if (!empty($page['query'])) {
+                                View::load('components/objects/campaign-label', ['query' => $page['query'], 'surface' => 'visitor-journey']);
+                            } ?>
                         <?php endif; ?>
                         <?php if (!empty($step['is_exit'])) : ?>
                             <span class="wps-journey__badge wps-journey__badge--exit"><?php esc_html_e('Exit', 'wp-statistics'); ?></span>
@@ -164,7 +167,8 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
                     /* translators: %s: Referrer domain or source name. */
                     echo wp_kses_post(sprintf(__('From %s', 'wp-statistics'), $from));
                     if ($referral->getSourceChannel() && $referral->getRawSourceChannel() !== 'unassigned') {
-                        echo ' <span class="wps-journey__muted">· ' . esc_html($referral->getSourceChannel()) . '</span>';
+                        // Same channel label as the Referrer column of the visitor tables ("PAID SOCIAL").
+                        echo ' <span class="wps-channel-label">' . esc_html($referral->getSourceChannel()) . '</span>';
                     }
                     ?>
                 <?php else : ?>

@@ -389,4 +389,145 @@ class ViewsModel extends BaseModel
 
         return $result;
     }
+
+    /**
+     * Where readers of one post went next: the page each visitor viewed right after it.
+     *
+     * Two cheap steps instead of a self-join:
+     *  1. This post's views in the date range (visitor_id + date), newest first, capped.
+     *  2. All views of those visitors in the same range, in one query.
+     * The next view of a post view is the following row of the same visitor by date (then ID).
+     *
+     * @param array $args {
+     *     @type int          $resource_id   Post ID.
+     *     @type string|array $resource_type Post types (pages.type values are resolved from them).
+     *     @type array|string $date          Date range, defaults to the page's range.
+     *     @type int          $per_page      How many next pages to return. Default 3.
+     *     @type int          $max_views     Cap on this post's views read in step 1. Default 5000.
+     * }
+     * @return array{readers:int, left:int, left_rate:float, pages:array} `pages` holds objects with
+     *               page_id (a pages row of that page, for its title and links) and visitors, most visitors first.
+     */
+    public function getNextPages($args = [])
+    {
+        global $wpdb;
+
+        $args = $this->parseArgs($args, [
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'per_page'      => 3,
+            'max_views'     => 5000,
+        ]);
+
+        $result = ['readers' => 0, 'left' => 0, 'left_rate' => 0.0, 'pages' => []];
+        $postId = intval($args['resource_id']);
+
+        if ($postId <= 0) {
+            return $result;
+        }
+
+        $date = is_string($args['date']) ? DateRange::get($args['date']) : $args['date'];
+        $from = !empty($date['from']) ? $date['from'] : '';
+        $to   = !empty($date['to']) ? $date['to'] : '';
+        if (strlen($from) === 10) $from .= ' 00:00:00';
+        if (strlen($to) === 10) $to .= ' 23:59:59';
+
+        if ($from === '' || $to === '') {
+            return $result;
+        }
+
+        $relationships = \WP_STATISTICS\DB::table('visitor_relationships');
+        $pages         = \WP_STATISTICS\DB::table('pages');
+
+        $typeSql = '';
+        $values  = [$postId];
+        if (!empty($args['resource_type'])) {
+            $types   = (array)$args['resource_type'];
+            $typeSql = ' AND p.type IN (' . implode(',', array_fill(0, count($types), '%s')) . ')';
+            $values  = array_merge($values, $types);
+        }
+        $values[] = $from;
+        $values[] = $to;
+        $values[] = max(1, intval($args['max_views']));
+
+        // Step 1: this post's views in the range (uses pages.id, then visitor_relationships.page_id)
+        $postViews = $wpdb->get_results($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+            "SELECT vr.ID, vr.visitor_id FROM {$relationships} vr INNER JOIN {$pages} p ON p.page_id = vr.page_id WHERE p.id = %d{$typeSql} AND vr.date BETWEEN %s AND %s ORDER BY vr.date DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            $values
+        ));
+
+        if (empty($postViews)) {
+            return $result;
+        }
+
+        $visitorIds = array_values(array_unique(array_map(function ($row) {
+            return intval($row->visitor_id);
+        }, $postViews)));
+
+        // Step 2: every view of those visitors in the range (uses visitor_relationships.visitor_id)
+        $views = $wpdb->get_results($wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+            "SELECT vr.ID, vr.visitor_id, vr.page_id, vr.date, p.id AS resource_id, p.type, p.uri FROM {$relationships} vr INNER JOIN {$pages} p ON p.page_id = vr.page_id WHERE vr.visitor_id IN (" . implode(',', array_fill(0, count($visitorIds), '%d')) . ") AND vr.date BETWEEN %s AND %s ORDER BY vr.visitor_id ASC, vr.date ASC, vr.ID ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            array_merge($visitorIds, [$from, $to])
+        ));
+
+        $postViewIds = array_flip(array_map(function ($row) {
+            return intval($row->ID);
+        }, $postViews));
+
+        $byVisitor = [];
+        foreach ($views as $view) {
+            $byVisitor[intval($view->visitor_id)][] = $view;
+        }
+
+        $next = [];
+        $left = 0;
+
+        foreach ($byVisitor as $visitorId => $visitorViews) {
+            $lastPostView = null;
+
+            foreach ($visitorViews as $index => $view) {
+                if (!isset($postViewIds[intval($view->ID)])) {
+                    continue;
+                }
+
+                $lastPostView = $index;
+                $nextView     = isset($visitorViews[$index + 1]) ? $visitorViews[$index + 1] : null;
+
+                // The post itself (a reload) is not a next page
+                if (!$nextView || (intval($nextView->resource_id) === $postId && (empty($args['resource_type']) || in_array($nextView->type, (array)$args['resource_type'], true)))) {
+                    continue;
+                }
+
+                $key = intval($nextView->resource_id) > 0 ? $nextView->type . ':' . intval($nextView->resource_id) : $nextView->type . ':' . $nextView->uri;
+
+                if (!isset($next[$key])) {
+                    $next[$key] = ['page_id' => intval($nextView->page_id), 'visitors' => []];
+                }
+                $next[$key]['visitors'][$visitorId] = true;
+            }
+
+            // The visitor's last view of this post was their last view
+            if ($lastPostView !== null && !isset($visitorViews[$lastPostView + 1])) {
+                $left++;
+            }
+        }
+
+        $list = array_map(function ($item) {
+            return (object)['page_id' => $item['page_id'], 'visitors' => count($item['visitors'])];
+        }, array_values($next));
+
+        usort($list, function ($a, $b) {
+            return $b->visitors <=> $a->visitors ?: $a->page_id <=> $b->page_id;
+        });
+
+        $readers = count($byVisitor);
+
+        return [
+            'readers'   => $readers,
+            'left'      => $left,
+            'left_rate' => $readers ? round($left / $readers * 100, 1) : 0.0,
+            'pages'     => array_slice($list, 0, max(1, intval($args['per_page']))),
+        ];
+    }
 }

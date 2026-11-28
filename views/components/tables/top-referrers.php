@@ -31,12 +31,14 @@ use WP_Statistics\Decorators\ReferralDecorator;
 
                     <tr>
                         <td class="wps-pd-l">
-                            <?php
-                            View::load("components/objects/external-link", [
-                                'url'   => $item->getReferrer(),
-                                'title' => $item->getListLabel($data)
-                            ]);
-                            ?>
+                            <?php // The domain opens its report (the visitors it sent); the ↗ opens the site itself. ?>
+                            <span class="wps-title-cell">
+                                <?php View::load('components/objects/internal-link', [
+                                    'url'   => Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'referrer' => $item->getRawReferrer()]),
+                                    'title' => $item->getListLabel($data),
+                                ]); ?>
+                                <?php View::load('components/objects/new-tab-link', ['url' => $item->getReferrer(), 'label' => __('Open site in a new tab', 'wp-statistics')]); ?>
+                            </span>
                         </td>
 
                         <td class="wps-pd-l wps-middle-vertical">

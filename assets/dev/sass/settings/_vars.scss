@@ -34,6 +34,11 @@ $wps-text-muted: #56585A;
 $wps-text-subtle: #7D8083;
 $wps-icon-muted: #A9AAAE;
 
+// Page gutter: the one side space for the plugin top bar, the page header (title, filters, export)
+// and the content area, so header edges line up with the cards below on every screen.
+$wps-page-gutter: 20px;
+$wps-page-gutter-sm: 10px; // under 768px
+
 // Card
 $wps-card-bg: #fff;
 $wps-card-border: #DADCE0;

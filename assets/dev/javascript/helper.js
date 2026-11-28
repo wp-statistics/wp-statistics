@@ -286,6 +286,8 @@ wps_js.tooltip_options = function (el, extra) {
 
     if (el && el.closest && el.closest('.wps-visitor-info')) return options;
 
+    // Tooltips with a link inside (the campaign pill) stay open while the pointer moves onto them.
+
     var viewport = document.documentElement.clientWidth || window.innerWidth;
     options.functionPosition = wps_js.tooltip_keep_in_viewport;
     // One info tooltip at a time: opening one (tap on phones, hover elsewhere) closes the others.
@@ -295,6 +297,13 @@ wps_js.tooltip_options = function (el, extra) {
     };
     // Info tooltips wrap at 280px (one short line or two), never wider than the screen minus 16px.
     options.maxWidth = Math.min(wps_js.TOOLTIP_MAX_WIDTH, viewport - 16);
+    if (el && el.getAttribute && el.getAttribute('data-tooltip-interactive')) {
+        options.interactive = true;
+        // Same box as the visitor card, and room for the campaign block.
+        options.theme = ['tooltipster-shadow', 'wps-tooltip--card'];
+        options.maxWidth = Math.min(320, viewport - 16);
+        options.contentAsHTML = true;
+    }
 
     return options;
 };

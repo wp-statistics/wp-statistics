@@ -203,7 +203,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-wrap__top {
   position: relative;
   background: #fff;
-  padding: 18px 23px;
+  padding: 18px $wps-page-gutter;
   display: flex;
   border-bottom: 1px solid #DADCE0;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
@@ -221,9 +221,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  @media(max-width: 500px) {
-    padding-right: 10px;
-    padding-left: 10px;
+  @media (max-width: 767px) {
+    padding-right: $wps-page-gutter-sm;
+    padding-left: $wps-page-gutter-sm;
   }
 
   &.tabbed_page {
@@ -263,21 +263,18 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-.wps-wrap__top:after {
-  content: '';
-  clear: both;
-  display: block;
-}
+// No clearfix: the header is a flex box, and an ::after box became an extra flex item that, with the
+// single-report header's 16px gap, pushed the filters/export 16px in from the edge.
 
 .wps-wrap__main {
-  padding: 20px 8px;
+  padding: 20px $wps-page-gutter-sm;
 
   & > .notice:first-child {
     margin-top: 0 !important;
   }
 
   @media screen and (min-width: 768px) {
-    padding: 20px;
+    padding: 20px $wps-page-gutter;
   }
 }
 
@@ -685,7 +682,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   @media screen and (min-width: 1280px) {
     flex-direction: row;
     align-items: center;
-    padding: 0 24px;
+    padding: 0 $wps-page-gutter;
     height: 81px;
   }
 
@@ -2490,7 +2487,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-head-filters {
   position: absolute;
   top: 18px;
-  right: 23px;
+  right: $wps-page-gutter;
   display: flex;
   flex-direction: row-reverse;
   gap: 9px;

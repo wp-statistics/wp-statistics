@@ -481,27 +481,30 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     <table width="100%" class="o-table wps-new-table">
                         <thead>
                         <tr>
+                            <th scope="col" class="wps-pd-l wps-visitor-table__visitor">
+                                <?php esc_html_e('Visitor', 'wp-statistics'); ?>
+                            </th>
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Timestamp', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
-                                <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                            <th class="wps-pd-l start">
+                                <?php esc_html_e('Location', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($visitors->getLatestVisitors() as $visitor) : ?>
                             <tr>
+                                <td class="wps-pd-l wps-visitor-table__visitor">
+                                    <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
+                                </td>
                                 <td class="wps-pd-l">
                                     <?php
                                     $visitDate = new DateTime($visitor->getLastView(true));
                                     echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
                                     ?>
                                 </td>
-                                <td class="wps-pd-l">
-                                    <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
-                                </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l start">
                                     <div class="wps-country-flag wps-ellipsis-parent">
                                         <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
                                         <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
