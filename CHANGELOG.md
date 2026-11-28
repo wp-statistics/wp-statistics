@@ -1,4 +1,5 @@
 Unreleased
+- **Enhancement:** The REST API add-on is now called "API & MCP" in the plugin, since it also connects ChatGPT, Claude and other AI agents through MCP.
 - **Fix:** The "visits stopped" email alert is no longer switched on by updating. It stays on for new installs; sites that updated and never saved the setting now have it off (turn it on in Settings → Email Reports → Tracking Alerts).
 - **Fix:** No more PHP 8.4 "Implicitly marking parameter as nullable" deprecation notices from bundled libraries (Parsedown, GeoIP2 and MaxMind exceptions).
 - **Enhancement:** The add-on install step says which installed add-ons will be updated ("Installed · Update"), and the button reads "Install or Update Selected Add-ons".

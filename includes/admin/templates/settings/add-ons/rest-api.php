@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 $isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-rest-api');
 $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
 ?>
-    <h2 class="wps-settings-box__title"><span><?php esc_html_e('REST API', 'wp-statistics'); ?></span></h2>
+    <h2 class="wps-settings-box__title"><span><?php esc_html_e('API & MCP', 'wp-statistics'); ?></span></h2>
 
 <?php
 if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [

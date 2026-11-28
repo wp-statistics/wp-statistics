@@ -19,7 +19,7 @@ class PluginHelper
         'wp-statistics-realtime-stats'     => 'Real-Time Stats',
         'wp-statistics-widgets'            => 'Widgets',
         'wp-statistics-customization'      => 'Customization',
-        'wp-statistics-rest-api'           => 'REST API'
+        'wp-statistics-rest-api'           => 'API & MCP'
     ];
 
     /**
