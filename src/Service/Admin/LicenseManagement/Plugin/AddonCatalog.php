@@ -111,7 +111,7 @@ class AddonCatalog
                 'short'    => __('White label: your brand, your menus.', 'wp-statistics'),
             ],
             'wp-statistics-rest-api'           => [
-                'name'     => __('REST API', 'wp-statistics'),
+                'name'     => __('API & MCP', 'wp-statistics'),
                 'headline' => __('Your stats in any app or AI agent', 'wp-statistics'),
                 'benefits' => [
                     __('Connect ChatGPT, Claude and other AI agents (MCP)', 'wp-statistics'),
