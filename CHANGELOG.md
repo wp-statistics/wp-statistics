@@ -1,3 +1,6 @@
+Unreleased
+- **Enhancement:** The add-on install step says which installed add-ons will be updated ("Installed · Update"), and the button reads "Install or Update Selected Add-ons".
+
 14.17.1 - 2026-11-27
 - **Fix:** Updating no longer switches Consent Plugin Integration to WP Consent API by itself, which stopped counting visitors who do not accept the cookie banner. The one-time switch now only runs when updating from versions before 14.14.
 - **Fix:** A post no longer shows 0 views for the day when its address was first visited as a 404 (for example while it was still a draft).
