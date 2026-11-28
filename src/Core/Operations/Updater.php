@@ -14,6 +14,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Migrations\Schema\SchemaManager;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackingHealth;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 /**
@@ -314,6 +315,7 @@ class Updater extends AbstractCore
         }
 
         $this->migrateConsentIntegration();
+        $this->keepTrackingAlertOffOnUpdate();
 
         /**
          * Removes duplicate entries from the visitor_relationships table.
@@ -404,6 +406,22 @@ class Updater extends AbstractCore
         if ($isWpConsentApiActive && empty($integration)) {
             Option::update('consent_integration', 'wp_consent_api');
         }
+    }
+
+    /**
+     * The "visits stopped" email alert (14.17) is on for new installs only. Sites that updated
+     * and never saved the setting got it switched on without asking, so it is stored as off for
+     * them; a site that saved it keeps its choice.
+     *
+     * @return void
+     */
+    private function keepTrackingAlertOffOnUpdate()
+    {
+        if (array_key_exists(TrackingHealth::SETTING, Option::getOptions())) {
+            return;
+        }
+
+        Option::update(TrackingHealth::SETTING, false);
     }
 
     /**

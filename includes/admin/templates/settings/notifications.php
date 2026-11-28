@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackingHealth;
 
 ?>
 <h2 class="wps-settings-box__title">
@@ -50,7 +51,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
                 <span class="wps-setting-label"><?php esc_html_e('Visits Stopped', 'wp-statistics'); ?></span>
             </th>
             <td>
-                <input id="wps_tracking_stopped_alert" type="checkbox" name="wps_tracking_stopped_alert" <?php checked((bool)Option::get('tracking_stopped_alert', true)); ?>>
+                <input id="wps_tracking_stopped_alert" type="checkbox" name="wps_tracking_stopped_alert" <?php checked(TrackingHealth::isEnabled()); ?>>
                 <label for="wps_tracking_stopped_alert"><?php esc_html_e('Email me when visits stop being recorded', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Checks once a day. If your site usually gets visitors and none were recorded for more than a day, we send one email to the addresses above, and one more when visits are recorded again.', 'wp-statistics'); ?></p>
             </td>

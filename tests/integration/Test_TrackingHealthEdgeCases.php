@@ -548,12 +548,45 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         }
     }
 
-    public function test_default_on_when_option_never_saved()
+    public function test_off_when_option_never_saved()
     {
         $opts = get_option('wp_statistics', []);
         unset($opts[TrackingHealth::SETTING]);
         update_option('wp_statistics', $opts);
+        $this->assertFalse(TrackingHealth::isEnabled());
+    }
+
+    public function test_new_install_defaults_on()
+    {
+        $this->assertTrue(\WP_STATISTICS\Option::defaultOption()[TrackingHealth::SETTING]);
+    }
+
+    private function runUpdateRule()
+    {
+        $updater = (new \ReflectionClass(\WP_Statistics\Core\Operations\Updater::class))->newInstanceWithoutConstructor();
+        $method  = new \ReflectionMethod($updater, 'keepTrackingAlertOffOnUpdate');
+        $method->setAccessible(true);
+        $method->invoke($updater);
+    }
+
+    public function test_update_stores_off_when_never_saved()
+    {
+        $opts = get_option('wp_statistics', []);
+        unset($opts[TrackingHealth::SETTING]);
+        update_option('wp_statistics', $opts);
+        $this->runUpdateRule();
+        $this->assertArrayHasKey(TrackingHealth::SETTING, get_option('wp_statistics'));
+        $this->assertFalse(TrackingHealth::isEnabled());
+    }
+
+    public function test_update_keeps_saved_choice()
+    {
+        Option::update(TrackingHealth::SETTING, true);
+        $this->runUpdateRule();
         $this->assertTrue(TrackingHealth::isEnabled());
+        Option::update(TrackingHealth::SETTING, false);
+        $this->runUpdateRule();
+        $this->assertFalse(TrackingHealth::isEnabled());
     }
 
     public function test_toggle_off_while_stopped_then_on_does_not_resend_for_same_outage()
