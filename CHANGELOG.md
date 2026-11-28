@@ -1,4 +1,5 @@
 Unreleased
+- **Fix:** No more PHP 8.4 "Implicitly marking parameter as nullable" deprecation notices from bundled libraries (Parsedown, GeoIP2 and MaxMind exceptions).
 - **Enhancement:** The add-on install step says which installed add-ons will be updated ("Installed · Update"), and the button reads "Install or Update Selected Add-ons".
 
 14.17.1 - 2026-11-27
