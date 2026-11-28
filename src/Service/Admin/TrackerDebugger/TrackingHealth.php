@@ -79,13 +79,14 @@ class TrackingHealth
     const STEADY_VISITORS_PER_DAY = 5;
 
     /**
-     * Whether the alert is on. On by default, also for sites that never saved the setting.
+     * Whether the alert is on. New installs store it as on; updated sites that never saved it are
+     * off (see Updater::keepTrackingAlertOffOnUpdate()).
      *
      * @return bool
      */
     public static function isEnabled()
     {
-        return (bool)Option::get(self::SETTING, true);
+        return (bool)Option::get(self::SETTING, false);
     }
 
     /**

@@ -1,4 +1,5 @@
 Unreleased
+- **Fix:** The "visits stopped" email alert is no longer switched on by updating. It stays on for new installs; sites that updated and never saved the setting now have it off (turn it on in Settings → Email Reports → Tracking Alerts).
 - **Enhancement:** The add-on install step says which installed add-ons will be updated ("Installed · Update"), and the button reads "Install or Update Selected Add-ons".
 
 14.17.1 - 2026-11-27
